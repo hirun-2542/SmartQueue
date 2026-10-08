@@ -18,3 +18,11 @@
 - [ ] Owner console Idle/Called/InService มี primary Call next/Start/Complete ในโซนนิ้วโป้งและ Skip secondary; Customer มี Called screen, InService ที่ยกเลิกไม่ได้, Completed/Skipped final views; pending/error ไม่เป็น silent no-op
 - [ ] ทุก command สำเร็จสะท้อน authoritative snapshots ทั้ง Owner/Customer และ release hold/quota เมื่อ terminal; ยังไม่อ้างว่า live ถ้า SignalR ยังไม่พร้อม
 - [ ] รัน public-boundary lifecycle/wrong-state และ synchronized concurrent Calls ทั้ง Queue เดียว/ต่าง Queue ใน Shop เดียวบน DB จริง; browser smoke เห็นเลขเดียวกันในสอง actors ผ่าน snapshots
+
+## Comments
+
+- Red observed: Owner console returned 404 before serving operations existed.
+- `npm test`: 7 passed, 0 failed, including FIFO, status/version rejection, terminal finality, quota release, parallel Calls across Queues and independent holding in another Shop.
+- .NET and Vite production builds passed.
+- Browser smoke at 390/375 px: Owner Call → Customer Called screen → Start → Customer InService → Complete → Customer final result; manual Skip exercised next. Both browser error lists were empty.
+- Cross-process runtime proof on ports 5290 and 5291: authenticated simultaneous Calls returned 200 and 409 while sharing PostgreSQL and protection keys; the Shop-wide hold was preserved.

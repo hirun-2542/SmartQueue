@@ -53,6 +53,7 @@ app.Use(async (context, next) =>
 app.MapAccounts();
 app.MapShops();
 app.MapTickets();
+app.MapServing();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ready" }));
 app.MapFallback("/api/{**path}", async context =>
 {

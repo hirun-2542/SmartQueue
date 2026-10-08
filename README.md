@@ -62,3 +62,9 @@ Ticket numbers are allocated under a PostgreSQL Shop row lock, stored as a Prefi
 
 Unknown API resources return a JSON 404 rather than the SPA page. Private Ticket link replay cannot bypass terminal-link expiry.
 
+## Serving Tickets
+
+The mobile Queue console calls the oldest Waiting Ticket in the selected Queue. Each Shop holds at most one Called or InService Ticket. Call checks the observed Shop version; Start, Complete and Skip check the Ticket version. Stale actions return a conflict and fresh state, not an automatic retry against another Ticket.
+
+Call deadlines and elapsed service time are anchored to server timestamps. The Customer view distinguishes Waiting, Called, InService and terminal outcomes; notes remain Owner-only.
+

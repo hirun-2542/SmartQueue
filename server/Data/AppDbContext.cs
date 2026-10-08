@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SmartQueue.Api.Data;
 
-public sealed class OwnerAccount : IdentityUser { }
+public sealed partial class OwnerAccount : IdentityUser { }
 
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<OwnerAccount>(options)
 {

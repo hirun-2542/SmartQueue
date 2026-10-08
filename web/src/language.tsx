@@ -30,5 +30,9 @@ const errors:Record<string,[string,string]>={
   extra_confirmation:['ยืนยันก่อนขอคิวเพิ่มในบริการเดิม','Confirm before taking an extra Ticket in this Queue'],
   invalid_ticket:['ตรวจสอบหมายเหตุและข้อมูลรับคิว','Check the note and Ticket request'],
   ticket_expired:['ลิงก์นี้หมดอายุหลังคิวจบครบ 24 ชั่วโมง','This link expired 24 hours after the Ticket ended'],
+  state_changed:['ข้อมูลคิวเปลี่ยนแล้ว แสดงสถานะล่าสุดให้คุณอีกครั้ง','Queue state changed. The latest state is now shown'],
+  ticket_changed:['คิวนี้เปลี่ยนสถานะแล้ว ตรวจสอบข้อมูลล่าสุดก่อนดำเนินการ','This Ticket changed. Check its latest state before acting'],
+  shop_busy:['มีคิวที่กำลังเรียกหรือให้บริการอยู่ในร้านนี้','This Shop already holds a Called or InService Ticket'],
+  queue_empty:['ไม่มีคิวที่รออยู่ในบริการนี้','There are no Waiting Tickets in this Queue'],
 };
 export function useErrorText(){const {t}=useLanguage();return (error:unknown)=>{const code=error instanceof ApiFailure?error.code:'request_failed';const pair=errors[code];return pair?t(pair[0],pair[1]):t('ดำเนินการไม่สำเร็จ โหลดข้อมูลล่าสุดแล้วลองอีกครั้ง','Action could not be completed. Refresh the latest state and try again');};}
