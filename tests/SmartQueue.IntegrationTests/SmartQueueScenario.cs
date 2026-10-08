@@ -18,8 +18,7 @@ public static partial class SmartQueueScenario
 {
     public const string Password = "QueuePass123!";
 
-    public static string SmtpHost { get; } = Environment.GetEnvironmentVariable("SMARTQUEUE_TEST_SMTP_HOST") ?? "127.0.0.1";
-    public static int SmtpPort { get; } = int.TryParse(Environment.GetEnvironmentVariable("SMARTQUEUE_TEST_SMTP_PORT"), out var port) ? port : 1026;
+    /// <summary>Base URL of the local SMTP capture sink used to read verification and recovery links.</summary>
     public static string MailCaptureUrl { get; } = Environment.GetEnvironmentVariable("MAILPIT_URL") ?? "http://127.0.0.1:8026";
 
     public static async Task<OwnerSession> VerifiedOwnerAsync(SmartQueueFactory host)

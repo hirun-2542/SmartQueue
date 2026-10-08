@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -15,10 +14,10 @@ namespace SmartQueue.IntegrationTests;
 
 /// <summary>
 /// Hosts the real API in-process over its own PostgreSQL database with a controllable server clock.
-/// Server time and the database are replaced through dependency injection instead of production debug
-/// hooks, so the same worker, endpoints and transaction rules that run in production are exercised.
-/// Requires the host to register its clock with <c>TryAddSingleton&lt;TimeProvider&gt;</c> so this factory
-/// can supply the fake one; <see cref="StartAsync"/> fails loudly when that is not the case.
+/// The database and the clock are replaced through <c>ConfigureTestServices</c>, which the generic host
+/// applies after the application's own registrations and before the container is built, so no production
+/// debug route or Program.cs change is needed. <see cref="StartAsync"/> verifies both replacements, and
+/// fails loudly instead of silently running against the development database or the system clock.
 /// </summary>
 public sealed class SmartQueueFactory(string connectionString, FakeTimeProvider clock, TimeSpan pollInterval) : WebApplicationFactory<Program>
 {
@@ -29,9 +28,7 @@ public sealed class SmartQueueFactory(string connectionString, FakeTimeProvider 
     {
         _ = Services;
         if (!ReferenceEquals(Services.GetRequiredService<TimeProvider>(), clock))
-            throw new InvalidOperationException(
-                "The host is using the system clock. Program must register the server clock with " +
-                "TryAddSingleton<TimeProvider>(TimeProvider.System) so a test host can replace it without debug routes.");
+            throw new InvalidOperationException("The host is using the system clock instead of the test clock; the test host cannot control server time.");
 
         using (var scope = Services.CreateScope())
         {
@@ -55,29 +52,17 @@ public sealed class SmartQueueFactory(string connectionString, FakeTimeProvider 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
-        builder.ConfigureAppConfiguration(configuration => configuration.AddInMemoryCollection(new Dictionary<string, string?>
-        {
-            // Added last, so the application reads this isolated database even if the test services are applied
-            // before its own registrations. PublicOrigin and Smtp repeat appsettings.Development.json so the
-            // host still starts when the content root cannot be inferred.
-            ["ConnectionStrings:Database"] = connectionString,
-            ["PublicOrigin"] = "http://127.0.0.1:5179",
-            ["Smtp:Host"] = SmartQueueScenario.SmtpHost,
-            ["Smtp:Port"] = SmartQueueScenario.SmtpPort.ToString(),
-            ["Smtp:From"] = "queue@smartqueue.test",
-            ["Smtp:UseTls"] = "false",
-        }));
         builder.ConfigureTestServices(services =>
         {
             services.RemoveAll<TimeProvider>();
             services.AddSingleton<TimeProvider>(clock);
             services.AddSingleton(clock);
 
+            // Point this instance at its own database, replacing the application's Npgsql options.
             services.RemoveAll<DbContextOptions<AppDbContext>>();
             services.AddScoped(_ => new DbContextOptionsBuilder<AppDbContext>().UseNpgsql(connectionString).Options);
 
-            // PostConfigure so the interval wins over any application configuration binding, whatever order
-            // the host applies test services in.
+            // PostConfigure so the interval wins over any application configuration binding.
             services.PostConfigure<AutoSkipOptions>(options =>
             {
                 options.PollInterval = pollInterval;
