@@ -1,0 +1,16 @@
+.worktrees/
+.superpowers/
+.omp/
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/wwwroot/assets/
+var/
+.env
+.env.*
+!.env.example
+artifacts/
+TestResults/
+*.user
+*.suo

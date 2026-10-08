@@ -1,0 +1,28 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='390' height='844' viewBox='0 0 390 844'>
+<rect x='0' y='0' width='390' height='844' rx='0' fill='#FAF5EC' id='Background'/>
+<text x='28' y='32' font-family='IBM Plex Mono, DM Mono, monospace' font-size='15' font-weight='700' fill='#2A2118' text-anchor='start'>9:41</text>
+<rect x='334' y='20' width='26' height='12' rx='3' fill='none' stroke='#2A2118' stroke-width='1.4'/>
+<rect x='336' y='22' width='18' height='8' rx='1.5' fill='#2A2118'/>
+<rect x='145' y='826' width='100' height='5' rx='2.5' fill='#2A2118' opacity='0.3'/>
+<path d='M32 80 H44 A8 8 0 0 1 52 88 V93.0 A5 5 0 0 0 52 103.0 V108 A8 8 0 0 1 44 116 H32 A8 8 0 0 1 24 108 V103.0 A5 5 0 0 0 24 93.0 V88 A8 8 0 0 1 32 80 Z' fill='#B5451B'/>
+<text x='64' y='106' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='20' font-weight='600' fill='#2A2118' text-anchor='start'>SmartQueue</text>
+<text x='24' y='190' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='31' font-weight='600' fill='#2A2118' text-anchor='start'>ให้ลูกค้ารับคิวเอง</text>
+<text x='24' y='232' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='31' font-weight='600' fill='#B5451B' text-anchor='start'>คุณโฟกัสที่งานตรงหน้า</text>
+<text x='24' y='266' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='400' fill='#6B5B4B' text-anchor='start'>จัดการคิวร้านจากมือถือเครื่องเดียว</text>
+<text x='24' y='324' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='500' fill='#2A2118' text-anchor='start'>อีเมล</text>
+<rect x='24' y='334' width='342' height='56' rx='14' fill='#FFFDF9' stroke='#B5451B' stroke-width='2'/>
+<text x='40' y='368.0' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='17' font-weight='400' fill='#2A2118' text-anchor='start'>owner@shop.example</text>
+<text x='24' y='414' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='500' fill='#2A2118' text-anchor='start'>รหัสผ่าน</text>
+<rect x='24' y='424' width='342' height='56' rx='14' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='40' y='458.0' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='17' font-weight='400' fill='#2A2118' text-anchor='start'>••••••••••</text>
+<text x='366' y='506' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='600' fill='#B5451B' text-anchor='end'>ลืมรหัสผ่าน?</text>
+<rect x='24' y='530' width='342' height='60' rx='18' fill='#B5451B'/>
+<text x='195.0' y='566.48' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='18' font-weight='600' fill='#FFFFFF' text-anchor='middle'>เข้าสู่ระบบ</text>
+<line x1='24' y1='630' x2='160' y2='630' stroke='#E4D8C3' stroke-width='1'/>
+<line x1='230' y1='630' x2='366' y2='630' stroke='#E4D8C3' stroke-width='1'/>
+<text x='195' y='635' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#6B5B4B' text-anchor='middle'>หรือ</text>
+<rect x='24' y='658' width='342' height='60' rx='18' fill='#FFFDF9' stroke='#B5451B' stroke-width='1.5'/>
+<text x='195.0' y='694.12' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='17' font-weight='600' fill='#B5451B' text-anchor='middle'>ลองเดโม่ · ไม่ต้องสมัคร</text>
+<text x='195' y='756' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='600' fill='#B5451B' text-anchor='middle'>ยังไม่มีบัญชี? สมัครเจ้าของร้าน</text>
+<text x='195' y='782' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='400' fill='#6B5B4B' text-anchor='middle'>สมัครแล้วต้องยืนยันอีเมลก่อนเริ่มใช้งาน</text>
+</svg>

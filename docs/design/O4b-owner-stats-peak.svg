@@ -1,0 +1,130 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='390' height='844' viewBox='0 0 390 844'>
+<rect x='0' y='0' width='390' height='844' rx='0' fill='#FAF5EC' id='Background'/>
+<text x='28' y='32' font-family='IBM Plex Mono, DM Mono, monospace' font-size='15' font-weight='700' fill='#2A2118' text-anchor='start'>9:41</text>
+<rect x='334' y='20' width='26' height='12' rx='3' fill='none' stroke='#2A2118' stroke-width='1.4'/>
+<rect x='336' y='22' width='18' height='8' rx='1.5' fill='#2A2118'/>
+<rect x='145' y='826' width='100' height='5' rx='2.5' fill='#2A2118' opacity='0.3'/>
+<text x='24' y='90' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='19' font-weight='600' fill='#2A2118' text-anchor='start'>ลุงชาติ บาร์เบอร์</text>
+<g transform='translate(198,74) scale(0.9166666666666666)' fill='none' stroke='#6B5B4B' stroke-width='2.181818181818182' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></g>
+<circle cx='262' cy='84' r='4.5' fill='#3F6B3A'/>
+<text x='274' y='89' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='600' fill='#3F6B3A' text-anchor='start'>สด</text>
+<circle cx='354' cy='82' r='20' fill='#F6E3D6'/>
+<g transform='translate(342,70) scale(1.0)' fill='none' stroke='#B5451B' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21a8 8 0 0 0-16 0 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'/></g>
+<rect x='0' y='764' width='390' height='62' rx='0' fill='#FFFDF9' id='TabBar'/>
+<line x1='0' y1='764' x2='390' y2='764' stroke='#E4D8C3' stroke-width='1'/>
+<g transform='translate(53,772) scale(1.0)' fill='none' stroke='#6B5B4B' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><path d='M8 6h13 M8 12h13 M8 18h13 M3 6h.01 M3 12h.01 M3 18h.01'/></g>
+<text x='65' y='812' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>คิว</text>
+<g transform='translate(183,772) scale(1.0)' fill='none' stroke='#B5451B' stroke-width='2.0' stroke-linecap='round' stroke-linejoin='round'><path d='M18 20V10 M12 20V4 M6 20v-6'/></g>
+<text x='195' y='812' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='600' fill='#B5451B' text-anchor='middle'>สถิติ</text>
+<g transform='translate(313,772) scale(1.0)' fill='none' stroke='#6B5B4B' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><path d='m2 7 4-4h12l4 4 M2 7v1a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0V7 M4 12v9h16v-9 M9 21v-5h6v5'/></g>
+<text x='325' y='812' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>ร้าน</text>
+<text x='24' y='146' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='22' font-weight='600' fill='#2A2118' text-anchor='start'>ช่วงที่คนแน่น</text>
+<text x='24' y='172' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='400' fill='#6B5B4B' text-anchor='start'>คิวต่อชั่วโมง · 7 วันทำงาน</text>
+<rect x='26' y='316' width='22' height='44' rx='6' fill='#E7B7A0'/>
+<text x='37' y='382' font-family='IBM Plex Mono, DM Mono, monospace' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>9</text>
+<rect x='57' y='261' width='22' height='99' rx='6' fill='#E7B7A0'/>
+<rect x='88' y='206' width='22' height='154' rx='6' fill='#B5451B'/>
+<text x='99' y='198' font-family='IBM Plex Mono, DM Mono, monospace' font-size='13' font-weight='700' fill='#2A2118' text-anchor='middle'>14</text>
+<text x='99' y='382' font-family='IBM Plex Mono, DM Mono, monospace' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>11</text>
+<rect x='119' y='239' width='22' height='121' rx='6' fill='#E7B7A0'/>
+<rect x='150' y='283' width='22' height='77' rx='6' fill='#E7B7A0'/>
+<text x='161' y='382' font-family='IBM Plex Mono, DM Mono, monospace' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>13</text>
+<rect x='181' y='294' width='22' height='66' rx='6' fill='#E7B7A0'/>
+<rect x='212' y='250' width='22' height='110' rx='6' fill='#E7B7A0'/>
+<text x='223' y='382' font-family='IBM Plex Mono, DM Mono, monospace' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>15</text>
+<rect x='243' y='195' width='22' height='165' rx='6' fill='#B5451B'/>
+<text x='254' y='187' font-family='IBM Plex Mono, DM Mono, monospace' font-size='13' font-weight='700' fill='#2A2118' text-anchor='middle'>15</text>
+<rect x='274' y='228' width='22' height='132' rx='6' fill='#B5451B'/>
+<text x='285' y='220' font-family='IBM Plex Mono, DM Mono, monospace' font-size='13' font-weight='700' fill='#2A2118' text-anchor='middle'>12</text>
+<text x='285' y='382' font-family='IBM Plex Mono, DM Mono, monospace' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>17</text>
+<rect x='305' y='272' width='22' height='88' rx='6' fill='#E7B7A0'/>
+<rect x='336' y='316' width='22' height='44' rx='6' fill='#E7B7A0'/>
+<text x='347' y='382' font-family='IBM Plex Mono, DM Mono, monospace' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>19</text>
+<line x1='24' y1='360' x2='366' y2='360' stroke='#D2C3A8' stroke-width='1'/>
+<text x='24' y='430' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='18' font-weight='600' fill='#2A2118' text-anchor='start'>ตามวันในสัปดาห์</text>
+<text x='24' y='484' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#6B5B4B' text-anchor='start'>จ.</text>
+<rect x='60' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.31'/>
+<rect x='88' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.59'/>
+<rect x='116' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.43'/>
+<rect x='144' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.64'/>
+<rect x='172' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.66'/>
+<rect x='200' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.16'/>
+<rect x='228' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.11'/>
+<rect x='256' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.85'/>
+<rect x='284' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.33'/>
+<rect x='312' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='0.31'/>
+<rect x='340' y='460' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<text x='24' y='518' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#6B5B4B' text-anchor='start'>อ.</text>
+<rect x='60' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.52'/>
+<rect x='88' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.85'/>
+<rect x='116' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.53'/>
+<rect x='144' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.68'/>
+<rect x='172' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.24'/>
+<rect x='200' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.67'/>
+<rect x='228' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.88'/>
+<rect x='256' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.57'/>
+<rect x='284' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.77'/>
+<rect x='312' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.7'/>
+<rect x='340' y='494' width='25' height='28' rx='6' fill='#B5451B' opacity='0.16'/>
+<text x='24' y='552' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#6B5B4B' text-anchor='start'>พ.</text>
+<rect x='60' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.78'/>
+<rect x='88' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.63'/>
+<rect x='116' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.37'/>
+<rect x='144' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.13'/>
+<rect x='172' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.88'/>
+<rect x='200' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.53'/>
+<rect x='228' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.75'/>
+<rect x='256' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.89'/>
+<rect x='284' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.74'/>
+<rect x='312' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.93'/>
+<rect x='340' y='528' width='25' height='28' rx='6' fill='#B5451B' opacity='0.46'/>
+<text x='24' y='586' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#6B5B4B' text-anchor='start'>พฤ.</text>
+<rect x='60' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.82'/>
+<rect x='88' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.5'/>
+<rect x='116' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.94'/>
+<rect x='144' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.89'/>
+<rect x='172' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.19'/>
+<rect x='200' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.22'/>
+<rect x='228' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.3'/>
+<rect x='256' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.97'/>
+<rect x='284' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.49'/>
+<rect x='312' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.66'/>
+<rect x='340' y='562' width='25' height='28' rx='6' fill='#B5451B' opacity='0.37'/>
+<text x='24' y='620' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#6B5B4B' text-anchor='start'>ศ.</text>
+<rect x='60' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='0.56'/>
+<rect x='88' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='0.45'/>
+<rect x='116' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='0.42'/>
+<rect x='144' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='0.63'/>
+<rect x='172' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='0.63'/>
+<rect x='200' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<rect x='228' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<rect x='256' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<rect x='284' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<rect x='312' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='0.99'/>
+<rect x='340' y='596' width='25' height='28' rx='6' fill='#B5451B' opacity='0.7'/>
+<text x='24' y='654' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#6B5B4B' text-anchor='start'>ส.</text>
+<rect x='60' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='0.25'/>
+<rect x='88' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='0.87'/>
+<rect x='116' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='0.97'/>
+<rect x='144' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='0.91'/>
+<rect x='172' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='0.61'/>
+<rect x='200' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<rect x='228' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='0.74'/>
+<rect x='256' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<rect x='284' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<rect x='312' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='0.36'/>
+<rect x='340' y='630' width='25' height='28' rx='6' fill='#B5451B' opacity='0.16'/>
+<text x='24' y='688' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#6B5B4B' text-anchor='start'>อา.</text>
+<rect x='60' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='0.87'/>
+<rect x='88' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='0.99'/>
+<rect x='116' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='0.18'/>
+<rect x='144' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='0.82'/>
+<rect x='172' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='0.47'/>
+<rect x='200' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='0.69'/>
+<rect x='228' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='0.81'/>
+<rect x='256' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<rect x='284' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='1.0'/>
+<rect x='312' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='0.14'/>
+<rect x='340' y='664' width='25' height='28' rx='6' fill='#B5451B' opacity='0.65'/>
+<text x='24' y='724' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='600' fill='#2A2118' text-anchor='start'>แน่นที่สุด: ศุกร์–อาทิตย์ 14:00–17:00</text>
+</svg>

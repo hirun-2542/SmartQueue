@@ -1,0 +1,250 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1280' height='720' viewBox='0 0 1280 720'>
+<rect x='0' y='0' width='1280' height='720' rx='0' fill='#1F1812' id='Background'/>
+<path d='M56 48 H68 A8 8 0 0 1 76 56 V61.0 A5 5 0 0 0 76 71.0 V76 A8 8 0 0 1 68 84 H56 A8 8 0 0 1 48 76 V71.0 A5 5 0 0 0 48 61.0 V56 A8 8 0 0 1 56 48 Z' fill='#F2B33D'/>
+<text x='92' y='78' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='30' font-weight='600' fill='#E9DFCC' text-anchor='start'>ลุงชาติ บาร์เบอร์</text>
+<circle cx='1046' cy='64' r='6' fill='#8FBF86'/>
+<text x='1062' y='72' font-family='IBM Plex Mono, DM Mono, monospace' font-size='26' font-weight='500' fill='#E9DFCC' text-anchor='start'>15:42</text>
+<text x='48' y='148' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='20' font-weight='500' fill='#B7A88F' text-anchor='start'>กำลังเรียก</text>
+<rect x='48' y='172' width='700' height='300' rx='32' fill='#F2B33D'/>
+<text x='398' y='338' font-family='IBM Plex Mono, DM Mono, monospace' font-size='168' font-weight='700' fill='#2A2118' text-anchor='middle' letter-spacing='-3'>A016</text>
+<text x='398' y='424' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='28' font-weight='500' fill='#2A2118' text-anchor='middle'>ตัดผมชาย · เชิญที่เคาน์เตอร์</text>
+<text x='780' y='148' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='20' font-weight='500' fill='#B7A88F' text-anchor='start'>เรียกล่าสุด</text>
+<rect x='780' y='172' width='452' height='90' rx='22' fill='#2C231A'/>
+<text x='810' y='234' font-family='IBM Plex Mono, DM Mono, monospace' font-size='44' font-weight='700' fill='#E9DFCC' text-anchor='start'>A015</text>
+<text x='960' y='214' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='18' font-weight='500' fill='#E9DFCC' text-anchor='start'>ตัดผมชาย</text>
+<text x='960' y='240' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='400' fill='#B7A88F' text-anchor='start'>เสร็จแล้ว</text>
+<rect x='780' y='277' width='452' height='90' rx='22' fill='#2C231A'/>
+<text x='810' y='339' font-family='IBM Plex Mono, DM Mono, monospace' font-size='44' font-weight='700' fill='#E9DFCC' text-anchor='start'>B003</text>
+<text x='960' y='319' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='18' font-weight='500' fill='#E9DFCC' text-anchor='start'>สระ-ไดร์</text>
+<text x='960' y='345' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='400' fill='#B7A88F' text-anchor='start'>เสร็จแล้ว</text>
+<rect x='780' y='382' width='452' height='90' rx='22' fill='#2C231A'/>
+<text x='810' y='444' font-family='IBM Plex Mono, DM Mono, monospace' font-size='44' font-weight='700' fill='#E9DFCC' text-anchor='start'>A014</text>
+<text x='960' y='424' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='18' font-weight='500' fill='#E9DFCC' text-anchor='start'>ตัดผมชาย</text>
+<text x='960' y='450' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='400' fill='#B7A88F' text-anchor='start'>ข้าม</text>
+<text x='48' y='530' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='20' font-weight='500' fill='#B7A88F' text-anchor='start'>คิวถัดไป</text>
+<rect x='48' y='552' width='200' height='104' rx='22' fill='#2C231A'/>
+<text x='148' y='610' font-family='IBM Plex Mono, DM Mono, monospace' font-size='42' font-weight='700' fill='#E9DFCC' text-anchor='middle'>A017</text>
+<text x='148' y='640' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='400' fill='#B7A88F' text-anchor='middle'>ตัดผมชาย</text>
+<rect x='266' y='552' width='200' height='104' rx='22' fill='#2C231A'/>
+<text x='366' y='610' font-family='IBM Plex Mono, DM Mono, monospace' font-size='42' font-weight='700' fill='#E9DFCC' text-anchor='middle'>A018</text>
+<text x='366' y='640' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='400' fill='#B7A88F' text-anchor='middle'>ตัดผมชาย</text>
+<rect x='484' y='552' width='200' height='104' rx='22' fill='#2C231A'/>
+<text x='584' y='610' font-family='IBM Plex Mono, DM Mono, monospace' font-size='42' font-weight='700' fill='#E9DFCC' text-anchor='middle'>B005</text>
+<text x='584' y='640' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='400' fill='#B7A88F' text-anchor='middle'>สระ-ไดร์</text>
+<rect x='702' y='552' width='200' height='104' rx='22' fill='#2C231A'/>
+<text x='802' y='610' font-family='IBM Plex Mono, DM Mono, monospace' font-size='42' font-weight='700' fill='#E9DFCC' text-anchor='middle'>A019</text>
+<text x='802' y='640' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='400' fill='#B7A88F' text-anchor='middle'>ตัดผมชาย</text>
+<rect x='940' y='552' width='292' height='104' rx='22' fill='#2C231A'/>
+<rect x='956' y='566' width='76' height='76' rx='10' fill='#FFFFFF' stroke='#E4D8C3' stroke-width='1'/>
+<rect x='960.56' y='591.9616' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='960.56' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='960.56' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='963.2352' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='963.2352' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='963.2352' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='963.2352' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='965.9104' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='965.9104' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='965.9104' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='965.9104' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='965.9104' y='610.688' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='965.9104' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='968.5856' y='591.9616' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='968.5856' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='968.5856' y='610.688' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='968.5856' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='971.2607999999999' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='971.2607999999999' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='971.2607999999999' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='971.2607999999999' y='610.688' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='973.9359999999999' y='591.9616' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='973.9359999999999' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='973.9359999999999' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='973.9359999999999' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='973.9359999999999' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='976.6111999999999' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='976.6111999999999' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='976.6111999999999' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='976.6111999999999' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='976.6111999999999' y='610.688' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='979.2864' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='979.2864' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='979.2864' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='979.2864' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='979.2864' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='979.2864' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='570.56' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='575.9104' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='581.2607999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='583.9359999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='586.6111999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='589.2864' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='618.7135999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='621.3888' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='629.4143999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='632.0895999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='981.9616' y='634.7647999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='573.2352' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='578.5856' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='581.2607999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='629.4143999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='984.6368' y='632.0895999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='570.56' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='575.9104' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='583.9359999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='586.6111999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='591.9616' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='610.688' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='618.7135999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='621.3888' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='624.064' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='632.0895999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='987.3119999999999' y='634.7647999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='989.9871999999999' y='583.9359999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='989.9871999999999' y='586.6111999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='989.9871999999999' y='589.2864' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='989.9871999999999' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='989.9871999999999' y='610.688' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='989.9871999999999' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='992.6623999999999' y='570.56' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='992.6623999999999' y='581.2607999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='992.6623999999999' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='992.6623999999999' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='992.6623999999999' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='992.6623999999999' y='624.064' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='992.6623999999999' y='629.4143999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='992.6623999999999' y='634.7647999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='575.9104' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='589.2864' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='591.9616' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='610.688' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='621.3888' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='624.064' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='995.3376' y='634.7647999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='573.2352' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='575.9104' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='591.9616' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='621.3888' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='624.064' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='998.0128' y='632.0895999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='573.2352' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='578.5856' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='581.2607999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='583.9359999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='586.6111999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='591.9616' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='618.7135999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='621.3888' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='624.064' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='629.4143999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1000.688' y='634.7647999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1003.3631999999999' y='570.56' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1003.3631999999999' y='573.2352' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1003.3631999999999' y='586.6111999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1003.3631999999999' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1003.3631999999999' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1003.3631999999999' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1003.3631999999999' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1003.3631999999999' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1003.3631999999999' y='632.0895999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1006.0383999999999' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1006.0383999999999' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1006.0383999999999' y='624.064' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1006.0383999999999' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1006.0383999999999' y='629.4143999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1008.7135999999999' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1008.7135999999999' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1008.7135999999999' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1008.7135999999999' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1008.7135999999999' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1008.7135999999999' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1011.3888' y='591.9616' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1011.3888' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1011.3888' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1011.3888' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1011.3888' y='618.7135999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1011.3888' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1014.064' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1014.064' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1014.064' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1014.064' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1014.064' y='632.0895999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='610.688' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='624.064' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='629.4143999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='632.0895999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1016.7392' y='634.7647999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='594.6368' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='602.6623999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='616.0383999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='621.3888' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='624.064' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='632.0895999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1019.4143999999999' y='634.7647999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1022.0895999999999' y='608.0128' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1022.0895999999999' y='618.7135999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1022.0895999999999' y='621.3888' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1022.0895999999999' y='626.7392' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1022.0895999999999' y='634.7647999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1024.7648' y='591.9616' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1024.7648' y='597.3119999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1024.7648' y='599.9871999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1024.7648' y='605.3376' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1024.7648' y='610.688' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1024.7648' y='613.3631999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1024.7648' y='618.7135999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1024.7648' y='621.3888' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='1024.7648' y='632.0895999999999' width='2.6752' height='2.6752' rx='0' fill='#2A2118'/>
+<rect x='960.56' y='570.56' width='18.726399999999998' height='18.726399999999998' rx='0' fill='#2A2118'/>
+<rect x='963.2352' y='573.2352' width='13.376' height='13.376' rx='0' fill='#FFFFFF'/>
+<rect x='965.9104' y='575.9104' width='8.025599999999999' height='8.025599999999999' rx='0' fill='#2A2118'/>
+<rect x='1008.7135999999999' y='570.56' width='18.726399999999998' height='18.726399999999998' rx='0' fill='#2A2118'/>
+<rect x='1011.3888' y='573.2352' width='13.376' height='13.376' rx='0' fill='#FFFFFF'/>
+<rect x='1014.064' y='575.9104' width='8.025599999999999' height='8.025599999999999' rx='0' fill='#2A2118'/>
+<rect x='960.56' y='618.7135999999999' width='18.726399999999998' height='18.726399999999998' rx='0' fill='#2A2118'/>
+<rect x='963.2352' y='621.3888' width='13.376' height='13.376' rx='0' fill='#FFFFFF'/>
+<rect x='965.9104' y='624.064' width='8.025599999999999' height='8.025599999999999' rx='0' fill='#2A2118'/>
+<text x='1048' y='604' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='20' font-weight='600' fill='#E9DFCC' text-anchor='start'>สแกนเพื่อรับคิว</text>
+<text x='1048' y='630' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='400' fill='#B7A88F' text-anchor='start'>ไม่ต้องสมัครสมาชิก</text>
+</svg>

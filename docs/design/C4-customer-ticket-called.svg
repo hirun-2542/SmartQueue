@@ -1,0 +1,22 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='390' height='844' viewBox='0 0 390 844'>
+<rect x='0' y='0' width='390' height='844' rx='0' fill='#F2B33D' id='Background'/>
+<text x='28' y='32' font-family='IBM Plex Mono, DM Mono, monospace' font-size='15' font-weight='700' fill='#2A2118' text-anchor='start'>9:41</text>
+<rect x='334' y='20' width='26' height='12' rx='3' fill='none' stroke='#2A2118' stroke-width='1.4'/>
+<rect x='336' y='22' width='18' height='8' rx='1.5' fill='#2A2118'/>
+<rect x='145' y='826' width='100' height='5' rx='2.5' fill='#2A2118' opacity='0.3'/>
+<rect x='145' y='826' width='100' height='5' rx='2.5' fill='#2A2118' opacity='0.3'/>
+<path d='M30 62 H40 A6 6 0 0 1 46 68 V72.0 A4 4 0 0 0 46 80.0 V84 A6 6 0 0 1 40 90 H30 A6 6 0 0 1 24 84 V80.0 A4 4 0 0 0 24 72.0 V68 A6 6 0 0 1 30 62 Z' fill='#2A2118'/>
+<text x='56' y='83' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='17' font-weight='600' fill='#2A2118' text-anchor='start'>ลุงชาติ บาร์เบอร์</text>
+<text x='195' y='168' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='36' font-weight='600' fill='#2A2118' text-anchor='middle'>ถึงคิวคุณแล้ว</text>
+<text x='195' y='202' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='18' font-weight='400' fill='#2A2118' text-anchor='middle'>เชิญที่เคาน์เตอร์ตัดผมชาย</text>
+<path d='M58 240 H332 A22 22 0 0 1 354 262 V333.0 A12 12 0 0 0 354 357.0 V428 A22 22 0 0 1 332 450 H58 A22 22 0 0 1 36 428 V357.0 A12 12 0 0 0 36 333.0 V262 A22 22 0 0 1 58 240 Z' fill='#FFFDF9'/>
+<text x='195' y='280' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='500' fill='#6B5B4B' text-anchor='middle'>หมายเลขคิว</text>
+<text x='195' y='396' font-family='IBM Plex Mono, DM Mono, monospace' font-size='108' font-weight='700' fill='#2A2118' text-anchor='middle' letter-spacing='-2'>A016</text>
+<text x='195' y='520' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='500' fill='#2A2118' text-anchor='middle'>เหลือเวลามาที่เคาน์เตอร์</text>
+<text x='195' y='582' font-family='IBM Plex Mono, DM Mono, monospace' font-size='60' font-weight='700' fill='#2A2118' text-anchor='middle'>04:32</text>
+<rect x='60' y='604' width='270' height='8' rx='4' fill='#2A2118' opacity='0.18'/>
+<rect x='60' y='604' width='150' height='8' rx='4' fill='#2A2118'/>
+<text x='195' y='646' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='400' fill='#2A2118' text-anchor='middle'>ถ้าไม่มาภายในเวลา คิวจะถูกข้ามอัตโนมัติ</text>
+<rect x='36' y='724' width='318' height='56' rx='16' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='195.0' y='757.76' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='600' fill='#2A2118' text-anchor='middle'>ยกเลิกคิวนี้</text>
+</svg>

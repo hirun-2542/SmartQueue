@@ -1,0 +1,41 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='390' height='844' viewBox='0 0 390 844'>
+<rect x='0' y='0' width='390' height='844' rx='0' fill='#FAF5EC' id='Background'/>
+<text x='28' y='32' font-family='IBM Plex Mono, DM Mono, monospace' font-size='15' font-weight='700' fill='#2A2118' text-anchor='start'>9:41</text>
+<rect x='334' y='20' width='26' height='12' rx='3' fill='none' stroke='#2A2118' stroke-width='1.4'/>
+<rect x='336' y='22' width='18' height='8' rx='1.5' fill='#2A2118'/>
+<rect x='145' y='826' width='100' height='5' rx='2.5' fill='#2A2118' opacity='0.3'/>
+<path d='M30 62 H40 A6 6 0 0 1 46 68 V72.0 A4 4 0 0 0 46 80.0 V84 A6 6 0 0 1 40 90 H30 A6 6 0 0 1 24 84 V80.0 A4 4 0 0 0 24 72.0 V68 A6 6 0 0 1 30 62 Z' fill='#B5451B'/>
+<text x='56' y='83' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='17' font-weight='600' fill='#2A2118' text-anchor='start'>ลุงชาติ บาร์เบอร์</text>
+<text x='344' y='82' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='700' fill='#2A2118' text-anchor='end'>TH</text>
+<text x='354' y='82' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='500' fill='#6B5B4B' text-anchor='start'>EN</text>
+<text x='24' y='160' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='30' font-weight='600' fill='#2A2118' text-anchor='start'>เลือกบริการ</text>
+<text x='24' y='190' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='400' fill='#6B5B4B' text-anchor='start'>แตะ “รับคิว” แล้วรอรับแจ้งเตือน · ไม่ต้องสมัคร</text>
+<line x1='24' y1='224' x2='366' y2='224' stroke='#E4D8C3' stroke-width='1'/>
+<path d='M34 242 H62 A10 10 0 0 1 72 252 V264.0 A6 6 0 0 0 72 276.0 V288 A10 10 0 0 1 62 298 H34 A10 10 0 0 1 24 288 V276.0 A6 6 0 0 0 24 264.0 V252 A10 10 0 0 1 34 242 Z' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='48' y='279' font-family='IBM Plex Mono, DM Mono, monospace' font-size='24' font-weight='700' fill='#B5451B' text-anchor='middle'>A</text>
+<text x='88' y='264' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='19' font-weight='600' fill='#2A2118' text-anchor='start'>ตัดผมชาย</text>
+<text x='88' y='288' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='400' fill='#6B5B4B' text-anchor='start'>รอ 4 คิว · ประมาณ 40 นาที</text>
+<rect x='262' y='246' width='104' height='48' rx='14' fill='#B5451B'/>
+<text x='314.0' y='275.76' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='600' fill='#FFFFFF' text-anchor='middle'>รับคิว</text>
+<line x1='24' y1='316' x2='366' y2='316' stroke='#E4D8C3' stroke-width='1'/>
+<path d='M34 334 H62 A10 10 0 0 1 72 344 V356.0 A6 6 0 0 0 72 368.0 V380 A10 10 0 0 1 62 390 H34 A10 10 0 0 1 24 380 V368.0 A6 6 0 0 0 24 356.0 V344 A10 10 0 0 1 34 334 Z' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='48' y='371' font-family='IBM Plex Mono, DM Mono, monospace' font-size='24' font-weight='700' fill='#B5451B' text-anchor='middle'>B</text>
+<text x='88' y='356' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='19' font-weight='600' fill='#2A2118' text-anchor='start'>สระ-ไดร์</text>
+<text x='88' y='380' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='400' fill='#6B5B4B' text-anchor='start'>ว่าง · ถึงคิวได้ทันที</text>
+<rect x='262' y='338' width='104' height='48' rx='14' fill='#B5451B'/>
+<text x='314.0' y='367.76' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='600' fill='#FFFFFF' text-anchor='middle'>รับคิว</text>
+<line x1='24' y1='408' x2='366' y2='408' stroke='#E4D8C3' stroke-width='1'/>
+<path d='M34 426 H62 A10 10 0 0 1 72 436 V448.0 A6 6 0 0 0 72 460.0 V472 A10 10 0 0 1 62 482 H34 A10 10 0 0 1 24 472 V460.0 A6 6 0 0 0 24 448.0 V436 A10 10 0 0 1 34 426 Z' fill='#FAF5EC' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='48' y='463' font-family='IBM Plex Mono, DM Mono, monospace' font-size='24' font-weight='700' fill='#6B5B4B' text-anchor='middle'>C</text>
+<text x='88' y='448' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='19' font-weight='600' fill='#6B5B4B' text-anchor='start'>ย้อมผม</text>
+<circle cx='92' cy='467' r='4.5' fill='#9A6A12'/>
+<text x='104' y='472' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#7A5200' text-anchor='start'>กำลังปิด · ไม่รับคิวใหม่</text>
+<line x1='24' y1='500' x2='366' y2='500' stroke='#E4D8C3' stroke-width='1'/>
+<path d='M34 518 H62 A10 10 0 0 1 72 528 V540.0 A6 6 0 0 0 72 552.0 V564 A10 10 0 0 1 62 574 H34 A10 10 0 0 1 24 564 V552.0 A6 6 0 0 0 24 540.0 V528 A10 10 0 0 1 34 518 Z' fill='#FAF5EC' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='48' y='555' font-family='IBM Plex Mono, DM Mono, monospace' font-size='24' font-weight='700' fill='#6B5B4B' text-anchor='middle'>D</text>
+<text x='88' y='540' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='19' font-weight='600' fill='#6B5B4B' text-anchor='start'>ทำเล็บ</text>
+<circle cx='92' cy='559' r='4.5' fill='#6B5B4B'/>
+<text x='104' y='564' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='500' fill='#6B5B4B' text-anchor='start'>ปิดอยู่</text>
+<line x1='24' y1='592' x2='366' y2='592' stroke='#E4D8C3' stroke-width='1'/>
+<text x='195' y='806' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>SmartQueue</text>
+</svg>

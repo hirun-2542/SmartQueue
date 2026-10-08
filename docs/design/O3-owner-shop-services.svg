@@ -1,0 +1,270 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='390' height='844' viewBox='0 0 390 844'>
+<rect x='0' y='0' width='390' height='844' rx='0' fill='#FAF5EC' id='Background'/>
+<text x='28' y='32' font-family='IBM Plex Mono, DM Mono, monospace' font-size='15' font-weight='700' fill='#2A2118' text-anchor='start'>9:41</text>
+<rect x='334' y='20' width='26' height='12' rx='3' fill='none' stroke='#2A2118' stroke-width='1.4'/>
+<rect x='336' y='22' width='18' height='8' rx='1.5' fill='#2A2118'/>
+<rect x='145' y='826' width='100' height='5' rx='2.5' fill='#2A2118' opacity='0.3'/>
+<text x='24' y='90' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='19' font-weight='600' fill='#2A2118' text-anchor='start'>ลุงชาติ บาร์เบอร์</text>
+<g transform='translate(198,74) scale(0.9166666666666666)' fill='none' stroke='#6B5B4B' stroke-width='2.181818181818182' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></g>
+<circle cx='262' cy='84' r='4.5' fill='#3F6B3A'/>
+<text x='274' y='89' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='600' fill='#3F6B3A' text-anchor='start'>สด</text>
+<circle cx='354' cy='82' r='20' fill='#F6E3D6'/>
+<g transform='translate(342,70) scale(1.0)' fill='none' stroke='#B5451B' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21a8 8 0 0 0-16 0 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'/></g>
+<rect x='0' y='764' width='390' height='62' rx='0' fill='#FFFDF9' id='TabBar'/>
+<line x1='0' y1='764' x2='390' y2='764' stroke='#E4D8C3' stroke-width='1'/>
+<g transform='translate(53,772) scale(1.0)' fill='none' stroke='#6B5B4B' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><path d='M8 6h13 M8 12h13 M8 18h13 M3 6h.01 M3 12h.01 M3 18h.01'/></g>
+<text x='65' y='812' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>คิว</text>
+<g transform='translate(183,772) scale(1.0)' fill='none' stroke='#6B5B4B' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><path d='M18 20V10 M12 20V4 M6 20v-6'/></g>
+<text x='195' y='812' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='500' fill='#6B5B4B' text-anchor='middle'>สถิติ</text>
+<g transform='translate(313,772) scale(1.0)' fill='none' stroke='#B5451B' stroke-width='2.0' stroke-linecap='round' stroke-linejoin='round'><path d='m2 7 4-4h12l4 4 M2 7v1a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0V7 M4 12v9h16v-9 M9 21v-5h6v5'/></g>
+<text x='325' y='812' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='600' fill='#B5451B' text-anchor='middle'>ร้าน</text>
+<text x='24' y='146' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='28' font-weight='600' fill='#2A2118' text-anchor='start'>ร้านของคุณ</text>
+<rect x='16' y='168' width='358' height='150' rx='22' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5' id='QRCard'/>
+<rect x='32' y='184' width='118' height='118' rx='10' fill='#FFFFFF' stroke='#E4D8C3' stroke-width='1'/>
+<rect x='39.08' y='224.30880000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='39.08' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='39.08' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='43.233599999999996' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='43.233599999999996' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='43.233599999999996' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='43.233599999999996' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='47.3872' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='47.3872' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='47.3872' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='47.3872' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='47.3872' y='253.38400000000001' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='47.3872' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='51.5408' y='224.30880000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='51.5408' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='51.5408' y='253.38400000000001' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='51.5408' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='55.6944' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='55.6944' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='55.6944' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='55.6944' y='253.38400000000001' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='59.848' y='224.30880000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='59.848' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='59.848' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='59.848' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='59.848' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='64.0016' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='64.0016' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='64.0016' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='64.0016' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='64.0016' y='253.38400000000001' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='68.1552' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='68.1552' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='68.1552' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='68.1552' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='68.1552' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='68.1552' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='191.08' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='199.3872' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='207.6944' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='211.848' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='216.0016' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='220.1552' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='265.8448' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='269.9984' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='282.4592' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='286.6128' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='72.30879999999999' y='290.7664' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='195.23360000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='203.54080000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='207.6944' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='282.4592' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='76.4624' y='286.6128' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='191.08' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='199.3872' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='211.848' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='216.0016' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='224.30880000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='253.38400000000001' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='265.8448' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='269.9984' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='274.15200000000004' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='286.6128' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='80.616' y='290.7664' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='84.7696' y='211.848' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='84.7696' y='216.0016' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='84.7696' y='220.1552' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='84.7696' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='84.7696' y='253.38400000000001' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='84.7696' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='88.9232' y='191.08' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='88.9232' y='207.6944' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='88.9232' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='88.9232' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='88.9232' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='88.9232' y='274.15200000000004' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='88.9232' y='282.4592' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='88.9232' y='290.7664' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='199.3872' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='220.1552' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='224.30880000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='253.38400000000001' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='269.9984' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='274.15200000000004' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='93.07679999999999' y='290.7664' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='195.23360000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='199.3872' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='224.30880000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='269.9984' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='274.15200000000004' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='97.2304' y='286.6128' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='195.23360000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='203.54080000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='207.6944' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='211.848' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='216.0016' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='224.30880000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='265.8448' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='269.9984' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='274.15200000000004' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='282.4592' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='101.384' y='290.7664' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='105.5376' y='191.08' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='105.5376' y='195.23360000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='105.5376' y='216.0016' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='105.5376' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='105.5376' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='105.5376' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='105.5376' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='105.5376' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='105.5376' y='286.6128' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='109.6912' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='109.6912' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='109.6912' y='274.15200000000004' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='109.6912' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='109.6912' y='282.4592' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='113.84479999999999' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='113.84479999999999' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='113.84479999999999' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='113.84479999999999' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='113.84479999999999' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='113.84479999999999' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='117.9984' y='224.30880000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='117.9984' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='117.9984' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='117.9984' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='117.9984' y='265.8448' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='117.9984' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='122.152' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='122.152' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='122.152' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='122.152' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='122.152' y='286.6128' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='253.38400000000001' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='274.15200000000004' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='282.4592' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='286.6128' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='126.3056' y='290.7664' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='228.4624' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='240.9232' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='261.6912' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='269.9984' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='274.15200000000004' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='286.6128' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='130.4592' y='290.7664' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='134.6128' y='249.2304' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='134.6128' y='265.8448' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='134.6128' y='269.9984' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='134.6128' y='278.3056' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='134.6128' y='290.7664' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='138.76639999999998' y='224.30880000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='138.76639999999998' y='232.616' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='138.76639999999998' y='236.76960000000003' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='138.76639999999998' y='245.07680000000002' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='138.76639999999998' y='253.38400000000001' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='138.76639999999998' y='257.5376' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='138.76639999999998' y='265.8448' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='138.76639999999998' y='269.9984' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='138.76639999999998' y='286.6128' width='4.1536' height='4.1536' rx='0' fill='#2A2118'/>
+<rect x='39.08' y='191.08' width='29.0752' height='29.0752' rx='0' fill='#2A2118'/>
+<rect x='43.233599999999996' y='195.23360000000002' width='20.768' height='20.768' rx='0' fill='#FFFFFF'/>
+<rect x='47.3872' y='199.3872' width='12.460799999999999' height='12.460799999999999' rx='0' fill='#2A2118'/>
+<rect x='113.84479999999999' y='191.08' width='29.0752' height='29.0752' rx='0' fill='#2A2118'/>
+<rect x='117.9984' y='195.23360000000002' width='20.768' height='20.768' rx='0' fill='#FFFFFF'/>
+<rect x='122.152' y='199.3872' width='12.460799999999999' height='12.460799999999999' rx='0' fill='#2A2118'/>
+<rect x='39.08' y='265.8448' width='29.0752' height='29.0752' rx='0' fill='#2A2118'/>
+<rect x='43.233599999999996' y='269.9984' width='20.768' height='20.768' rx='0' fill='#FFFFFF'/>
+<rect x='47.3872' y='274.15200000000004' width='12.460799999999999' height='12.460799999999999' rx='0' fill='#2A2118'/>
+<text x='168' y='206' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='600' fill='#2A2118' text-anchor='start'>QR ของร้าน</text>
+<text x='168' y='228' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='400' fill='#6B5B4B' text-anchor='start'>smartqueue.app/s/lungchat</text>
+<g transform='translate(168,249) scale(0.8333333333333334)' fill='none' stroke='#B5451B' stroke-width='2.28' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3v12 m-4-4 4 4 4-4 M4 21h16'/></g>
+<text x='194' y='266' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='600' fill='#B5451B' text-anchor='start'>บันทึกรูป QR</text>
+<g transform='translate(168,285) scale(0.8333333333333334)' fill='none' stroke='#B5451B' stroke-width='2.28' stroke-linecap='round' stroke-linejoin='round'><path d='M9 9h11v11H9z M5 15V4h11'/></g>
+<text x='194' y='302' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='600' fill='#B5451B' text-anchor='start'>คัดลอกลิงก์</text>
+<rect x='16' y='330' width='358' height='52' rx='14' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5'/>
+<g transform='translate(32,344) scale(1.0)' fill='none' stroke='#B5451B' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'><path d='M3 5h18v12H3z M8 21h8 M12 17v4'/></g>
+<text x='68' y='362' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='600' fill='#2A2118' text-anchor='start'>เปิดจอแสดงคิวหน้าร้าน</text>
+<g transform='translate(340,344) scale(1.0)' fill='none' stroke='#6B5B4B' stroke-width='2.0' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></g>
+<text x='24' y='424' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='18' font-weight='600' fill='#2A2118' text-anchor='start'>บริการ</text>
+<text x='366' y='424' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='600' fill='#B5451B' text-anchor='end'>เพิ่มบริการ</text>
+<line x1='24' y1='442' x2='366' y2='442' stroke='#E4D8C3' stroke-width='1'/>
+<path d='M33 454 H55 A9 9 0 0 1 64 463 V473.0 A5 5 0 0 0 64 483.0 V493 A9 9 0 0 1 55 502 H33 A9 9 0 0 1 24 493 V483.0 A5 5 0 0 0 24 473.0 V463 A9 9 0 0 1 33 454 Z' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='44' y='487' font-family='IBM Plex Mono, DM Mono, monospace' font-size='21' font-weight='700' fill='#B5451B' text-anchor='middle'>A</text>
+<text x='80' y='472' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='600' fill='#2A2118' text-anchor='start'>ตัดผมชาย</text>
+<text x='80' y='494' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='400' fill='#6B5B4B' text-anchor='start'>เรียกภายใน 10 นาที · แจ้งเมื่อเหลือ 2</text>
+<g transform='translate(342,466) scale(1.0)' fill='none' stroke='#6B5B4B' stroke-width='2.0' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></g>
+<line x1='24' y1='518' x2='366' y2='518' stroke='#E4D8C3' stroke-width='1'/>
+<path d='M33 530 H55 A9 9 0 0 1 64 539 V549.0 A5 5 0 0 0 64 559.0 V569 A9 9 0 0 1 55 578 H33 A9 9 0 0 1 24 569 V559.0 A5 5 0 0 0 24 549.0 V539 A9 9 0 0 1 33 530 Z' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='44' y='563' font-family='IBM Plex Mono, DM Mono, monospace' font-size='21' font-weight='700' fill='#B5451B' text-anchor='middle'>B</text>
+<text x='80' y='548' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='600' fill='#2A2118' text-anchor='start'>สระ-ไดร์</text>
+<text x='80' y='570' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='400' fill='#6B5B4B' text-anchor='start'>เรียกภายใน 5 นาที · แจ้งเมื่อเหลือ 2</text>
+<g transform='translate(342,542) scale(1.0)' fill='none' stroke='#6B5B4B' stroke-width='2.0' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></g>
+<line x1='24' y1='594' x2='366' y2='594' stroke='#E4D8C3' stroke-width='1'/>
+<path d='M33 606 H55 A9 9 0 0 1 64 615 V625.0 A5 5 0 0 0 64 635.0 V645 A9 9 0 0 1 55 654 H33 A9 9 0 0 1 24 645 V635.0 A5 5 0 0 0 24 625.0 V615 A9 9 0 0 1 33 606 Z' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='44' y='639' font-family='IBM Plex Mono, DM Mono, monospace' font-size='21' font-weight='700' fill='#B5451B' text-anchor='middle'>C</text>
+<text x='80' y='624' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='600' fill='#2A2118' text-anchor='start'>ย้อมผม</text>
+<text x='80' y='646' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='400' fill='#6B5B4B' text-anchor='start'>เรียกภายใน 15 นาที · แจ้งเมื่อเหลือ 1</text>
+<g transform='translate(342,618) scale(1.0)' fill='none' stroke='#6B5B4B' stroke-width='2.0' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></g>
+<line x1='24' y1='670' x2='366' y2='670' stroke='#E4D8C3' stroke-width='1'/>
+<path d='M33 682 H55 A9 9 0 0 1 64 691 V701.0 A5 5 0 0 0 64 711.0 V721 A9 9 0 0 1 55 730 H33 A9 9 0 0 1 24 721 V711.0 A5 5 0 0 0 24 701.0 V691 A9 9 0 0 1 33 682 Z' fill='#FFFDF9' stroke='#D2C3A8' stroke-width='1.5'/>
+<text x='44' y='715' font-family='IBM Plex Mono, DM Mono, monospace' font-size='21' font-weight='700' fill='#B5451B' text-anchor='middle'>D</text>
+<text x='80' y='700' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='600' fill='#2A2118' text-anchor='start'>ทำเล็บ</text>
+<text x='80' y='722' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='12' font-weight='400' fill='#6B5B4B' text-anchor='start'>เรียกภายใน 10 นาที · แจ้งเมื่อเหลือ 2</text>
+<g transform='translate(342,694) scale(1.0)' fill='none' stroke='#6B5B4B' stroke-width='2.0' stroke-linecap='round' stroke-linejoin='round'><path d='m9 18 6-6-6-6'/></g>
+<line x1='24' y1='746' x2='366' y2='746' stroke='#E4D8C3' stroke-width='1'/>
+</svg>

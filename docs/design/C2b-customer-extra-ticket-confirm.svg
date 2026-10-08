@@ -1,0 +1,21 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='390' height='844' viewBox='0 0 390 844'>
+<rect x='0' y='0' width='390' height='844' rx='0' fill='#FAF5EC' id='Background'/>
+<text x='28' y='32' font-family='IBM Plex Mono, DM Mono, monospace' font-size='15' font-weight='700' fill='#2A2118' text-anchor='start'>9:41</text>
+<rect x='334' y='20' width='26' height='12' rx='3' fill='none' stroke='#2A2118' stroke-width='1.4'/>
+<rect x='336' y='22' width='18' height='8' rx='1.5' fill='#2A2118'/>
+<rect x='145' y='826' width='100' height='5' rx='2.5' fill='#2A2118' opacity='0.3'/>
+<rect x='0' y='0' width='390' height='844' rx='0' fill='#2A2118' opacity='0.55' id='Scrim'/>
+<rect x='0' y='380' width='390' height='494' rx='28' fill='#FFFDF9' id='BottomSheet'/>
+<rect x='165' y='390' width='60' height='5' rx='2.5' fill='#D2C3A8'/>
+<text x='24' y='436' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='21' font-weight='600' fill='#2A2118' text-anchor='start'>คุณมีคิวในบริการนี้อยู่แล้ว</text>
+<path d='M38 460 H352 A14 14 0 0 1 366 474 V488.0 A8 8 0 0 0 366 504.0 V518 A14 14 0 0 1 352 532 H38 A14 14 0 0 1 24 518 V504.0 A8 8 0 0 0 24 488.0 V474 A14 14 0 0 1 38 460 Z' fill='#FAF5EC' stroke='#D2C3A8' stroke-width='1.5'/>
+<line x1='250' y1='474' x2='250' y2='518' stroke='#D2C3A8' stroke-width='1.5' stroke-dasharray='3 5'/>
+<text x='46' y='508' font-family='IBM Plex Mono, DM Mono, monospace' font-size='34' font-weight='700' fill='#B5451B' text-anchor='start'>A012</text>
+<text x='150' y='492' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='15' font-weight='600' fill='#2A2118' text-anchor='start'>ตัดผมชาย</text>
+<text x='150' y='514' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='400' fill='#6B5B4B' text-anchor='start'>อีก 1 คิวถึงคิวนี้</text>
+<text x='308' y='504' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='13' font-weight='600' fill='#6B5B4B' text-anchor='middle'>ใบที่ 1</text>
+<text x='24' y='568' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='14' font-weight='400' fill='#6B5B4B' text-anchor='start'>ขอเพิ่มอีกใบได้ เช่น สำหรับคนในครอบครัว (สูงสุด 3 ใบ)</text>
+<rect x='24' y='596' width='342' height='58' rx='16' fill='#B5451B'/>
+<text x='195.0' y='631.12' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='17' font-weight='600' fill='#FFFFFF' text-anchor='middle'>ขอเพิ่มอีกใบ (ใบที่ 2)</text>
+<text x='195' y='696' font-family='Noto Sans Thai, Noto Sans, sans-serif' font-size='16' font-weight='600' fill='#B5451B' text-anchor='middle'>กลับไปดูคิว A012</text>
+</svg>
