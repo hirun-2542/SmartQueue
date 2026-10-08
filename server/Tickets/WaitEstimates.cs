@@ -26,9 +26,9 @@ public static class WaitEstimates
     /// <summary>Tickets ahead of <paramref name="ticket"/> plus the estimate for its Service.</summary>
     public static async Task<WaitEstimate> ForTicketAsync(AppDbContext db, Ticket ticket)
     {
-        var ahead = ticket.Status == TicketStatus.Waiting
-            ? await db.Set<Ticket>().CountAsync(x => x.QueueId == ticket.QueueId && x.Status == TicketStatus.Waiting && x.ReceiveOrder < ticket.ReceiveOrder)
-            : 0;
+        var ahead = 0;
+        if (ticket.Status == TicketStatus.Waiting)
+            ahead = await db.Set<Ticket>().CountAsync(x => x.QueueId == ticket.QueueId && x.Status == TicketStatus.Waiting && x.ReceiveOrder < ticket.ReceiveOrder);
         var serviceId = await db.Set<Domain.Queue>().AsNoTracking().Where(x => x.Id == ticket.QueueId).Select(x => x.ServiceId).SingleAsync();
         return await ServiceAsync(db, serviceId, ahead);
     }
