@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { BellOff, BellRing, Share, TriangleAlert } from 'lucide-react';
 import { api } from './api';
 import { useErrorText, useLanguage } from './language';
-import { disablePush, enablePush, type PushState } from './push';
+import { disablePush, enablePush, hasLocalPush, type PushState } from './push';
 import './push.css';
 
 type Capability = 'checking' | 'supported' | 'unsupported' | 'install';
@@ -45,8 +45,8 @@ export function PushToggle({ secret }: { secret: string }) {
     if (capability !== 'supported') return;
     let active = true;
     api<PushState>(`/api/t/${secret}/push`)
-      .then(state => { if (!active) return; setTicketId(state.ticketId); setEnabled(state.enabled && Notification.permission === 'granted'); })
-      .catch(() => undefined);
+      .then(async state => {const local=Notification.permission==='granted'&&await hasLocalPush(state.ticketId);if (!active) return; setTicketId(state.ticketId); setEnabled(state.enabled&&local);})
+      .catch(failure=>{if(active)setError(errorText(failure));});
     return () => { active = false; };
   }, [capability, secret]);
 
@@ -54,7 +54,7 @@ export function PushToggle({ secret }: { secret: string }) {
   useEffect(() => {
     if (!enabled || syncedLanguage.current === language) return;
     syncedLanguage.current = language;
-    enablePush(secret, language).catch(() => undefined);
+    enablePush(secret, language).catch(failure=>setError(errorText(failure)));
   }, [enabled, language, secret]);
 
   async function toggle() {
@@ -65,7 +65,7 @@ export function PushToggle({ secret }: { secret: string }) {
         await disablePush(secret, ticketId);
         setEnabled(false);
       } else {
-        await enablePush(secret, language);
+        const saved=await enablePush(secret, language);setTicketId(saved.ticketId);
         syncedLanguage.current = language;
         setEnabled(true);
       }

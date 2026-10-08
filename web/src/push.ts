@@ -26,17 +26,27 @@ function openDatabase(): Promise<IDBDatabase> {
  */
 export async function rememberTicket(ticketId: string, secret: string): Promise<void> {
   const database = await openDatabase();
-  await idbRequest(database.transaction(STORE, 'readwrite').objectStore(STORE).put(secret, ticketId));
+  await new Promise<void>((resolve,reject)=>{const transaction=database.transaction(STORE,'readwrite');transaction.objectStore(STORE).put(secret,ticketId);transaction.oncomplete=()=>resolve();transaction.onerror=()=>reject(transaction.error);transaction.onabort=()=>reject(transaction.error);});
   database.close();
 }
 
 export async function forgetTicket(ticketId: string): Promise<void> {
   const database = await openDatabase();
-  await idbRequest(database.transaction(STORE, 'readwrite').objectStore(STORE).delete(ticketId));
+  await new Promise<void>((resolve,reject)=>{const transaction=database.transaction(STORE,'readwrite');transaction.objectStore(STORE).delete(ticketId);transaction.oncomplete=()=>resolve();transaction.onerror=()=>reject(transaction.error);transaction.onabort=()=>reject(transaction.error);});
   database.close();
 }
 
-function decodeApplicationServerKey(value: string): Uint8Array {
+async function rememberedTicket(ticketId:string):Promise<string|null>{
+  const database=await openDatabase();const value=await idbRequest(database.transaction(STORE,'readonly').objectStore(STORE).get(ticketId));database.close();return typeof value==='string'?value:null;
+}
+
+export async function hasLocalPush(ticketId:string):Promise<boolean>{
+  const registration=await navigator.serviceWorker.getRegistration('/');
+  if(!registration||!await registration.pushManager.getSubscription())return false;
+  return (await rememberedTicket(ticketId))!==null;
+}
+
+function decodeApplicationServerKey(value: string): Uint8Array<ArrayBuffer> {
   const padding = '='.repeat((4 - (value.length % 4)) % 4);
   const base64 = (value + padding).replace(/-/g, '+').replace(/_/g, '/');
   const raw = atob(base64);
@@ -61,18 +71,18 @@ export async function enablePush(secret: string, language: string): Promise<Push
   const current = await worker.pushManager.getSubscription();
   const subscription = current ?? (await worker.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: decodeApplicationServerKey(state.publicKey) }));
   const json = subscription.toJSON();
-  const saved = await post<PushState>(`/api/t/${secret}/push`, { endpoint: json.endpoint, p256dh: json.keys?.p256dh, auth: json.keys?.auth, language });
-  await rememberTicket(saved.ticketId, secret);
-  return saved;
+  const previous=await rememberedTicket(state.ticketId);
+  await rememberTicket(state.ticketId,secret);
+  try{return await post<PushState>(`/api/t/${secret}/push`, { endpoint: json.endpoint, p256dh: json.keys?.p256dh, auth: json.keys?.auth, language });}
+  catch(failure){if(previous)await rememberTicket(state.ticketId,previous);else await forgetTicket(state.ticketId);throw failure;}
 }
 
-/** Removes the association and the browser subscription. A failure here is reported but never changes the Ticket. */
+/** Withdraws this Ticket only; a shared browser endpoint still serves other active Tickets. */
 export async function disablePush(secret: string, ticketId: string): Promise<void> {
   const worker = await navigator.serviceWorker.getRegistration('/');
   const subscription = worker ? await worker.pushManager.getSubscription() : null;
   if (subscription) {
     await post(`/api/t/${secret}/push/remove`, { endpoint: subscription.endpoint });
-    await subscription.unsubscribe();
   }
   await forgetTicket(ticketId);
 }

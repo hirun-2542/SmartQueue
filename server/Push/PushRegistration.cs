@@ -11,16 +11,14 @@ namespace SmartQueue.Api.Push;
 /// </summary>
 public static class PushRegistration
 {
-    public static IServiceCollection AddSmartQueuePush(this IServiceCollection services, IConfiguration configuration, bool development)
+    public static IServiceCollection AddSmartQueuePush(this IServiceCollection services, bool development)
     {
-        var options = configuration.GetSection(PushOptions.SectionName).Get<PushOptions>() ?? new PushOptions();
-        var keys = VapidKeys.Resolve(options, development);
-
-        services.AddSingleton(keys);
+        services.AddSingleton<VapidKeys>(provider=>VapidKeys.Resolve(provider.GetRequiredService<IConfiguration>().GetSection(PushOptions.SectionName).Get<PushOptions>()??new PushOptions(),development));
         services.AddSingleton<PushDispatcher>();
         services.AddSingleton<IPushDelivery, LibPushDelivery>();
-        services.AddSingleton(_ =>
+        services.AddSingleton(provider =>
         {
+            var keys=provider.GetRequiredService<VapidKeys>();
             var handler = new HttpClientHandler { AllowAutoRedirect = false, UseCookies = false };
             var client = new PushServiceClient(new HttpClient(handler)) { AutoRetryAfter = false };
             if (keys.Configured) client.DefaultAuthentication = new VapidAuthentication(keys.PublicKey!, keys.PrivateKey!) { Subject = keys.Subject };

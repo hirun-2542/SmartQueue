@@ -27,7 +27,8 @@ async function deliver(event) {
   const secret = await readTicket(payload.ticketId);
   if (!secret) return;
   const language = payload.language === 'en' ? 'en' : 'th';
-  const body = (copy[payload.event] || copy.called)[language](payload.number || '');
+  const eventCopy=copy[payload.event];if(!eventCopy)return;
+  const body=eventCopy[language](payload.number || '');
   await self.registration.showNotification('SmartQueue', {
     body,
     tag: `smartqueue-${payload.ticketId}`,

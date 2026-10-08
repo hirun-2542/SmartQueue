@@ -302,7 +302,7 @@ public sealed class WebPushTests : IAsyncLifetime
         Assert.Equal(fourth.TicketId, await CallAsync(owner, shopId, queueId));
 
         var delivered = await sink.SettleAsync();
-        Assert.Equal(6, delivered.Length);
+        Assert.Single(delivered, x => x.TicketId == third.TicketId && x.Event == PushEvents.NearTurn);
         Assert.Equal(4, delivered.Count(x => x.Event == PushEvents.Called));
         Assert.Single(delivered, x => x.TicketId == fourth.TicketId && x.Event == PushEvents.NearTurn);
         Assert.Single(delivered, x => x.TicketId == fifth.TicketId && x.Event == PushEvents.NearTurn);

@@ -9,6 +9,7 @@ import { useLive } from './useLive';
 import { ConnectionStatus } from './ConnectionStatus';
 import { EstimatedWait } from './EstimatedWait';
 import { TicketAlerts } from './TicketAlerts';
+import { PushToggle } from './PushToggle';
 import type { CustomerTicket,TicketStatus } from './ticketTypes';
 const statusWords:Record<TicketStatus,[string,string]>={Waiting:['รอเรียก','Waiting'],Called:['กำลังเรียก','Called'],InService:['กำลังให้บริการ','In service'],Completed:['เสร็จสิ้น','Completed'],Skipped:['ถูกข้ามแล้ว','Skipped'],Cancelled:['ยกเลิกแล้ว','Cancelled'],Dropped:['ร้านปิดคิว','Shop closed this Queue']};
 export function CustomerTicketPage(){
@@ -26,6 +27,7 @@ export function CustomerTicketPage(){
     {called&&<div className="customer-deadline"><span>{t('เหลือเวลามาที่เคาน์เตอร์','Time left to arrive')}</span><Clock deadline={ticket.deadline} serverTime={live.serverTime??ticket.serverTime}/><p>{t('ถ้าไม่มา คิวจะถูกข้ามอัตโนมัติเมื่อระบบยืนยันหมดเวลา','Your Ticket is auto-Skipped when the server confirms the timeout')}</p></div>}
     <CancelTicket secret={secret ?? ''} ticket={ticket} onChanged={setTicket} disabled={live.stale}/>
     <TicketAlerts status={ticket.status}/>
+    {!terminal&&<PushToggle secret={secret??''}/>}
     {terminal&&<Link className="button primary" to={'/s/'+ticket.shopPublicId}>{t('รับคิวใหม่','Take a new Ticket')}</Link>}
     <button className="text-action link-row" type="button" onClick={copy}><Copy size={22} aria-hidden="true"/>{copied?t('คัดลอกลิงก์แล้ว','Link copied'):t('คัดลอกลิงก์คิวของฉัน','Copy my Ticket link')}</button><button className="text-action link-row" type="button" onClick={()=>{void reload().catch(f=>setError(errorText(f)));}} ><RefreshCw size={22} aria-hidden="true"/>{t('อัปเดตสถานะ','Refresh status')}</button><Link className="text-action centered" to={'/s/'+ticket.shopPublicId}>{t('กลับไปหน้าร้าน','Back to the Shop')}</Link>
   </>}</main>;

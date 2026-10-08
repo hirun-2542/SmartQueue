@@ -248,6 +248,54 @@ namespace SmartQueue.Api.Migrations
                     b.ToTable("business_days", (string)null);
                 });
 
+            modelBuilder.Entity("SmartQueue.Api.Domain.PushSubscription", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Auth")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Endpoint")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("character varying(1024)");
+
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
+
+                    b.Property<string>("P256dh")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<Guid>("QueueId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ShopId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TicketId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShopId", "TicketId");
+
+                    b.HasIndex("TicketId", "Endpoint")
+                        .IsUnique();
+
+                    b.ToTable("push_subscriptions", (string)null);
+                });
+
             modelBuilder.Entity("SmartQueue.Api.Domain.Queue", b =>
                 {
                     b.Property<Guid>("Id")
@@ -375,6 +423,9 @@ namespace SmartQueue.Api.Migrations
                     b.Property<string>("LinkHash")
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
+
+                    b.Property<DateTimeOffset?>("NearTurnNotifiedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Note")
                         .HasMaxLength(500)
@@ -507,6 +558,21 @@ namespace SmartQueue.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Queue");
+                });
+
+            modelBuilder.Entity("SmartQueue.Api.Domain.PushSubscription", b =>
+                {
+                    b.HasOne("SmartQueue.Api.Domain.Shop", null)
+                        .WithMany()
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartQueue.Api.Domain.Ticket", null)
+                        .WithMany()
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SmartQueue.Api.Domain.Queue", b =>
