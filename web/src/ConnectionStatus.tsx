@@ -19,9 +19,9 @@ export function ConnectionStatus({ status, onRetry, className }: { status: LiveS
   const { t } = useLanguage();
   const [thai, english] = labels[status];
   return (
-    <div className={`live-status ${status}${className ? ' ' + className : ''}`} role="status">
+    <div className={`live-status ${status}${className ? ' ' + className : ''}`}>
       <span className="live-dot" aria-hidden="true" />
-      <span className="live-label">{t(thai, english)}</span>
+      <span className="live-label" role="status">{t(thai, english)}</span>
       {status !== 'live' && onRetry && (
         <button type="button" className="live-retry" onClick={onRetry} aria-label={t('เชื่อมต่อและอัปเดตทันที', 'Resync live updates now')}>
           <RefreshCw size={20} aria-hidden="true" />
