@@ -9,8 +9,10 @@ namespace SmartQueue.Api.Tickets;
 ///
 /// Tickets ahead counts only Waiting Tickets with an older ReceiveOrder in the same Queue; Called,
 /// InService, terminal Tickets and other Queues never count. Estimated wait is Tickets ahead multiplied
-/// by the mean service duration of the latest usable Completed Tickets in the same Service, where
-/// usable means a real StartedAt -> EndedAt interval. Fewer than <see cref="MinimumSamples"/> usable
+/// by the mean service duration of the latest usable Completed Tickets in the same Service, where usable
+/// means a real StartedAt and EndedAt with EndedAt on or after StartedAt; a zero-duration Completed job is
+/// still a real measurement and counts. The usable filter runs before the twenty-job window is taken, so an
+/// unusable newer row never displaces an older usable one. Fewer than <see cref="MinimumSamples"/> usable
 /// samples leaves <see cref="WaitEstimate.EstimatedWaitSeconds"/> null so consumers hide the time while
 /// still showing Tickets ahead. There is no Staff count to divide by, other Queues never contribute, and
 /// zero Tickets ahead is arithmetic zero: it means next in this Queue, never a promise that the Owner is
@@ -41,17 +43,14 @@ public static class WaitEstimates
     {
         var aheadCount = Math.Max(ahead, 0);
         var recent = await db.Set<Ticket>().AsNoTracking()
-            .Where(x => x.Status == TicketStatus.Completed && x.StartedAt != null && x.EndedAt != null)
+            .Where(x => x.Status == TicketStatus.Completed && x.StartedAt != null && x.EndedAt != null && x.EndedAt >= x.StartedAt)
             .Where(x => db.Set<Domain.Queue>().Any(q => q.Id == x.QueueId && q.ServiceId == serviceId))
             .OrderByDescending(x => x.EndedAt).ThenByDescending(x => x.ReceiveOrder)
             .Take(SampleWindow)
             .Select(x => new { x.StartedAt, x.EndedAt })
             .ToArrayAsync();
-        var durations = recent
-            .Select(x => x.EndedAt!.Value - x.StartedAt!.Value)
-            .Where(x => x > TimeSpan.Zero)
-            .ToArray();
-        double? estimatedWaitSeconds = durations.Length >= MinimumSamples ? aheadCount * durations.Average(x => x.TotalSeconds) : null;
+        var durations = recent.Select(x => (x.EndedAt!.Value - x.StartedAt!.Value).TotalSeconds).ToArray();
+        double? estimatedWaitSeconds = durations.Length >= MinimumSamples ? aheadCount * durations.Average() : null;
         return new WaitEstimate(aheadCount, durations.Length, estimatedWaitSeconds);
     }
 }
