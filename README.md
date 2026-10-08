@@ -101,3 +101,15 @@ Private statistics select the current/latest or latest 7/30 Business days of eac
 
 Historical selection is bounded in PostgreSQL per Queue; the app does not load every old Business day to display seven rounds. Archived Services remain selectable for history.
 
+## Demand and optional notifications
+
+Hourly demand and weekday patterns reuse the statistics selection and count the original receive timestamps in Asia/Bangkok. Call or completion time never moves a received Ticket into another demand bucket. The mobile heatmap splits the day into two labelled halves and prints counts as well as intensity.
+
+Customers opt into Web Push from a valid Ticket link. Denied or unsupported notifications never block receiving or serving a Ticket. iPhone/iPad Safari tabs show Home Screen installation guidance instead of claiming Push is enabled.
+
+Near-turn fires once per Ticket on a threshold crossing; the durable marker survives threshold edits and re-opt-in. Called and Drop are separate events. Terminal transitions atomically withdraw that Ticket's associations; disabling one Ticket does not unsubscribe a shared browser endpoint used by another.
+
+Development creates a persistent owner-only VAPID key file. Production must provide `Push__PublicKey`, `Push__PrivateKey` and a `Push__Subject` contact URI; `Push__VapidKeyPath` overrides development key storage. Keep the same identity across instances and deployments. Push delivery is best effort, after the database commit, with no retries or network work inside the transaction.
+
+Payloads carry only Ticket ID, event, number and language. Private links stay in the opted-in browser's IndexedDB; the service worker resolves the notification deep link locally. Supported provider endpoints are HTTPS-only and delivery does not follow redirects.
+
