@@ -166,6 +166,9 @@ namespace SmartQueue.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<DateTimeOffset?>("DemoExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -207,6 +210,8 @@ namespace SmartQueue.Api.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DemoExpiresAt");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");

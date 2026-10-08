@@ -6,7 +6,7 @@ import { Sheet } from './Sheet';
 import type { CustomerTicket } from './ticketTypes';
 import './cancel.css';
 
-export function CancelTicket({secret,ticket,onChanged}:{secret:string;ticket:CustomerTicket;onChanged:(ticket:CustomerTicket)=>void}){
+export function CancelTicket({secret,ticket,onChanged,disabled=false}:{secret:string;ticket:CustomerTicket;onChanged:(ticket:CustomerTicket)=>void;disabled?:boolean}){
   const {t}=useLanguage();
   const [open,setOpen]=useState(false);const [pending,setPending]=useState(false);const [error,setError]=useState('');
   const available=ticket.status==='Waiting'||ticket.status==='Called';
@@ -32,7 +32,7 @@ export function CancelTicket({secret,ticket,onChanged}:{secret:string;ticket:Cus
     }finally{setPending(false);}
   }
   return <>
-    {available&&<button type="button" className="danger cancel-ticket" onClick={()=>{setError('');setOpen(true)}}><X size={22} aria-hidden="true"/>{t('ยกเลิกคิวนี้','Cancel this Ticket')}</button>}
+    {available&&<button type="button" className="danger cancel-ticket" disabled={disabled} onClick={()=>{setError('');setOpen(true)}}><X size={22} aria-hidden="true"/>{t('ยกเลิกคิวนี้','Cancel this Ticket')}</button>}
     {open&&<Sheet title={t('ยกเลิกคิวนี้','Cancel this Ticket')} onClose={()=>setOpen(false)}>
       <p className="cancel-summary"><small>{t('หมายเลขคิว','Ticket number')}</small><strong className="number">{ticket.number}</strong></p>
       <p className="cancel-copy">{ticket.status==='Called'?t('ร้านกำลังเรียกคุณอยู่ ถ้ายกเลิกตอนนี้ร้านจะว่างและเรียกคิวถัดไปได้ทันที','The Shop is calling you now. Cancelling frees the counter at once so the next Ticket can be called.'):t('การยกเลิกเป็นผลสุดท้าย คิวนี้จะไม่กลับมาและไม่นับเป็นคิวที่รออยู่','Cancelling is final. This Ticket will not return and stops counting as a Waiting Ticket.')}</p>
@@ -40,7 +40,7 @@ export function CancelTicket({secret,ticket,onChanged}:{secret:string;ticket:Cus
       {error&&<p role="alert" className="error cancel-alert">{error}</p>}
       <div className="cancel-actions">
         <button type="button" className="outline" disabled={pending} onClick={()=>setOpen(false)}>{available?t('ไม่ยกเลิก เก็บคิวนี้ไว้','Keep my Ticket'):t('ปิด','Close')}</button>
-        {available&&<button type="button" className="danger cancel-confirm" disabled={pending} aria-busy={pending} onClick={cancel}>{pending?t('กำลังยกเลิก…','Cancelling…'):t('ยืนยันยกเลิกคิว','Yes, cancel my Ticket')}</button>}
+        {available&&<button type="button" className="danger cancel-confirm" disabled={pending||disabled} aria-busy={pending} onClick={cancel}>{pending?t('กำลังยกเลิก…','Cancelling…'):t('ยืนยันยกเลิกคิว','Yes, cancel my Ticket')}</button>}
       </div>
       <p role="status" aria-live="polite" className="muted cancel-status">{pending?t('กำลังยกเลิกคิว…','Cancelling your Ticket…'):''}</p>
     </Sheet>}

@@ -8,7 +8,7 @@ import './walkin.css';
 
 interface WalkinResult { ticket:OwnerTicket; joinedAhead:number }
 
-export function WalkinTicket({queues,selectedQueueId,onIssued}:{queues:ConsoleQueue[];selectedQueueId?:string|null;onIssued?:()=>void|Promise<void>}){
+export function WalkinTicket({queues,selectedQueueId,onIssued,disabled=false}:{queues:ConsoleQueue[];selectedQueueId?:string|null;onIssued?:()=>void|Promise<void>;disabled?:boolean}){
   const {t}=useLanguage();const errorText=useErrorText();
   const openQueues=queues.filter(q=>q.status==='Open');
   const [form,setForm]=useState(false);const [queueId,setQueueId]=useState('');const [note,setNote]=useState('');const [pending,setPending]=useState(false);const [error,setError]=useState('');const [issued,setIssued]=useState<WalkinResult|null>(null);
@@ -28,7 +28,7 @@ export function WalkinTicket({queues,selectedQueueId,onIssued}:{queues:ConsoleQu
   }
   function finish(){setIssued(null);setError('');}
   return <div className="walkin">
-    <button type="button" className="icon-button walkin-open" onClick={start} aria-label={t('เพิ่มคิว Walk-in','Add Walk-in Ticket')}><Plus size={24} aria-hidden="true"/></button>
+    <button type="button" className="icon-button walkin-open" disabled={disabled} onClick={start} aria-label={t('เพิ่มคิว Walk-in','Add Walk-in Ticket')}><Plus size={24} aria-hidden="true"/></button>
     {form&&<Sheet title={t('สร้างคิว Walk-in','Create Walk-in Ticket')} onClose={dismiss}>
       <p className="muted walkin-subtitle">{t('สำหรับลูกค้าที่ไม่มีมือถือ','For Customers who have no smartphone')}</p>
       <fieldset className="walkin-services"><legend>{t('บริการ','Service')}</legend>
@@ -44,7 +44,7 @@ export function WalkinTicket({queues,selectedQueueId,onIssued}:{queues:ConsoleQu
       </label>
       <p className="muted walkin-hint">{t('ไม่มีลิงก์คิว ลูกค้าดูเลขคิวจากจอหน้าร้าน','No Ticket link. The Customer reads the number on the Shop display.')}</p>
       {error&&<p className="error" role="alert">{error}</p>}
-      <div className="walkin-actions"><button type="button" className="outline" onClick={dismiss} disabled={pending}>{t('ยกเลิก','Cancel')}</button><button type="button" className="primary" onClick={create} disabled={pending||!chosen}>{pending?t('กำลังสร้าง…','Creating…'):t('สร้างคิว','Create Ticket')}</button></div>
+      <div className="walkin-actions"><button type="button" className="outline" onClick={dismiss} disabled={pending}>{t('ยกเลิก','Cancel')}</button><button type="button" className="primary" onClick={create} disabled={pending||!chosen||disabled}>{pending?t('กำลังสร้าง…','Creating…'):t('สร้างคิว','Create Ticket')}</button></div>
     </Sheet>}
     {issued&&<Sheet title={t('สร้างคิวแล้ว','Walk-in Ticket created')} onClose={finish}>
       <div className="walkin-result" role="status" aria-live="polite">

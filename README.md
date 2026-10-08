@@ -38,6 +38,7 @@ With the API, PostgreSQL and Mailpit running:
 ```sh
 npm test
 npm run build
+dotnet test tests/SmartQueue.IntegrationTests/SmartQueue.IntegrationTests.csproj
 ```
 
 The API tests use real HTTP sessions, PostgreSQL and delivered messages in the local capture mailbox, not an in-memory database or mocked verification link. Test users have unique addresses. Set `SMARTQUEUE_URL` and `MAILPIT_URL` to change the test endpoints.
@@ -67,4 +68,18 @@ Unknown API resources return a JSON 404 rather than the SPA page. Private Ticket
 The mobile Queue console calls the oldest Waiting Ticket in the selected Queue. Each Shop holds at most one Called or InService Ticket. Call checks the observed Shop version; Start, Complete and Skip check the Ticket version. Stale actions return a conflict and fresh state, not an automatic retry against another Ticket.
 
 Call deadlines and elapsed service time are anchored to server timestamps. The Customer view distinguishes Waiting, Called, InService and terminal outcomes; notes remain Owner-only.
+
+## Live workflows and timing
+
+Customers can explicitly cancel Waiting or Called Tickets. InService cannot be cancelled. Terminal Ticket links remain readable for 24 hours after the recorded end time; a repeat receive request cannot restore an expired link.
+
+Walk-in Tickets use the same Business-day counter and receive FIFO as Customer Tickets, but have no bearer link or device quota. A durable server worker checks Called deadlines every five seconds, including after a restart, and never auto-completes or auto-skips InService work.
+
+SignalR subscriptions are scoped to an owned Shop, public Shop or private Ticket. PostgreSQL commit notifications fan out across API instances. Reconnect and foreground resume resync the snapshot and clock; unsafe Owner actions are unavailable while the connection is not live.
+
+Wait estimates use the latest twenty usable Completed durations of the same Service, with at least five samples. They count only Waiting Tickets ahead; zero ahead is not a promise that the Owner is free.
+
+Try demo signs into an isolated PostgreSQL-backed Shop with seeded Business days and Tickets. Sessions expire after exactly 24 hours, including after Identity refresh; cleanup never resets a real Owner's data. Start another demo to obtain a separate session.
+
+The .NET boundary suite creates isolated PostgreSQL databases and uses the public HTTP seam with a controlled server clock for deadlines, restart races, terminal-link expiry, estimate windows and demo cleanup.
 

@@ -25,15 +25,6 @@ public static class WaitEstimates
     /// <summary>Latest usable Completed samples that contribute to the mean service duration.</summary>
     public const int SampleWindow = 20;
 
-    /// <summary>Tickets ahead of <paramref name="ticket"/> plus the estimate for its Service.</summary>
-    public static async Task<WaitEstimate> ForTicketAsync(AppDbContext db, Ticket ticket)
-    {
-        var ahead = 0;
-        if (ticket.Status == TicketStatus.Waiting)
-            ahead = await db.Set<Ticket>().CountAsync(x => x.QueueId == ticket.QueueId && x.Status == TicketStatus.Waiting && x.ReceiveOrder < ticket.ReceiveOrder);
-        var serviceId = await db.Set<Domain.Queue>().AsNoTracking().Where(x => x.Id == ticket.QueueId).Select(x => x.ServiceId).SingleAsync();
-        return await ServiceAsync(db, serviceId, ahead);
-    }
 
     /// <summary>
     /// Estimate for a Service with <paramref name="ahead"/> Tickets in front of the consumer, used by the
@@ -49,9 +40,10 @@ public static class WaitEstimates
             .Take(SampleWindow)
             .Select(x => new { x.StartedAt, x.EndedAt })
             .ToArrayAsync();
-        var durations = recent.Select(x => (x.EndedAt!.Value - x.StartedAt!.Value).TotalSeconds).ToArray();
-        double? estimatedWaitSeconds = durations.Length >= MinimumSamples ? aheadCount * durations.Average() : null;
-        return new WaitEstimate(aheadCount, durations.Length, estimatedWaitSeconds);
+        double totalSeconds=0;
+        foreach(var sample in recent)totalSeconds+=(sample.EndedAt!.Value-sample.StartedAt!.Value).TotalSeconds;
+        double? estimatedWaitSeconds=recent.Length>=MinimumSamples?aheadCount*(totalSeconds/recent.Length):null;
+        return new WaitEstimate(aheadCount,recent.Length,estimatedWaitSeconds);
     }
 }
 

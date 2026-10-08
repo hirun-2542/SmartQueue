@@ -8,7 +8,8 @@ public static class OwnerViews
 {
     public static async Task<ConsoleDto> ConsoleAsync(AppDbContext db,Guid shopId,string ownerId,Guid? selected,TimeProvider time)
     {
-        var shop=await db.Set<Shop>().AsNoTracking().SingleOrDefaultAsync(x=>x.Id==shopId&&x.OwnerId==ownerId)??throw new ApiException("not_found",404);
+        var now=time.GetUtcNow();
+        var shop=await db.Set<Shop>().AsNoTracking().SingleOrDefaultAsync(x=>x.Id==shopId&&x.OwnerId==ownerId&&db.Users.Any(u=>u.Id==ownerId&&(u.DemoExpiresAt==null||u.DemoExpiresAt>now)))??throw new ApiException("not_found",404);
         var queues=await db.Set<Domain.Queue>().AsNoTracking().Include(x=>x.Service).Where(x=>x.Service.ShopId==shopId&&(!x.Service.Archived||x.Status!="Closed")).OrderBy(x=>x.Service.Name).ToArrayAsync();
         if(selected.HasValue&&!queues.Any(x=>x.Id==selected))throw new ApiException("not_found",404);
         var selectedId=selected??queues.FirstOrDefault(x=>x.Status=="Open")?.Id??queues.FirstOrDefault()?.Id;

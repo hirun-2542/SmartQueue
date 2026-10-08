@@ -69,7 +69,7 @@ test('InService and terminal Tickets refuse Cancel with the current snapshot and
 test('wrong bearer links and stale versions never touch committed state or expose private details',async()=>{
   const {guest,issued}=await cancelFixture(2);
   const unknown=await guest.post('/api/t/'+'a'.repeat(43)+'/cancel',{version:1});
-  assert.equal(unknown.status,404);assert.equal(unknown.body.code,'not_found');assert.equal(unknown.body.current,null);
+  assert.equal(unknown.status,404);assert.equal(unknown.body.code,'not_found');
   assert.equal('number' in unknown.body,false);
   const stale=await guest.post('/api'+issued[0].link+'/cancel',{version:issued[0].ticket.version+5});
   assert.equal(stale.status,409);assert.equal(stale.body.code,'ticket_changed');

@@ -63,7 +63,7 @@ public sealed class AutoSkipWorkerTests : IAsyncLifetime
         Assert.Equal(HttpStatusCode.Created, rejoined.Status);
 
         var ready = await ConsoleAsync(owner.Api, main);
-        var next = await owner.Api.PostAsync($"/api/queues/{main.QueueId}/call", { version = ready.GetProperty("version").GetInt64() });
+        var next = await owner.Api.PostAsync($"/api/queues/{main.QueueId}/call", new { version = ready.GetProperty("version").GetInt64() });
         Assert.Equal(HttpStatusCode.OK, next.Status);
         Assert.Equal("Called", Text(next.Body, "status"));
     }
