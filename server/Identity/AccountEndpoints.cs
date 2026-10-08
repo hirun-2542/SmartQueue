@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using SmartQueue.Api.Data;
+using SmartQueue.Api.Tickets;
 
 namespace SmartQueue.Api.Identity;
 
@@ -14,6 +15,7 @@ public static class AccountEndpoints
         app.MapGet("/api/session", async (HttpContext context, IAntiforgery antiforgery, UserManager<OwnerAccount> users) =>
         {
             var tokens = antiforgery.GetAndStoreTokens(context);
+            DeviceIdentity.Get(context);
             var owner = context.User.Identity?.IsAuthenticated == true ? await users.GetUserAsync(context.User) : null;
             return Results.Ok(new { csrf = tokens.RequestToken, owner = owner is null ? null : new { owner.Id, owner.Email } });
         });

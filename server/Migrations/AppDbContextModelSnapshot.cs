@@ -218,6 +218,31 @@ namespace SmartQueue.Api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("SmartQueue.Api.Domain.BusinessDay", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("ClosedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Counter")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("OpenedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("QueueId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QueueId", "OpenedAt");
+
+                    b.ToTable("business_days", (string)null);
+                });
+
             modelBuilder.Entity("SmartQueue.Api.Domain.Queue", b =>
                 {
                     b.Property<Guid>("Id")
@@ -236,6 +261,8 @@ namespace SmartQueue.Api.Migrations
                         .HasColumnType("character varying(16)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BusinessDayId");
 
                     b.HasIndex("ServiceId")
                         .IsUnique();
@@ -312,6 +339,109 @@ namespace SmartQueue.Api.Migrations
                     b.ToTable("shops", (string)null);
                 });
 
+            modelBuilder.Entity("SmartQueue.Api.Domain.Ticket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BusinessDayId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("CalledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("Deadline")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeviceId")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("EndReason")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("EndedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("JoinedAhead")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("LinkHash")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Prefix")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
+
+                    b.Property<string>("ProtectedLink")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("QueueId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("ReceiveOrder")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ReceiveOrder"));
+
+                    b.Property<DateTimeOffset>("ReceivedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("RequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ShopId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
+
+                    b.Property<long>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LinkHash")
+                        .IsUnique();
+
+                    b.HasIndex("ShopId")
+                        .IsUnique()
+                        .HasFilter("\"Status\" IN ('Called', 'InService')");
+
+                    b.HasIndex("BusinessDayId", "Number")
+                        .IsUnique();
+
+                    b.HasIndex("QueueId", "DeviceId", "RequestId")
+                        .IsUnique();
+
+                    b.HasIndex("QueueId", "Status", "ReceiveOrder");
+
+                    b.ToTable("tickets", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -363,8 +493,24 @@ namespace SmartQueue.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SmartQueue.Api.Domain.BusinessDay", b =>
+                {
+                    b.HasOne("SmartQueue.Api.Domain.Queue", "Queue")
+                        .WithMany()
+                        .HasForeignKey("QueueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Queue");
+                });
+
             modelBuilder.Entity("SmartQueue.Api.Domain.Queue", b =>
                 {
+                    b.HasOne("SmartQueue.Api.Domain.BusinessDay", null)
+                        .WithMany()
+                        .HasForeignKey("BusinessDayId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("SmartQueue.Api.Domain.Service", "Service")
                         .WithOne("Queue")
                         .HasForeignKey("SmartQueue.Api.Domain.Queue", "ServiceId")
@@ -390,6 +536,27 @@ namespace SmartQueue.Api.Migrations
                     b.HasOne("SmartQueue.Api.Data.OwnerAccount", null)
                         .WithMany()
                         .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SmartQueue.Api.Domain.Ticket", b =>
+                {
+                    b.HasOne("SmartQueue.Api.Domain.BusinessDay", null)
+                        .WithMany()
+                        .HasForeignKey("BusinessDayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartQueue.Api.Domain.Queue", null)
+                        .WithMany()
+                        .HasForeignKey("QueueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartQueue.Api.Domain.Shop", null)
+                        .WithMany()
+                        .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

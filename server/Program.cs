@@ -6,6 +6,7 @@ using SmartQueue.Api;
 using SmartQueue.Api.Data;
 using SmartQueue.Api.Identity;
 using SmartQueue.Api.Shops;
+using SmartQueue.Api.Tickets;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new InvalidOperationException("Configure ConnectionStrings:Database");
@@ -29,12 +30,14 @@ builder.Services.AddAntiforgery(options => { options.HeaderName = "X-CSRF"; opti
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
 builder.Services.AddScoped<SmtpEmail>();
+builder.Services.AddSingleton<TicketLinks>();
 var keysPath = builder.Configuration["DataProtection:KeyPath"] ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "smartqueue", "keys");
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(keysPath)).SetApplicationName("SmartQueue");
 
 var app = builder.Build();
 app.Use(async (context, next) =>
 {
+    context.Response.Headers["Referrer-Policy"] = "no-referrer";
     try { await next(context); }
     catch (ApiException error) { context.Response.StatusCode = error.Status; await context.Response.WriteAsJsonAsync(new { code = error.Code, current = error.Current }); }
     catch (AntiforgeryValidationException) { context.Response.StatusCode = 400; await context.Response.WriteAsJsonAsync(new { code = "invalid_csrf" }); }
@@ -49,7 +52,13 @@ app.Use(async (context, next) =>
 });
 app.MapAccounts();
 app.MapShops();
+app.MapTickets();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ready" }));
+app.MapFallback("/api/{**path}", async context =>
+{
+    context.Response.StatusCode = 404;
+    await context.Response.WriteAsJsonAsync(new { code = "not_found" });
+});
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapFallbackToFile("index.html");

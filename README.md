@@ -54,3 +54,11 @@ Production SPA assets are built into the API's web root by `npm --prefix web run
 
 Verified Owners create and switch between their Shops. Each Service has its own Queue, a distinct active Prefix within the Shop, a positive Call timeout and a non-negative near-turn threshold. Other Owners cannot read or mutate these private resources. Service edits do not change the Shop that owns the Service.
 
+## Taking a Ticket
+
+The Owner opens a Service Queue to start its Business day. The public Shop link lets Customers join without an account and obtain a private Ticket link. That link remains the identity across devices; the device cookie only limits active Tickets to three per Queue, with confirmation required for extras.
+
+Ticket numbers are allocated under a PostgreSQL Shop row lock, stored as a Prefix snapshot plus the Business day counter, and expand beyond three digits without wrapping. Customer notes are not returned in public Shop or Ticket views.
+
+Unknown API resources return a JSON 404 rather than the SPA page. Private Ticket link replay cannot bypass terminal-link expiry.
+

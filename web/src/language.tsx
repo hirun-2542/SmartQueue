@@ -23,5 +23,12 @@ const errors:Record<string,[string,string]>={
   invalid_name:['กรอกชื่อที่ไม่ว่างและไม่เกิน 160 ตัวอักษร','Enter a name of up to 160 characters'],
   invalid_service:['ตรวจสอบ Prefix, เวลาเรียกที่มากกว่า 0 และจำนวนคิวที่ไม่ติดลบ','Use a letter Prefix, positive Call timeout and a non-negative notification threshold'],
   not_found:['ไม่พบข้อมูลนี้ หรือคุณไม่มีสิทธิ์เข้าถึง','This resource was not found or is not accessible'],
+  queue_closed:['ร้านปิดรับคิวใหม่ในบริการนี้แล้ว','This Queue is not accepting new Tickets'],
+  queue_not_closed:['คิวนี้เปิดอยู่ หรือกำลังให้บริการคิวที่ค้างอยู่','This Queue is Open or still draining its current Business day'],
+  service_archived:['บริการนี้ถูกซ่อนไว้และเปิดคิวไม่ได้','This Service is archived and cannot be opened'],
+  device_limit:['มีคิวที่ยังไม่จบครบ 3 ใบในบริการนี้แล้ว','You already have 3 active Tickets in this Queue'],
+  extra_confirmation:['ยืนยันก่อนขอคิวเพิ่มในบริการเดิม','Confirm before taking an extra Ticket in this Queue'],
+  invalid_ticket:['ตรวจสอบหมายเหตุและข้อมูลรับคิว','Check the note and Ticket request'],
+  ticket_expired:['ลิงก์นี้หมดอายุหลังคิวจบครบ 24 ชั่วโมง','This link expired 24 hours after the Ticket ended'],
 };
 export function useErrorText(){const {t}=useLanguage();return (error:unknown)=>{const code=error instanceof ApiFailure?error.code:'request_failed';const pair=errors[code];return pair?t(pair[0],pair[1]):t('ดำเนินการไม่สำเร็จ โหลดข้อมูลล่าสุดแล้วลองอีกครั้ง','Action could not be completed. Refresh the latest state and try again');};}

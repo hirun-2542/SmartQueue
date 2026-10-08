@@ -18,3 +18,11 @@
 - [ ] Replay ของ join request identity เดิมคืน Ticket เดิม ไม่แจกซ้ำหรือเพิ่ม quota; new intent สำหรับใบเพิ่มยังต้อง confirm; Walk-in quota จะไม่ผูกกับอุปกรณ์ Owner
 - [ ] Public Shop และ Ticket view แสดงข้อมูลที่มีจริง เช่น acceptance state, Waiting count/Tickets ahead; Customer note ไม่ออกใน public response; 0 ahead ไม่อ้างว่า Owner ว่างทันที
 - [ ] Browser smoke Open → join → copy link → เปิดอีก browser พร้อม quota/confirmation errors และ public-boundary concurrent-numbering/duplicate-submit tests บน DB จริง; estimates และ push ไม่ถูกทำเป็นข้อมูลสมมติ
+
+## Comments
+
+- Red observed: Open Queue returned 405 before implementation; unknown API GET incorrectly returned SPA HTML with 200 before the safe fallback fix.
+- Final `npm test`: 5 passed, 0 failed. Concurrent joins, request replay, extra confirmation, atomic three-active quota, per-Queue quota separation and public privacy exercised against PostgreSQL.
+- Public API boundary smoke issued 1001 Tickets through normal operations; the last labels were A1000 and A1001, with no wrap or truncation.
+- Mobile browser smoke: Open Queue → public Shop → join with private note → copy link → open another tab at 375 px; note absent from public surface, no horizontal overflow or browser errors.
+- Browser extra-Ticket flow required confirmation for the second and third Tickets and displayed the limit error for the fourth.

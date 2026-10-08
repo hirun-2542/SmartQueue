@@ -1,0 +1,2 @@
+export type TicketStatus='Waiting'|'Called'|'InService'|'Completed'|'Skipped'|'Cancelled'|'Dropped';
+export interface CustomerTicket {id:string;shopId:string;queueId:string;shopPublicId:string;shopName:string;serviceName:string;number:string;status:TicketStatus;version:number;receivedAt:string;calledAt:string|null;startedAt:string|null;endedAt:string|null;deadline:string|null;endReason:string|null;ticketsAhead:number;nearTurnThreshold:number;currentCalled:{number:string;queueId:string}|null;serverTime:string}
