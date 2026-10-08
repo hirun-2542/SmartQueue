@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useErrorText, useLanguage } from './language';
 import { demoCountdown, demoErrorText, readDemoState, startDemo } from './demoApi';
 import './demo.css';
+import { Link } from 'react-router-dom';
 
 /**
  * Labels the session as a demo and shows when the fixture expires. It stays hidden for real Owners.
@@ -45,6 +46,7 @@ export function DemoBanner() {
       <span>{over ? t('เซสชันหมดอายุ เริ่มสาธิตใหม่ได้ทันที', 'Session expired. Start a new demo anytime') : t('ใช้งานได้ 24 ชั่วโมง ข้อมูลหมดอายุจะถูกลบอัตโนมัติ', 'Access lasts 24 hours; expired data is cleaned up automatically')}</span>
     </div>
     {!over && <span className="number demo-countdown" aria-hidden="true">{demoCountdown(remaining)}</span>}
+    {!over&&<Link className="button demo-open" to="/owner/demo">{t('ทดลองสามหน้าจอ','Try three views')}</Link>}
     {over && <div className="demo-actions">
       <button className="primary" type="button" onClick={restart} disabled={pending}>{pending ? t('กำลังเตรียม…', 'Preparing…') : t('เริ่มสาธิตใหม่', 'Start demo again')}</button>
     </div>}

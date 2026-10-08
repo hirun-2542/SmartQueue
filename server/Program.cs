@@ -73,6 +73,7 @@ app.MapBoard();
 app.MapSmartQueueLive();
 app.MapSmartQueuePush();
 app.MapDemo();
+app.MapDemoSimulator();
 app.MapStatistics();
 app.MapDemand();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ready" }));
