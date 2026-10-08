@@ -1,0 +1,11 @@
+.cancel-ticket{width:100%;margin:20px 0 4px}
+.cancel-ticket svg{flex:none}
+.cancel-summary{display:flex;align-items:baseline;gap:8px;margin:0 0 14px}
+.cancel-summary small{color:var(--muted)}
+.cancel-summary .number{font-size:26px}
+.cancel-copy{margin:0 0 8px}
+.cancel-note{color:var(--muted);font-size:14px;margin:0}
+.cancel-alert{margin:16px 0 0}
+.cancel-actions{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.cancel-actions button.cancel-confirm{background:var(--danger);color:#fff;border:1.5px solid var(--danger)}
+.cancel-status{min-height:24px;font-size:14px;margin:12px 0 0}
