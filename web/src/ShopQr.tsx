@@ -100,6 +100,7 @@ export function ShopQr({ publicId, shopName, origin, variant = 'owner', size = 2
             {t('ดาวน์โหลด PNG', 'Download PNG')}
           </button>
         </div>
+        <a className="button outline" href={`/board/${publicId}`}>{t('เปิดจอแสดงคิว', 'Open display board')}</a>
       </>}
       <p role="status" aria-live="polite" className={`shop-qr-status ${status}${renderFailed ? ' failed' : ''}`}>{feedback}</p>
     </div>

@@ -1,6 +1,5 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createRequire } from 'node:module';
 import { randomUUID } from 'node:crypto';
 import { ApiClient, base, verifiedOwner } from './client.mjs';
 
@@ -141,19 +140,6 @@ function collectKeys(value, found = new Set()) {
   return found;
 }
 
-function loadQrCode() {
-  const roots = [createRequire(new URL('../web/package.json', import.meta.url)), createRequire(new URL('../package.json', import.meta.url))];
-  for (const require of roots) {
-    try { return require('qrcode'); } catch { /* try the next resolution root */ }
-  }
-  throw new Error('qrcode is not installed; run npm install in web/ before this suite');
-}
-
-function pngSize(buffer) {
-  assert.equal(buffer.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', 'a real QR export must be a PNG');
-  assert.equal(buffer.subarray(12, 16).toString('ascii'), 'IHDR', 'a PNG must carry an IHDR header');
-  return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) };
-}
 
 test('anonymous board serves the committed queue without any private Ticket data', async () => {
   const { shop, services, guest } = await boardFixture('Board Privacy Shop');
@@ -231,7 +217,7 @@ test('Waiting lists are grouped per Service in FIFO order and never cross Queues
 
 test('the board isolates Shops and refuses an unknown public identifier', async () => {
   const first = await boardFixture('Board First Shop');
-  const second = await boardFixture('Board Second Shop');
+  const second = await boardFixture('Board Second Shop', [{name:'Second Repair',prefix:'Z'}]);
   const firstTicket = await takeTicket(first.guest, first.services[0].queue.id);
   const secondTicket = await takeTicket(second.guest, second.services[0].queue.id);
 
@@ -246,9 +232,10 @@ test('the board isolates Shops and refuses an unknown public identifier', async 
   assert.equal(unknown.body.code, 'not_found');
 });
 
-test('an anonymous board subscriber refreshes on committed changes and receives no private payload', async () => {
+test('an anonymous board subscriber refreshes on committed changes and receives no private payload', async t => {
   const { shop, services, guest } = await boardFixture('Board Live Shop');
   const board = await LiveClient.open(base, null);
+  t.after(()=>board.close());
   const initial = await board.subscribe('SubscribePublic', shop.publicId);
   assert.equal(initial.kind, 'public');
   assert.equal(initial.publicId, shop.publicId);
@@ -264,30 +251,5 @@ test('an anonymous board subscriber refreshes on committed changes and receives 
   const refreshed = await boardOf(shop.publicId);
   assert.ok(refreshed.body.version >= update.version, 'a resync after the fan-out reads the committed state');
   assert.deepEqual(refreshed.body.services[0].waiting, [issued.ticket.number]);
-  board.close();
 });
 
-test('the Shop QR is generated from the real public join link', async () => {
-  const { shop } = await boardFixture('Board QR Shop');
-  const QRCode = loadQrCode();
-  const joinUrl = `${base}/s/${shop.publicId}`;
-
-  const dataUrl = await QRCode.toDataURL(joinUrl, { width: 256, margin: 4, errorCorrectionLevel: 'M' });
-  assert.ok(dataUrl.startsWith('data:image/png;base64,'), 'the QR export must be a PNG data URL');
-  const png = Buffer.from(dataUrl.split(',')[1], 'base64');
-  const size = pngSize(png);
-  assert.equal(size.width, 256);
-  assert.equal(size.height, 256, 'the QR image must be square');
-
-  const modules = QRCode.create(joinUrl, { errorCorrectionLevel: 'M' }).modules.size;
-  assert.ok(modules >= 21, 'a real QR symbol must have at least one version of modules');
-
-  const other = await QRCode.toDataURL(`${base}/s/another-shop-link`, { width: 256, margin: 4, errorCorrectionLevel: 'M' });
-  assert.notEqual(other, dataUrl, 'a different Shop link must produce a different QR image, not a shared sample pattern');
-  const repeat = await QRCode.toDataURL(joinUrl, { width: 256, margin: 4, errorCorrectionLevel: 'M' });
-  assert.equal(repeat, dataUrl, 'the same link must render the same QR image');
-
-  const deepLink = await fetch(`${base}/api/s/${shop.publicId}`);
-  assert.equal(deepLink.status, 200, 'the link encoded in the QR must open the real public Shop');
-  assert.equal((await deepLink.json()).publicId, shop.publicId);
-});

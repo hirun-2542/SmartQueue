@@ -117,7 +117,7 @@ export function DisplayBoard() {
                 {waitingServices.map(service => <div className="board-waiting-group" key={service.id}>
                   <h3 className="board-waiting-service">
                     <span>{service.name}</span>
-                    <span className={`board-queue-state ${service.queueStatus.toLowerCase()}`}>{service.queueStatus === 'Open' ? t('เปิด', 'Open') : t('ปิด', 'Closed')}</span>
+                    <span className={`board-queue-state ${service.queueStatus.toLowerCase()}`}>{service.queueStatus === 'Open' ? t('เปิด', 'Open') : service.queueStatus === 'Closing' ? t('หยุดรับ · เรียกคิวที่เหลือ', 'Closing · serving remaining Tickets') : t('ปิด', 'Closed')}</span>
                     <span className="number board-waiting-count">{service.waiting.length}</span>
                   </h3>
                   <ol className="board-waiting-list">

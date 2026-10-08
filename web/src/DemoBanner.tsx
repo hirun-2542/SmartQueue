@@ -42,7 +42,7 @@ export function DemoBanner() {
   return <aside className="demo-banner" aria-label={t('โหมดสาธิต', 'Demo mode')}>
     <div className="demo-banner-copy">
       <strong>{over ? t('โหมดสาธิตหมดอายุ', 'Demo expired') : t('โหมดสาธิต', 'Demo mode')}</strong>
-      <span>{over ? t('ข้อมูลตัวอย่างถูกลบแล้ว เริ่มสาธิตใหม่ได้ทันที', 'Sample data was removed. Start a new demo anytime') : t('ข้อมูลตัวอย่างจะถูกลบอัตโนมัติภายใน 24 ชั่วโมง', 'Sample data is removed automatically within 24 hours')}</span>
+      <span>{over ? t('เซสชันหมดอายุ เริ่มสาธิตใหม่ได้ทันที', 'Session expired. Start a new demo anytime') : t('ใช้งานได้ 24 ชั่วโมง ข้อมูลหมดอายุจะถูกลบอัตโนมัติ', 'Access lasts 24 hours; expired data is cleaned up automatically')}</span>
     </div>
     {!over && <span className="number demo-countdown" aria-hidden="true">{demoCountdown(remaining)}</span>}
     {over && <div className="demo-actions">

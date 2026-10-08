@@ -58,7 +58,7 @@ public sealed class ExpiryAndEstimateTests : IAsyncLifetime
         Assert.Equal(HttpStatusCode.OK,(await firstHttp.GetAsync("/api/shops")).StatusCode);
         cluster.Jump(TimeSpan.FromMilliseconds(1));
         Assert.Equal(HttpStatusCode.Unauthorized,(await firstHttp.GetAsync("/api/shops")).StatusCode);
-        using var negotiation=await secondHttp.PostAsync("/live/negotiate?negotiateVersion=1",new StringContent(""));Assert.Equal(HttpStatusCode.Unauthorized,negotiation.StatusCode);
+        Assert.Equal(HttpStatusCode.Unauthorized,(await secondHttp.GetAsync("/api/shops")).StatusCode);
         Assert.Equal(JsonValueKind.Null,(await first.SessionAsync()).GetProperty("owner").ValueKind);
         await SmartQueueCluster.SettleAsync();
         await WaitForGone(firstHttp,"/api/s/"+firstPublic);

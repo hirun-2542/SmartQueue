@@ -34,7 +34,7 @@ export function TryDemo({ onSignedIn }: { onSignedIn?: () => Promise<void> }) {
   }
   return <section className="demo-entry" aria-labelledby="demo-entry-title">
     <h2 id="demo-entry-title">{t('ลองใช้โหมดสาธิต', 'Try the demo')}</h2>
-    <p>{t('เข้าเป็นเจ้าของร้านตัวอย่างได้ทันที ไม่ต้องสมัคร ข้อมูลตัวอย่างแยกจากบัญชีจริงและถูกลบอัตโนมัติภายใน 24 ชั่วโมง', 'Open a sample Shop as its Owner without registering. Sample data stays separate from real accounts and is removed automatically within 24 hours.')}</p>
+    <p>{t('เข้าเป็นเจ้าของร้านตัวอย่างได้ทันที ไม่ต้องสมัคร ข้อมูลแยกจากบัญชีจริง โหมดสาธิตใช้งานได้ 24 ชั่วโมงแล้วระบบลบข้อมูลอัตโนมัติ', 'Open a sample Shop as its Owner without registering. Data stays separate from real accounts. Access lasts 24 hours; expired sample data is cleaned up automatically.')}</p>
     <button className="primary demo-start" type="button" onClick={start} disabled={pending}>
       <Sparkles size={20} aria-hidden="true" />{pending ? t('กำลังเตรียมข้อมูลตัวอย่าง…', 'Preparing sample data…') : t('เข้าโหมดสาธิต', 'Enter demo mode')}
     </button>

@@ -83,3 +83,11 @@ Try demo signs into an isolated PostgreSQL-backed Shop with seeded Business days
 
 The .NET boundary suite creates isolated PostgreSQL databases and uses the public HTTP seam with a controlled server clock for deadlines, restart races, terminal-link expiry, estimate windows and demo cleanup.
 
+## Closing and display boards
+
+Stop accepting changes an Open Queue to Closing: new Customer and Walk-in Tickets are refused, but existing work remains callable. Every terminal operation closes a drained Queue and ends its Business day in the same Shop transaction. Midnight never resets the counter; reopening a Closed Queue starts a distinct Business day at 1.
+
+Close now requires confirmation and drops only Waiting Tickets. Called or InService work continues; Dropped is distinct from Cancelled and Skipped. The console keeps its selected Service while draining rather than jumping to another Open Queue.
+
+The Shop page exports a scannable PNG QR and copies its public join URL. The anonymous `/board/{publicId}` page displays the Shop-wide Called Ticket, recent Calls and per-Service Waiting FIFO without notes or bearer links. Owner Shop state, Customer status and the board resync through committed live updates.
+

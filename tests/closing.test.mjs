@@ -90,12 +90,14 @@ test('Stop accepting refuses new Tickets, drains the Waiting ones, ends the Busi
 
   const callFirst = await callNext(owner, shop, queue);
   assert.equal(callFirst.status, 200);
-  const completeFirst = await owner.post(`/api/tickets/${callFirst.body.id}/complete`, { version: callFirst.body.version });
+  const startFirst=await owner.post(`/api/tickets/${callFirst.body.id}/start`,{version:callFirst.body.version});assert.equal(startFirst.status,200);
+  const completeFirst = await owner.post(`/api/tickets/${callFirst.body.id}/complete`, { version: startFirst.body.version });
   assert.equal(completeFirst.status, 200); assert.equal(completeFirst.body.status, 'Completed');
   assert.equal((await consoleSnapshot(owner, shop, queue)).queues[0].status, 'Closing', 'one Ticket left still keeps the Queue open');
 
   const callSecond = await callNext(owner, shop, queue);
-  const completeSecond = await owner.post(`/api/tickets/${callSecond.body.id}/complete`, { version: callSecond.body.version });
+  const startSecond=await owner.post(`/api/tickets/${callSecond.body.id}/start`,{version:callSecond.body.version});assert.equal(startSecond.status,200);
+  const completeSecond = await owner.post(`/api/tickets/${callSecond.body.id}/complete`, { version: startSecond.body.version });
   assert.equal(completeSecond.status, 200);
 
   const drained = await consoleSnapshot(owner, shop, queue);

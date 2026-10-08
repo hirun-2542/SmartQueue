@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using SmartQueue.Api.Data;
+using SmartQueue.Api.Tickets;
 
 namespace SmartQueue.Api.Domain;
 
@@ -21,6 +22,7 @@ public readonly record struct ShopTransaction(AppDbContext Db, IDbContextTransac
     {
         Shop.Version++;
         await Db.SaveChangesAsync(cancellationToken);
+        await QueueClosing.SettleAsync(Db, Shop, Db.Clock.GetUtcNow(), cancellationToken);
         await Db.Database.ExecuteSqlInterpolatedAsync($"SELECT pg_notify('smartqueue_changes', {Shop.Id.ToString()})",cancellationToken);
         await Transaction.CommitAsync(cancellationToken);
     }
