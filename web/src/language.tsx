@@ -19,5 +19,9 @@ const errors:Record<string,[string,string]>={
   invalid_csrf:['เซสชันเปลี่ยนไป โหลดหน้าใหม่แล้วลองอีกครั้ง','Your session changed. Reload this page and try again'],
   request_failed:['ไม่สามารถเชื่อมต่อได้ ลองใหม่อีกครั้ง','Unable to connect. Try again'],
   unauthenticated:['เข้าสู่ระบบก่อนดำเนินการ','Sign in to continue'],
+  prefix_exists:['ตัวอักษรนำหน้านี้ใช้กับบริการอื่นในร้านแล้ว','This Prefix is already used by another Service in this Shop'],
+  invalid_name:['กรอกชื่อที่ไม่ว่างและไม่เกิน 160 ตัวอักษร','Enter a name of up to 160 characters'],
+  invalid_service:['ตรวจสอบ Prefix, เวลาเรียกที่มากกว่า 0 และจำนวนคิวที่ไม่ติดลบ','Use a letter Prefix, positive Call timeout and a non-negative notification threshold'],
+  not_found:['ไม่พบข้อมูลนี้ หรือคุณไม่มีสิทธิ์เข้าถึง','This resource was not found or is not accessible'],
 };
 export function useErrorText(){const {t}=useLanguage();return (error:unknown)=>{const code=error instanceof ApiFailure?error.code:'request_failed';const pair=errors[code];return pair?t(pair[0],pair[1]):t('ดำเนินการไม่สำเร็จ โหลดข้อมูลล่าสุดแล้วลองอีกครั้ง','Action could not be completed. Refresh the latest state and try again');};}

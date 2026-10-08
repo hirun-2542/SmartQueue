@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
-import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Check, Mail } from 'lucide-react';
-import { post, type Owner } from './api';
+import { post } from './api';
 import { LanguageSwitch, useErrorText, useLanguage } from './language';
 
 export function AccountPage({mode,onSignedIn}:{mode:'login'|'register'|'forgot'|'reset'|'verify';onSignedIn:()=>Promise<void>}) {
@@ -29,11 +29,4 @@ export function AccountPage({mode,onSignedIn}:{mode:'login'|'register'|'forgot'|
       {mode==='login'?<Link className="text-action centered" to="/account/register">{t('ยังไม่มีบัญชี? สมัครเจ้าของร้าน','New here? Create your Owner account')}</Link>:<Link className="text-action centered" to="/">{t('กลับไปเข้าสู่ระบบ','Back to sign in')}</Link>}
     </form>}
   </main>;
-}
-
-export function AccountOverview({owner,onSignedOut}:{owner:Owner|null;onSignedOut:()=>Promise<void>}){
-  const {t}=useLanguage();const errorText=useErrorText();const [pending,setPending]=useState(false);const [error,setError]=useState('');
-  if(!owner)return <Navigate to="/" replace/>;
-  async function logout(){setPending(true);try{await post('/api/account/logout',{});await onSignedOut();}catch(failure){setError(errorText(failure));}finally{setPending(false);}}
-  return <main className="phone"><header className="brand-row"><span className="brand-stub" aria-hidden="true"/><span className="wordmark">SmartQueue</span><LanguageSwitch/></header><h1>{t('บัญชีเจ้าของร้าน','Owner account')}</h1><p>{owner.email}</p><p className="status-word"><Check size={20} aria-hidden="true"/>{t('ยืนยันอีเมลแล้ว','Email verified')}</p>{error&&<p className="error" role="alert">{error}</p>}<button type="button" onClick={logout} disabled={pending} className="outline">{t('ออกจากระบบ','Sign out')}</button></main>;
 }

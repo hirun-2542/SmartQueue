@@ -49,3 +49,8 @@ Owner registration requires email verification before sign-in. Verification and 
 Production requires an HTTPS origin, `PublicOrigin`, a PostgreSQL connection string, and SMTP settings (`Smtp__Host`, `Smtp__Port`, `Smtp__From`, `Smtp__UseTls`, and credentials if required). Configure `DataProtection__KeyPath` as persistent private storage shared by application instances. Development keys default to the user's local application data directory. Protect key storage and add an appropriate at-rest encryptor for production.
 
 Production SPA assets are built into the API's web root by `npm --prefix web run build`; development uses Vite's same-origin API proxy.
+
+## Shops and Services
+
+Verified Owners create and switch between their Shops. Each Service has its own Queue, a distinct active Prefix within the Shop, a positive Call timeout and a non-negative near-turn threshold. Other Owners cannot read or mutate these private resources. Service edits do not change the Shop that owns the Service.
+

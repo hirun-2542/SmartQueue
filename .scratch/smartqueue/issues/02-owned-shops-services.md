@@ -17,3 +17,10 @@
 - [ ] เก็บเวลาข้อมูลเป็น UTC; ไม่มี Staff, Branch, presence หรือ per-Shop timezone fields เพิ่ม
 - [ ] หน้าร้าน/บริการเป็น Warm Minimal และ Thai/English; create/edit/switch มี pending/validation และ empty states จริง ไม่ใช้ fake public counts หรือ dead navigation
 - [ ] รันสอง Owner sessions ผ่าน public boundary เพื่อพิสูจน์ isolation, Service configuration persistence และ duplicate Prefix rejection; browser smoke สร้างสอง Shops แล้วสลับและแก้ Service
+
+## Comments
+
+- Red observed: creating a Shop returned 405 before Shop endpoints existed.
+- Verified `npm test`: 2 passed, 0 failed, including independent Owner sessions, cross-Owner 404, duplicate active Prefix and invalid timeout.
+- .NET and Vite production builds passed. Browser smoke at 375×812 created two Shops, switched between them, created/edited a Service and accepted Prefix O.
+- Browser width remained 375 px with no horizontal overflow; observed button hit areas were at least 48×48 and browser errors were empty.

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SmartQueue.Api;
 using SmartQueue.Api.Data;
 using SmartQueue.Api.Identity;
+using SmartQueue.Api.Shops;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new InvalidOperationException("Configure ConnectionStrings:Database");
@@ -47,6 +48,7 @@ app.Use(async (context, next) =>
     await next(context);
 });
 app.MapAccounts();
+app.MapShops();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ready" }));
 app.UseDefaultFiles();
 app.UseStaticFiles();
