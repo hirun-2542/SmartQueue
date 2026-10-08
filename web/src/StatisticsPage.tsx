@@ -4,6 +4,7 @@ import { api } from './api';
 import { useOwner } from './OwnerState';
 import { useLanguage,useErrorText } from './language';
 import './statistics.css';
+import { DemandCharts } from './DemandCharts';
 
 type StatsRange='current'|'latest7'|'latest30';
 interface StatsService { id:string;name:string;prefix:string;archived:boolean }
@@ -103,6 +104,7 @@ export function StatisticsPage(){
             </div>
           </dl>}
       {!empty&&<p className="stats-note">{stats.pending>0?t(`${number(stats.pending)} คิวยังไม่จบ ไม่อยู่ในตัวหารของอัตรา`,`${number(stats.pending)} Tickets are still open and stay out of the rate denominator`):t('ทุกคิวในรอบนี้จบแล้ว','Every Ticket in this range has finished')}{t(` · อัตราคิดจาก ${number(stats.terminal)} คิวที่จบแล้ว`,` · rates use the ${number(stats.terminal)} finished Tickets`)}</p>}
+      <DemandCharts shopId={shop.id} range={range} serviceId={serviceId} revision={revision}/>
       <button type="button" className="stats-refresh" onClick={()=>setRevision(value=>value+1)} disabled={loading}>{loading?t('กำลังอัปเดต…','Updating…'):t('อัปเดตสถิติ','Refresh statistics')}</button>
     </>}
   </section>;

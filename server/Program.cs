@@ -71,6 +71,7 @@ app.MapBoard();
 app.MapSmartQueueLive();
 app.MapDemo();
 app.MapStatistics();
+app.MapDemand();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ready" }));
 app.MapFallback("/api/{**path}", async context =>
 {
