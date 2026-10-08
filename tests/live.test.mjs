@@ -299,6 +299,32 @@ test('private Ticket subscriptions follow committed transitions and refuse unkno
   unknown.close();
 });
 
+test('a Waiting Ticket receives position updates driven by other Tickets while its own version is unchanged', async () => {
+  const { owner, shop, service, guest } = await liveFixture('Live Position Shop');
+  const first = await takeTicket(guest, service.queue.id);
+  const second = await takeTicket(guest, service.queue.id);
+  const tail = await LiveClient.open(base, null);
+  const initial = await tail.subscribe('SubscribeTicket', second.link.replace('/t/', ''));
+  assert.equal(initial.ticket.ticketsAhead, 1, 'the second Ticket starts one place behind');
+  const ownVersion = initial.ticket.version;
+
+  const view = (await consoleOf(owner, base, shop.id, service.queue.id)).body;
+  const call = await owner.post(`/api/queues/${service.queue.id}/call`, { version: view.version });
+  assert.equal(call.status, 200);
+  const moved = await tail.update();
+  assert.equal(moved.ticket.ticketsAhead, 0, 'calling the older Ticket must move this Waiting Ticket forward');
+  assert.equal(moved.ticket.version, ownVersion, 'the Waiting Ticket itself was not mutated');
+  assert.ok(moved.version > initial.version, 'the Shop version must order a position update');
+
+  const cancelled = await guest.post(`/api/t/${first.link.replace('/t/', '')}/cancel`, { version: call.body.version });
+  assert.equal(cancelled.status, 200, 'the Called Ticket must be cancellable through its private link');
+  const afterCancel = await tail.update();
+  assert.equal(afterCancel.ticket.status, 'Waiting', 'the tail Ticket keeps waiting');
+  assert.equal(afterCancel.ticket.version, ownVersion);
+  assert.ok(afterCancel.version > moved.version, 'the position update after a Cancel must also move forward');
+  tail.close();
+});
+
 test('changes committed on another API instance reach subscribers through PostgreSQL fan-out', async () => {
   const remote = await secondInstance();
   const { owner, shop, service, guest } = await liveFixture('Live Cross Instance Shop');

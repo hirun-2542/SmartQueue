@@ -33,7 +33,8 @@ public sealed class LiveHub(AppDbContext db, TimeProvider time, LiveSubscription
     {
         var shop = await db.Set<Shop>().AsNoTracking().SingleOrDefaultAsync(x => x.PublicId == publicId)
             ?? throw new HubException("not_found");
-        subscriptions.SetPublic(Context.ConnectionId, shop.Id, shop.PublicId);
+        var previous = subscriptions.SetPublic(Context.ConnectionId, shop.Id, shop.PublicId);
+        if (previous is { } stale && stale != shop.Id) await Groups.RemoveFromGroupAsync(Context.ConnectionId, LiveGroups.Public(stale));
         await Groups.AddToGroupAsync(Context.ConnectionId, LiveGroups.Public(shop.Id));
         await Clients.Caller.SendAsync(SnapshotMethod, LiveMessages.PublicChanged(shop.Id, shop.PublicId, shop.Version, time.GetUtcNow()));
     }
@@ -41,8 +42,9 @@ public sealed class LiveHub(AppDbContext db, TimeProvider time, LiveSubscription
     public async Task SubscribeTicket(string secret)
     {
         var ticket = await FindTicketAsync(secret);
+        var shopVersion = await db.Set<Shop>().AsNoTracking().Where(x => x.Id == ticket.ShopId).Select(x => x.Version).SingleAsync();
         subscriptions.AddTicket(Context.ConnectionId, ticket.ShopId, ticket.Id);
-        await Clients.Caller.SendAsync(SnapshotMethod, LiveMessages.TicketChanged(ticket, await TicketViews.CustomerAsync(db, ticket, time)));
+        await Clients.Caller.SendAsync(SnapshotMethod, LiveMessages.TicketChanged(ticket.ShopId, shopVersion, ticket, await TicketViews.CustomerAsync(db, ticket, time)));
     }
 
     public async Task Unsubscribe()

@@ -22,7 +22,7 @@ public sealed class ShopChangeListener(
     TimeProvider time,
     ILogger<ShopChangeListener> log) : BackgroundService
 {
-    public const string Channel = "smartqueue_changes";
+    public const string ChannelName = "smartqueue_changes";
     private static readonly TimeSpan RetryDelay = TimeSpan.FromSeconds(1);
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -46,16 +46,16 @@ public sealed class ShopChangeListener(
 
     private async Task ListenAsync(string connectionString, CancellationToken stoppingToken)
     {
-        var pending = Channel.CreateUnbounded<Guid>(new UnboundedChannelOptions { SingleReader = true, SingleWriter = true });
+        var pending = System.Threading.Channels.Channel.CreateUnbounded<Guid>(new UnboundedChannelOptions { SingleReader = true, SingleWriter = true });
         await using var connection = new NpgsqlConnection(connectionString);
         await connection.OpenAsync(stoppingToken);
         connection.Notification += (_, notification) =>
         {
             if (Guid.TryParse(notification.Payload, out var shopId)) pending.Writer.TryWrite(shopId);
         };
-        await using (var command = new NpgsqlCommand($"LISTEN {Channel}", connection))
+        await using (var command = new NpgsqlCommand($"LISTEN {ChannelName}", connection))
             await command.ExecuteNonQueryAsync(stoppingToken);
-        var fanOut = Task.Run(() => ConsumeAsync(pending.Reader, stoppingToken), CancellationToken.None);
+        var fanOut = ConsumeAsync(pending.Reader, stoppingToken);
         try
         {
             while (!stoppingToken.IsCancellationRequested) await connection.WaitAsync(stoppingToken);
@@ -115,12 +115,12 @@ public sealed class ShopChangeListener(
             if (ticket is null || (ticket.EndedAt is { } ended && now >= ended.AddHours(24)))
             {
                 if (ticket is not null)
-                    await hub.Clients.Clients(target.ConnectionIds).SendAsync(LiveHub.UpdateMethod, LiveMessages.TicketExpired(ticket, now), cancellationToken: token);
+                    await hub.Clients.Clients(target.ConnectionIds).SendAsync(LiveHub.UpdateMethod, LiveMessages.TicketExpired(shopId, shop.Version, ticket.Id, now), cancellationToken: token);
                 subscriptions.RemoveTicket(shopId, target.TicketId);
                 continue;
             }
             var snapshot = await TicketViews.CustomerAsync(db, ticket, time);
-            await hub.Clients.Clients(target.ConnectionIds).SendAsync(LiveHub.UpdateMethod, LiveMessages.TicketChanged(ticket, snapshot), cancellationToken: token);
+            await hub.Clients.Clients(target.ConnectionIds).SendAsync(LiveHub.UpdateMethod, LiveMessages.TicketChanged(shopId, shop.Version, ticket, snapshot), cancellationToken: token);
         }
     }
 }

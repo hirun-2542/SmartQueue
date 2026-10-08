@@ -80,8 +80,12 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
       setServerTime(message.serverTime);
     }
     if (typeof message.version === 'number') {
-      if (source === 'update' && applied.current !== null && message.version <= applied.current) return;
-      applied.current = applied.current === null ? message.version : Math.max(applied.current, message.version);
+      const last = applied.current;
+      // A snapshot read before a newer fan-out already applied must not move the view backwards; an equal
+      // version is still applied because a resync snapshot also refreshes the server clock and selection.
+      if (last !== null && message.version < last) return;
+      if (source === 'update' && last !== null && message.version === last) return;
+      applied.current = last === null ? message.version : Math.max(last, message.version);
       setVersion(applied.current);
     }
     messageHandler.current?.(message, source);

@@ -40,11 +40,11 @@ internal static class LiveMessages
     public static LiveMessage PublicChanged(Guid shopId, string publicId, long version, DateTimeOffset serverTime) =>
         new(LiveKinds.Public, shopId, version, serverTime, PublicId: publicId);
 
-    public static LiveMessage TicketChanged(Ticket ticket, CustomerTicketDto snapshot) =>
-        new(LiveKinds.Ticket, ticket.ShopId, ticket.Version, snapshot.ServerTime, TicketId: ticket.Id, Ticket: snapshot);
+    public static LiveMessage TicketChanged(Guid shopId, long shopVersion, Ticket ticket, CustomerTicketDto snapshot) =>
+        new(LiveKinds.Ticket, shopId, shopVersion, snapshot.ServerTime, TicketId: ticket.Id, Ticket: snapshot);
 
-    public static LiveMessage TicketExpired(Ticket ticket, DateTimeOffset serverTime) =>
-        new(LiveKinds.Expired, ticket.ShopId, ticket.Version, serverTime, TicketId: ticket.Id);
+    public static LiveMessage TicketExpired(Guid shopId, long shopVersion, Guid ticketId, DateTimeOffset serverTime) =>
+        new(LiveKinds.Expired, shopId, shopVersion, serverTime, TicketId: ticketId);
 
     public static async Task<LiveMessage?> OwnerSnapshotAsync(AppDbContext db, Guid shopId, string ownerId, Guid? queueId, TimeProvider time)
     {

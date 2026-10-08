@@ -30,7 +30,17 @@ public sealed class LiveSubscriptions
         return matches;
     }
 
-    public void SetPublic(string connectionId, Guid shopId, string publicId) => publics[connectionId] = (shopId, publicId);
+    /// <summary>Stores the public scope and returns the Shop it replaced, so the old group membership can be dropped.</summary>
+    public Guid? SetPublic(string connectionId, Guid shopId, string publicId)
+    {
+        if (publics.TryGetValue(connectionId, out var previous))
+        {
+            publics[connectionId] = (shopId, publicId);
+            return previous.ShopId;
+        }
+        publics[connectionId] = (shopId, publicId);
+        return null;
+    }
 
     public void AddTicket(string connectionId, Guid shopId, Guid ticketId)
     {
