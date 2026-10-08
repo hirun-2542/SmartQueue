@@ -32,7 +32,7 @@ public sealed class DemoSessions(AppDbContext db, UserManager<OwnerAccount> user
             await transaction.CommitAsync(cancellationToken);
         }
 
-        await signIn.SignInWithClaimsAsync(owner, new AuthenticationProperties { IsPersistent = false }, [DemoClaims.Create(expiresAt)]);
+        await signIn.SignInAsync(owner, new AuthenticationProperties { IsPersistent = false });
         return new DemoSessionDto(true, expiresAt, new DemoShopDto(seed.Shop.Id, seed.Shop.Name, seed.Shop.PublicId), new DemoSeedDto(seed.BusinessDays, seed.Completed, seed.Skipped, seed.Waiting));
     }
 }
