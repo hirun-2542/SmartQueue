@@ -20,7 +20,7 @@ namespace SmartQueue.IntegrationTests;
 /// replacements and fails loudly instead of silently testing against the development database or the
 /// system clock. Everything a test observes is then read from the public HTTP boundary.
 /// </summary>
-public sealed class SmartQueueFactory(string connectionString, FakeTimeProvider clock, TimeSpan pollInterval) : WebApplicationFactory<Program>
+public sealed class SmartQueueFactory(string connectionString, FakeTimeProvider clock, TimeSpan pollInterval, Action<IServiceCollection>? configureServices = null, IReadOnlyDictionary<string, string?>? settings = null) : WebApplicationFactory<Program>
 {
     public FakeTimeProvider Clock => clock;
 
@@ -49,7 +49,11 @@ public sealed class SmartQueueFactory(string connectionString, FakeTimeProvider 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Development");
-        builder.ConfigureAppConfiguration((_,configuration)=>configuration.AddInMemoryCollection(new Dictionary<string,string?> { ["ConnectionStrings:Database"]=connectionString }));
+        builder.ConfigureAppConfiguration((_,configuration)=>{
+            var values = new Dictionary<string,string?> { ["ConnectionStrings:Database"]=connectionString };
+            if (settings is not null) foreach (var pair in settings) values[pair.Key]=pair.Value;
+            configuration.AddInMemoryCollection(values);
+        });
         builder.ConfigureTestServices(services =>
         {
             services.RemoveAll<TimeProvider>();
@@ -66,6 +70,9 @@ public sealed class SmartQueueFactory(string connectionString, FakeTimeProvider 
                 options.PollInterval = pollInterval;
                 options.BatchSize = 100;
             });
+
+            // A ticket may replace one of the feature's own services, e.g. the push delivery sink, without touching Program.
+            configureServices?.Invoke(services);
         });
     }
 }
