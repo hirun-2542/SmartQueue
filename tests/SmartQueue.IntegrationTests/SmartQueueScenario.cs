@@ -48,6 +48,38 @@ public static partial class SmartQueueScenario
     public static Task<SmartQueueClient> SignInAsync(SmartQueueFactory host, string email) =>
         SignInAsync(new SmartQueueClient(host.CreateClient()), email);
 
+    /// <summary>
+    /// Reads the public Customer snapshot of a Ticket link. It is a GET, so no session or CSRF token is needed
+    /// and the assertion reflects exactly what a Customer browser would see.
+    /// </summary>
+    public static async Task<JsonElement> TicketViewAsync(HttpClient guest, string link)
+    {
+        using var response = await guest.GetAsync($"/api{link}");
+        var text = await response.Content.ReadAsStringAsync();
+        Assert.True(response.IsSuccessStatusCode, $"Customer Ticket view returned {(int)response.StatusCode}: {text}");
+        using var document = JsonDocument.Parse(text);
+        return document.RootElement.Clone();
+    }
+
+    /// <summary>
+    /// Waits until the public Customer snapshot reports <paramref name="expected"/>, bounded so that a missing
+    /// server transition fails instead of hanging. This is how a test synchronises with the background worker:
+    /// the clock only moves through <c>SmartQueueCluster</c>, and the outcome is read from the public boundary.
+    /// </summary>
+    public static async Task<JsonElement> WaitForTicketStatusAsync(HttpClient guest, string link, string expected, int timeoutSeconds = 15)
+    {
+        var deadline = DateTime.UtcNow.AddSeconds(timeoutSeconds);
+        while (true)
+        {
+            var ticket = await TicketViewAsync(guest, link);
+            var status = ticket.GetProperty("status").GetString();
+            if (status == expected) return ticket;
+            if (DateTime.UtcNow > deadline)
+                throw new TimeoutException($"Ticket stayed {status} instead of becoming {expected} within {timeoutSeconds} s");
+            await Task.Delay(50);
+        }
+    }
+
     private static async Task<Uri> VerificationLinkAsync(string email, string kind)
     {
         using var client = new HttpClient { BaseAddress = new Uri(MailCaptureUrl) };

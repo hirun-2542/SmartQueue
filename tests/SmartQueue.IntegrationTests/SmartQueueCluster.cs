@@ -7,8 +7,9 @@ namespace SmartQueue.IntegrationTests;
 /// One isolated PostgreSQL database with one or more API instances over it. All instances share a single
 /// controllable server clock, so a test can advance time once and have every worker observe it, which is
 /// how a two-instance or restart scenario is reproduced without a second real process.
-/// Construct with a coarser <paramref name="pollInterval"/> when a test jumps hours or days of server time,
-/// e.g. to cross the 24 hour Ticket-link expiry boundary.
+/// Synchronisation is always through the public application boundary: clock ticks trigger work, and the
+/// test then observes Ticket snapshots over HTTP. Construct with a coarser <paramref name="pollInterval"/>
+/// when a test jumps hours or days of server time, e.g. to cross the 24 hour Ticket-link expiry boundary.
 /// </summary>
 public sealed class SmartQueueCluster : IAsyncLifetime
 {
@@ -21,7 +22,7 @@ public sealed class SmartQueueCluster : IAsyncLifetime
         Clock = new FakeTimeProvider(now ?? DateTimeOffset.UtcNow);
     }
 
-    /// <summary>Worker interval used by this cluster; advancing one interval triggers exactly one sweep.</summary>
+    /// <summary>Worker interval used by this cluster; one <see cref="TickAsync"/> step advances exactly this much.</summary>
     public TimeSpan PollInterval { get; }
 
     public FakeTimeProvider Clock { get; }
@@ -50,31 +51,33 @@ public sealed class SmartQueueCluster : IAsyncLifetime
         await host.DisposeAsync();
     }
 
-    /// <summary>Advances server time by whole worker intervals and waits for every instance to sweep.</summary>
-    public async Task AdvanceAsync(int intervals = 1)
+    /// <summary>
+    /// Advances server time by whole worker intervals so every running instance sweeps once per interval.
+    /// Each step lets the previous sweep finish and the next one start, so a test that observes a Ticket
+    /// snapshot afterwards has always given the worker the chance to act on the time it reached.
+    /// </summary>
+    public async Task TickAsync(int intervals = 1)
     {
         for (var interval = 0; interval < intervals; interval++)
         {
             await SettleAsync();
-            var before = SnapshotSweeps();
             Clock.Advance(PollInterval);
-            await WaitForSweepsAsync(before);
+            await SettleAsync();
         }
     }
 
     /// <summary>
-    /// Runs a competing HTTP action (for example a Start or Cancel that uses the same expected version) and
-    /// fires one worker sweep while it is in flight, then waits for the sweep to finish. The caller can rely on
-    /// the sweep it triggered happening at the next deadline.
+    /// Starts a competing HTTP action (for example a Start, Complete, Cancel or Walk-in that uses the same
+    /// expected version), advances one interval so the sweep runs while that action is in flight, and returns
+    /// the action's result. The caller then decides which transition won from the public snapshots.
     /// </summary>
     public async Task<T> AdvanceWhileAsync<T>(Func<Task<T>> action)
     {
         await SettleAsync();
-        var before = SnapshotSweeps();
         var pending = action();
         Clock.Advance(PollInterval);
         var result = await pending;
-        await WaitForSweepsAsync(before);
+        await SettleAsync();
         return result;
     }
 
@@ -84,31 +87,11 @@ public sealed class SmartQueueCluster : IAsyncLifetime
     /// </summary>
     public void Jump(TimeSpan delta) => Clock.Advance(delta);
 
-    private Dictionary<SmartQueueFactory, int> SnapshotSweeps() =>
-        hosts.ToDictionary(host => host, host => host.Worker.CompletedSweeps);
-
-    private static async Task WaitForSweepsAsync(Dictionary<SmartQueueFactory, int> before)
-    {
-        foreach (var (host, sweeps) in before)
-            await WaitForAsync(() => host.Worker.CompletedSweeps > sweeps, "an instance did not sweep after server time advanced");
-    }
-
     /// <summary>
-    /// Gives every worker a moment to park in its next wait. A sweep increments its counter and then waits with
-    /// no I/O in between, so a short real delay is enough to make the following clock advance fire exactly one
-    /// tick per interval per instance.
+    /// Bounded pause that lets the worker finish the sweep it was just given and park in its next wait. A sweep
+    /// is a single indexed read plus, at most, one Shop-locked update, and it does no waiting of its own.
     /// </summary>
-    private static Task SettleAsync() => Task.Delay(50);
-
-    public static async Task WaitForAsync(Func<bool> condition, string message)
-    {
-        var deadline = DateTime.UtcNow.AddSeconds(15);
-        while (!condition())
-        {
-            Assert.True(DateTime.UtcNow <= deadline, message);
-            await Task.Delay(10);
-        }
-    }
+    public static Task SettleAsync() => Task.Delay(TimeSpan.FromMilliseconds(100));
 
     public async Task DisposeAsync()
     {

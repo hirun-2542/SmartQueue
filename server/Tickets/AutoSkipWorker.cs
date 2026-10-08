@@ -35,7 +35,6 @@ public sealed class AutoSkipWorker : BackgroundService
     private readonly ILogger<AutoSkipWorker> logger;
     private readonly TimeSpan pollInterval;
     private readonly int batchSize;
-    private int completedSweeps;
 
     public AutoSkipWorker(IServiceScopeFactory scopes, TimeProvider time, IOptions<AutoSkipOptions> options, ILogger<AutoSkipWorker> logger)
     {
@@ -47,9 +46,6 @@ public sealed class AutoSkipWorker : BackgroundService
         batchSize = value.BatchSize > 0 ? value.BatchSize : 1;
     }
 
-    /// <summary>Number of sweeps that have finished, so a host can tell the background loop is alive and idle.</summary>
-    public int CompletedSweeps => Volatile.Read(ref completedSweeps);
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Auto-skip worker polling Call deadlines every {Interval}", pollInterval);
@@ -60,34 +56,28 @@ public sealed class AutoSkipWorker : BackgroundService
             try { await SweepAsync(stoppingToken); }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) { return; }
             catch (Exception error) { logger.LogError(error, "Auto-skip sweep failed; retrying on the next interval"); }
-            Interlocked.Increment(ref completedSweeps);
 
             try { if (!await timer.WaitForNextTickAsync(stoppingToken)) return; }
             catch (OperationCanceledException) { return; }
         }
     }
 
-    /// <summary>Skipped every Called Ticket whose deadline has passed. Returns the number of committed transitions.</summary>
-    public async Task<int> SweepAsync(CancellationToken cancellationToken = default)
+    private async Task SweepAsync(CancellationToken cancellationToken)
     {
         var now = time.GetUtcNow();
-        var skipped = 0;
-        await using (var scope = scopes.CreateAsyncScope())
-        {
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var due = await db.Set<Ticket>().AsNoTracking()
-                .Where(x => x.Status == TicketStatus.Called && x.Deadline != null && x.Deadline <= now)
-                .OrderBy(x => x.Deadline)
-                .Take(batchSize)
-                .Select(x => new { x.Id, x.ShopId })
-                .ToArrayAsync(cancellationToken);
-            foreach (var candidate in due)
-                if (await SkipAsync(candidate.Id, candidate.ShopId, cancellationToken)) skipped++;
-        }
-        return skipped;
+        await using var scope = scopes.CreateAsyncScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var due = await db.Set<Ticket>().AsNoTracking()
+            .Where(x => x.Status == TicketStatus.Called && x.Deadline != null && x.Deadline <= now)
+            .OrderBy(x => x.Deadline)
+            .Take(batchSize)
+            .Select(x => new { x.Id, x.ShopId })
+            .ToArrayAsync(cancellationToken);
+        foreach (var candidate in due)
+            await SkipAsync(candidate.Id, candidate.ShopId, cancellationToken);
     }
 
-    private async Task<bool> SkipAsync(Guid ticketId, Guid shopId, CancellationToken cancellationToken)
+    private async Task SkipAsync(Guid ticketId, Guid shopId, CancellationToken cancellationToken)
     {
         // One isolated scope per Ticket: the Shop row lock serializes against every other transition of this Shop,
         // and a fresh context never writes a stale Shop.Version read by an earlier iteration.
@@ -99,9 +89,9 @@ public sealed class AutoSkipWorker : BackgroundService
             var ticket = await db.Set<Ticket>().SingleOrDefaultAsync(x => x.Id == ticketId, cancellationToken);
             // Re-read the durable status, deadline and version under the lock: a Start, a manual Skip, another
             // worker or a restart may already have decided this Ticket.
-            if (ticket is null || ticket.Status != TicketStatus.Called) return false;
+            if (ticket is null || ticket.Status != TicketStatus.Called) return;
             var now = time.GetUtcNow();
-            if (ticket.Deadline is not { } deadline || deadline > now) return false;
+            if (ticket.Deadline is not { } deadline || deadline > now) return;
 
             ticket.Status = TicketStatus.Skipped;
             ticket.Version++;
@@ -109,11 +99,10 @@ public sealed class AutoSkipWorker : BackgroundService
             ticket.EndReason = Reason;
             await unit.CommitAsync(cancellationToken);
             logger.LogInformation("Auto-skipped Ticket {TicketId} of Shop {ShopId} at its Call deadline", ticket.Id, shopId);
-            return true;
         }
         catch (ApiException error) when (error.Status == 404)
         {
-            return false; // The Shop or Ticket is gone; there is nothing durable left to skip.
+            // The Shop or Ticket is gone; there is nothing durable left to skip.
         }
     }
 }
