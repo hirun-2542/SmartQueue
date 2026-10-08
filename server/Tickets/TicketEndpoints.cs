@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using SmartQueue.Api.Data;
 using SmartQueue.Api.Domain;
@@ -42,9 +43,14 @@ public static class TicketEndpoints
             db.Add(ticket);await unit.CommitAsync();
             return Results.Json(new{ticket=await TicketViews.CustomerAsync(db,ticket,time),link="/t/"+secret},statusCode:201);
         });
-        app.MapGet("/api/t/{secret}",async(string secret,AppDbContext db,TimeProvider time)=>Results.Ok(await TicketViews.CustomerAsync(db,await TicketViews.FindAsync(db,secret,time),time)));
+        app.MapGet("/api/t/{secret}",async(string secret,AppDbContext db,TimeProvider time)=>
+        {
+            await using var snapshot=await db.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead);
+            return Results.Ok(await TicketViews.CustomerAsync(db,await TicketViews.FindAsync(db,secret,time),time));
+        });
         app.MapGet("/api/s/{publicId}",async(string publicId,HttpContext context,AppDbContext db,TimeProvider time)=>
         {
+            await using var snapshot=await db.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead);
             var shop=await db.Set<Shop>().AsNoTracking().Include(x=>x.Services).ThenInclude(x=>x.Queue).SingleOrDefaultAsync(x=>x.PublicId==publicId)??throw new ApiException("not_found",404);
             var counts=await db.Set<Ticket>().Where(x=>x.ShopId==shop.Id&&x.Status==TicketStatus.Waiting).GroupBy(x=>x.QueueId).Select(g=>new{Id=g.Key,Count=g.Count()}).ToDictionaryAsync(x=>x.Id,x=>x.Count);
             var device=DeviceIdentity.Get(context);

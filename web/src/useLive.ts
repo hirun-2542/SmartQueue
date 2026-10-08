@@ -75,10 +75,6 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
     if (!message || typeof message.kind !== 'string') return;
     const kind = message.kind === 'expired' ? 'ticket' : message.kind;
     if (kind !== expected) return;
-    if (typeof message.serverTime === 'string') {
-      serverTimeRef.current = message.serverTime;
-      setServerTime(message.serverTime);
-    }
     if (typeof message.version === 'number') {
       const last = applied.current;
       // A snapshot read before a newer fan-out already applied must not move the view backwards; an equal
@@ -87,6 +83,10 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
       if (source === 'update' && last !== null && message.version === last) return;
       applied.current = last === null ? message.version : Math.max(last, message.version);
       setVersion(applied.current);
+    }
+    if (typeof message.serverTime === 'string') {
+      serverTimeRef.current = message.serverTime;
+      setServerTime(message.serverTime);
     }
     messageHandler.current?.(message, source);
   }, []);
