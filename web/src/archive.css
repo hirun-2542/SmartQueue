@@ -1,0 +1,16 @@
+.archive-controls{display:grid;gap:4px;margin-top:8px;text-align:center}
+.archive-trigger{justify-content:center;gap:8px;width:100%;color:var(--danger);font-weight:600}
+.archive-trigger svg{flex:none}
+.archive-trigger:disabled{color:var(--muted)}
+.archive-caption{margin:0;font-size:13px}
+.archive-summary{display:flex;flex-direction:column;gap:10px;margin:0 0 4px}
+.archive-summary p{margin:0}
+.archive-summary small{color:var(--muted)}
+.archive-effects{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:0}
+.archive-effects li{position:relative;padding:14px 0 14px 20px;border-top:1px solid var(--line);font-size:14px}
+.archive-effects li:last-child{border-bottom:1px solid var(--line)}
+.archive-effects li::before{content:'';position:absolute;left:2px;top:22px;width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.archive-alert{margin:12px 0 0}
+.archive-sheet-actions{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.archive-sheet-actions button.archive-confirm{width:100%;min-height:60px;background:var(--danger);color:#fff;border:1.5px solid var(--danger);border-radius:18px;font-weight:600}
+.archive-sheet-actions .archive-cancel{width:100%;min-height:48px;background:transparent;color:var(--ink)}
