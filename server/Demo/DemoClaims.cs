@@ -40,11 +40,9 @@ public static class DemoClaims
     {
         var path = request.Path;
         if (!path.StartsWithSegments("/api")) return true;
-        return path.StartsWithSegments("/api/session")
-            || path.StartsWithSegments("/api/health")
-            || path.StartsWithSegments("/api/demo/session")
-            || path.StartsWithSegments("/api/s/")
-            || path.StartsWithSegments("/api/t/");
+        if (path.StartsWithSegments("/api/session") || path.StartsWithSegments("/api/health") || path.StartsWithSegments("/api/demo/session")) return true;
+        return (path.StartsWithSegments("/api/s", out var publicId) && publicId.Value?.Length > 1)
+            || (path.StartsWithSegments("/api/t", out var secret) && secret.Value?.Length > 1);
     }
 }
 
