@@ -105,13 +105,11 @@ public static class StatisticsSelection
             .SingleOrDefaultAsync(x => x.Id == shopId && x.OwnerId == ownerId, cancellationToken)
             ?? throw new ApiException("not_found", 404);
 
-        var services = (await db.Set<Service>().AsNoTracking()
+        var services = await db.Set<Service>().AsNoTracking()
             .Where(x => x.ShopId == shopId)
             .OrderBy(x => x.Name).ThenBy(x => x.Id)
-            .Select(x => new { x.Id, x.Name, x.Prefix, x.Archived })
-            .ToArrayAsync(cancellationToken))
             .Select(x => new StatisticsService(x.Id, x.Name, x.Prefix, x.Archived))
-            .ToArray();
+            .ToArrayAsync(cancellationToken);
 
         StatisticsService? filtered = null;
         if (serviceId is { } requested)
@@ -121,22 +119,26 @@ public static class StatisticsSelection
 
         IQueryable<Domain.Queue> queueQuery = db.Set<Domain.Queue>().AsNoTracking().Where(x => x.Service.ShopId == shopId);
         if (serviceId is { } only) queueQuery = queueQuery.Where(x => x.ServiceId == only);
-        var queues = (await queueQuery
-            .Select(x => new { x.Id, x.ServiceId, x.BusinessDayId })
-            .ToArrayAsync(cancellationToken))
+        var queues = await queueQuery
             .Select(x => new QueueRef(x.Id, x.ServiceId, x.BusinessDayId))
-            .ToArray();
+            .ToArrayAsync(cancellationToken);
 
         var selected = new List<StatisticsBusinessDay>();
         if (queues.Length > 0)
         {
-            var queueIds = queues.Select(x => x.Id).ToArray();
-            var days = (await db.Set<BusinessDay>().AsNoTracking()
-                .Where(x => queueIds.Contains(x.QueueId))
-                .Select(x => new { x.Id, x.QueueId, x.OpenedAt, x.ClosedAt })
-                .ToArrayAsync(cancellationToken))
-                .Select(x => new DayRef(x.Id, x.QueueId, x.OpenedAt, x.ClosedAt))
-                .ToArray();
+            IQueryable<BusinessDay> dayQuery;
+            if(range==StatisticsRange.Current)
+            {
+                var currentIds=queues.Where(q=>q.BusinessDayId.HasValue).Select(q=>q.BusinessDayId!.Value).ToArray();
+                dayQuery=db.Set<BusinessDay>().Where(day=>currentIds.Contains(day.Id));
+            }
+            else
+            {
+                var queueIds=queues.Select(q=>q.Id).ToArray();
+                var limit=Limit(range);
+                dayQuery=db.Set<BusinessDay>().FromSqlInterpolated($"SELECT rounds.* FROM (SELECT b.*, ROW_NUMBER() OVER (PARTITION BY b.\"QueueId\" ORDER BY b.\"OpenedAt\" DESC,b.\"Id\" DESC) AS round_rank FROM business_days b WHERE b.\"QueueId\"=ANY({queueIds})) rounds WHERE rounds.round_rank<={limit}");
+            }
+            var days=await dayQuery.AsNoTracking().Select(x=>new DayRef(x.Id,x.QueueId,x.OpenedAt,x.ClosedAt)).ToArrayAsync(cancellationToken);
 
             var byId = new Dictionary<Guid, DayRef>();
             foreach (var day in days) byId[day.Id] = day;
@@ -178,12 +180,10 @@ public static class StatisticsSelection
     {
         var ids = selection.BusinessDays.Select(x => x.Id).ToArray();
         if (ids.Length == 0) return [];
-        return (await db.Set<Ticket>().AsNoTracking()
+        return await db.Set<Ticket>().AsNoTracking()
             .Where(x => ids.Contains(x.BusinessDayId))
-            .Select(x => new { x.Id, x.QueueId, x.BusinessDayId, x.Status, x.Origin, x.ReceivedAt, x.CalledAt, x.StartedAt, x.EndedAt })
-            .ToArrayAsync(cancellationToken))
             .Select(x => new TicketRow(x.Id, x.QueueId, x.BusinessDayId, x.Status, x.Origin, x.ReceivedAt, x.CalledAt, x.StartedAt, x.EndedAt))
-            .ToArray();
+            .ToArrayAsync(cancellationToken);
     }
 
     private static StatisticsBusinessDay Row(DayRef day, Guid serviceId, Dictionary<Guid, string> names) =>

@@ -93,3 +93,11 @@ The Shop page exports a scannable PNG QR and copies its public join URL. The ano
 
 Multi-query Owner, Customer and board snapshots use PostgreSQL repeatable-read views; live fan-out reads the Shop version and its payload from the same committed snapshot. A concurrent Start cannot display one Ticket as both Called and InService in the same board response.
 
+## Retained history and statistics
+
+Hiding a Service is a one-way archive, not deletion or Drop. It disappears from Customer join choices but existing Waiting and held work drains normally. Ticket links, Prefix snapshots, Business days and statistics survive; the console changes selection only after the archived Queue is fully closed.
+
+Private statistics select the current/latest or latest 7/30 Business days of each Queue before combining them. They are opening rounds, not calendar days. Issued counts include Customer and Walk-in Tickets; wait measures receive-to-Call, service measures Start-to-Completed. Skipped, Cancelled and Dropped remain separate, and rates divide only by terminal Tickets. Missing measurements display no data; a measured zero remains zero.
+
+Historical selection is bounded in PostgreSQL per Queue; the app does not load every old Business day to display seven rounds. Archived Services remain selectable for history.
+

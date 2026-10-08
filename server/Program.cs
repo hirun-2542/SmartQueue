@@ -10,6 +10,7 @@ using SmartQueue.Api.Tickets;
 using SmartQueue.Api.Live;
 using SmartQueue.Api.Demo;
 using SmartQueue.Api.Board;
+using SmartQueue.Api.Statistics;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new InvalidOperationException("Configure ConnectionStrings:Database");
@@ -60,6 +61,7 @@ app.Use(async (context, next) =>
 });
 app.MapAccounts();
 app.MapShops();
+app.MapArchive();
 app.MapTickets();
 app.MapServing();
 app.MapCancel();
@@ -68,6 +70,7 @@ app.MapClose();
 app.MapBoard();
 app.MapSmartQueueLive();
 app.MapDemo();
+app.MapStatistics();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ready" }));
 app.MapFallback("/api/{**path}", async context =>
 {
