@@ -12,7 +12,7 @@ public sealed class DemoCleanupWorker(IServiceScopeFactory scopes, IOptions<Demo
         try
         {
             var settings = options.Value;
-            if (settings.CleanupOnStartup) await SweepAsync(stoppingToken);
+            await SweepAsync(stoppingToken);
             var interval = settings.CleanupInterval > TimeSpan.Zero ? settings.CleanupInterval : TimeSpan.FromMinutes(10);
             using var timer = new PeriodicTimer(interval);
             while (await timer.WaitForNextTickAsync(stoppingToken)) await SweepAsync(stoppingToken);

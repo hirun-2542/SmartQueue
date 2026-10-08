@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useErrorText, useLanguage } from './language';
-import { demoCountdown, demoErrorText, endDemo, readDemoState, startDemo } from './demoApi';
+import { demoCountdown, demoErrorText, readDemoState, startDemo } from './demoApi';
 import './demo.css';
 
 /**
  * Labels the session as a demo and shows when the fixture expires. It stays hidden for real Owners.
- * The server keeps enforcing the expiry; this only reports it.
+ * The server keeps enforcing the expiry and removes the fixture; this only reports it.
  */
 export function DemoBanner() {
   const { t } = useLanguage();
@@ -36,17 +36,6 @@ export function DemoBanner() {
       setPending(false);
     }
   }
-  async function finish() {
-    setPending(true);
-    setError('');
-    try {
-      await endDemo();
-      window.location.assign('/');
-    } catch (failure) {
-      setError(demoErrorText(failure, t) ?? errorText(failure));
-      setPending(false);
-    }
-  }
   if (!expiresAt && !expired) return null;
   const remaining = expiresAt ? new Date(expiresAt).getTime() - now : 0;
   const over = expired || remaining <= 0;
@@ -56,11 +45,9 @@ export function DemoBanner() {
       <span>{over ? t('ข้อมูลตัวอย่างถูกลบแล้ว เริ่มสาธิตใหม่ได้ทันที', 'Sample data was removed. Start a new demo anytime') : t('ข้อมูลตัวอย่างจะถูกลบอัตโนมัติภายใน 24 ชั่วโมง', 'Sample data is removed automatically within 24 hours')}</span>
     </div>
     {!over && <span className="number demo-countdown" aria-hidden="true">{demoCountdown(remaining)}</span>}
-    <div className="demo-actions">
-      {over
-        ? <button className="primary" type="button" onClick={restart} disabled={pending}>{pending ? t('กำลังเตรียม…', 'Preparing…') : t('เริ่มสาธิตใหม่', 'Start demo again')}</button>
-        : <button className="outline" type="button" onClick={finish} disabled={pending}>{pending ? t('กำลังลบข้อมูล…', 'Removing…') : t('จบการสาธิต', 'End demo')}</button>}
-    </div>
+    {over && <div className="demo-actions">
+      <button className="primary" type="button" onClick={restart} disabled={pending}>{pending ? t('กำลังเตรียม…', 'Preparing…') : t('เริ่มสาธิตใหม่', 'Start demo again')}</button>
+    </div>}
     {error && <p className="error" role="alert">{error}</p>}
   </aside>;
 }

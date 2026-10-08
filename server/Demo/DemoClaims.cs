@@ -35,30 +35,29 @@ public static class DemoClaims
         return true;
     }
 
-    /// <summary>True for requests that stay readable after a demo session expires, so the app can show the expired state.</summary>
-    public static bool IsPublicRequest(HttpRequest request)
+    /// <summary>True for paths that must be refused outright once a demo credential expires: private API and live hubs.</summary>
+    public static bool IsProtectedRequest(HttpRequest request)
     {
         var path = request.Path;
-        if (!path.StartsWithSegments("/api")) return true;
-        if (path.StartsWithSegments("/api/session") || path.StartsWithSegments("/api/health") || path.StartsWithSegments("/api/demo/session")) return true;
-        return (path.StartsWithSegments("/api/s", out var publicId) && publicId.Value?.Length > 1)
-            || (path.StartsWithSegments("/api/t", out var secret) && secret.Value?.Length > 1);
+        if (path.StartsWithSegments("/live")) return true;
+        if (!path.StartsWithSegments("/api")) return false;
+        if (path.StartsWithSegments("/api/session") || path.StartsWithSegments("/api/health") || path.StartsWithSegments("/api/demo/session")) return false;
+        return !((path.StartsWithSegments("/api/s", out var publicId) && publicId.Value?.Length > 1)
+            || (path.StartsWithSegments("/api/t", out var secret) && secret.Value?.Length > 1));
     }
 }
 
-/// <summary>Revokes an expired Try demo session before it can reach private resources. Real Owner sessions are untouched.</summary>
+/// <summary>Revokes an expired Try demo session before it can reach private resources or live hubs. Real Owner sessions are untouched.</summary>
 public sealed class DemoSessionMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext context, TimeProvider time)
     {
-        if (context.User.Identity?.IsAuthenticated == true
-            && DemoClaims.TryReadExpiry(context.User, out var expiresAt)
-            && time.GetUtcNow() >= expiresAt)
+        if (context.User.Identity?.IsAuthenticated == true && DemoSessionGuard.IsExpired(context.User, time.GetUtcNow()))
         {
             context.Items[DemoClaims.ExpiredItem] = true;
             await context.SignOutAsync(IdentityConstants.ApplicationScheme);
             context.User = new ClaimsPrincipal(new ClaimsIdentity());
-            if (!DemoClaims.IsPublicRequest(context.Request))
+            if (DemoClaims.IsProtectedRequest(context.Request))
             {
                 context.Response.StatusCode = 401;
                 await context.Response.WriteAsJsonAsync(new { code = "demo_expired" });

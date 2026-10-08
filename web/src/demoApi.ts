@@ -1,8 +1,8 @@
-import { ApiFailure, api, post, session } from './api';
+import { ApiFailure, post, session } from './api';
 
 export interface DemoSeedSummary { businessDays: number; completed: number; skipped: number; waiting: number }
 export interface DemoShop { id: string; name: string; publicId: string }
-export interface DemoStart { demo: boolean; expiresAt: string; expiresInSeconds: number; shop: DemoShop; seed: DemoSeedSummary }
+export interface DemoStart { demo: boolean; expiresAt: string; shop: DemoShop; seed: DemoSeedSummary }
 export interface DemoOwner { id: string; email: string; demo?: boolean; demoExpiresAt?: string | null }
 export interface DemoSession { csrf: string; owner: DemoOwner | null; demoExpired?: boolean }
 
@@ -22,12 +22,6 @@ export async function startDemo(): Promise<DemoStart> {
   const value = await post<DemoStart>('/api/demo/session', {});
   remember(value.expiresAt, 'set');
   return value;
-}
-
-/** Ends this browser's demo immediately; the server removes only that fixture. */
-export async function endDemo(): Promise<void> {
-  await api<{ ended: boolean }>('/api/demo/session', { method: 'DELETE' });
-  remember(null, 'clear');
 }
 
 /**
@@ -61,7 +55,7 @@ export function demoCountdown(remainingMs: number): string {
 
 export function demoErrorText(failure: unknown, t: (th: string, en: string) => string): string | null {
   const code = failure instanceof ApiFailure ? failure.code : '';
-  if (code === 'demo_expired') return t('โหมดสาธิตหมดอายุแล้ว ข้อมูลตัวอย่างถูกลบ เริ่มสาธิตใหม่ได้ทันที', 'This demo expired and its sample data was removed. Start a new demo anytime');
+  if (code === 'demo_expired') return t('โหมดสาธิตหมดอายุแล้ว ข้อมูลตัวอย่างถูกลบอัตโนมัติ เริ่มสาธิตใหม่ได้ทันที', 'This demo expired and its sample data was removed automatically. Start a new demo anytime');
   if (code === 'demo_unavailable') return t('เริ่มโหมดสาธิตไม่ได้ในขณะนี้ ลองใหม่อีกครั้ง', 'The demo could not start right now. Try again');
   return null;
 }

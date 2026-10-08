@@ -1,19 +1,21 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using SmartQueue.Api.Data;
 
 namespace SmartQueue.Api.Demo;
 
-/// <summary>Creates and ends session-bound Try demo Owners. The account is a real Identity Owner with its own Shop, marked only by <see cref="OwnerAccount.DemoExpiresAt"/>.</summary>
-public sealed class DemoSessions(AppDbContext db, UserManager<OwnerAccount> users, SignInManager<OwnerAccount> signIn, IOptions<DemoOptions> options)
+/// <summary>
+/// Creates session-bound Try demo Owners. The account is a real Identity Owner with its own Shop, marked only by
+/// <see cref="OwnerAccount.DemoExpiresAt"/>, and its fixture expires 24 hours after creation.
+/// </summary>
+public sealed class DemoSessions(AppDbContext db, UserManager<OwnerAccount> users, SignInManager<OwnerAccount> signIn)
 {
+    private static readonly TimeSpan Lifetime = TimeSpan.FromHours(24);
+
     public async Task<DemoSessionDto> StartAsync(DateTimeOffset now, CancellationToken cancellationToken = default)
     {
-        var lifetime = options.Value.SessionLifetime > TimeSpan.Zero ? options.Value.SessionLifetime : TimeSpan.FromHours(24);
-        var expiresAt = now.Add(lifetime);
+        var expiresAt = now.Add(Lifetime);
         var address = $"demo-{Guid.NewGuid():N}@demo.smartqueue.test";
         var owner = new OwnerAccount { UserName = address, Email = address, EmailConfirmed = true, DemoExpiresAt = expiresAt };
 
@@ -27,19 +29,10 @@ public sealed class DemoSessions(AppDbContext db, UserManager<OwnerAccount> user
         }
 
         await signIn.SignInWithClaimsAsync(owner, new AuthenticationProperties { IsPersistent = false }, [DemoClaims.Create(expiresAt)]);
-        return new DemoSessionDto(true, expiresAt, (long)Math.Round(lifetime.TotalSeconds), new DemoShopDto(seed.Shop.Id, seed.Shop.Name, seed.Shop.PublicId), new DemoSeedDto(seed.BusinessDays, seed.Completed, seed.Skipped, seed.Waiting));
-    }
-
-    public async Task EndAsync(HttpContext context, CancellationToken cancellationToken = default)
-    {
-        var ownerId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (string.IsNullOrEmpty(ownerId)) throw new ApiException("not_found", 404);
-        var removed = await db.Set<OwnerAccount>().Where(x => x.Id == ownerId && x.DemoExpiresAt != null).ExecuteDeleteAsync(cancellationToken);
-        if (removed == 0) throw new ApiException("not_found", 404);
-        await signIn.SignOutAsync();
+        return new DemoSessionDto(true, expiresAt, new DemoShopDto(seed.Shop.Id, seed.Shop.Name, seed.Shop.PublicId), new DemoSeedDto(seed.BusinessDays, seed.Completed, seed.Skipped, seed.Waiting));
     }
 }
 
-public sealed record DemoSessionDto(bool Demo, DateTimeOffset ExpiresAt, long ExpiresInSeconds, DemoShopDto Shop, DemoSeedDto Seed);
+public sealed record DemoSessionDto(bool Demo, DateTimeOffset ExpiresAt, DemoShopDto Shop, DemoSeedDto Seed);
 public sealed record DemoShopDto(Guid Id, string Name, string PublicId);
 public sealed record DemoSeedDto(int BusinessDays, int Completed, int Skipped, int Waiting);
