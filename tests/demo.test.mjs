@@ -48,7 +48,7 @@ test('Try demo opens a real seeded Shop where every normal command works', async
   assert.ok(view.waiting.length >= 2, 'the seeded Queue must show Waiting Tickets');
   assert.equal(view.held, null, 'a fresh demo Shop holds no Ticket yet');
   const oldest = view.waiting[0];
-  assert.equal(oldest.number, 'A001', 'seed numbering must follow receive order');
+  assert.deepEqual(view.waiting.slice(0, 2).map(ticket => ticket.number), ['A001', 'A002'], 'seed numbering must follow FIFO receive order');
 
   const call = await api.post(`/api/queues/${haircut.queue.id}/call`, { version: view.version });
   assert.equal(call.status, 200);
