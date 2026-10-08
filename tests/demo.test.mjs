@@ -142,7 +142,7 @@ test('ending a demo session removes only its own fixture', async () => {
 });
 
 test('an expired demo session loses private access and cleanup keeps real data', {
-  skip: shortLifetime ? false : 'requires the API started with Demo__SessionLifetime=00:00:06 Demo__CleanupInterval=00:00:02 and this test run with SMARTQUEUE_DEMO_LIFETIME=6'
+  skip: shortLifetime ? false : 'requires the API started with Demo__SessionLifetime=00:00:45 Demo__CleanupInterval=00:00:05 and this test run with SMARTQUEUE_DEMO_LIFETIME=45'
 }, async () => {
   const { api, demo } = await startDemo();
   const real = await verifiedOwner();
