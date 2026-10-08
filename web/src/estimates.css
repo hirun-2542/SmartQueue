@@ -1,0 +1,4 @@
+.wait-estimate{text-align:center;margin:12px 0 0}
+.wait-estimate .estimate-value{margin:0;font-size:1.0625rem;font-weight:500;color:var(--muted);overflow-wrap:anywhere}
+.wait-estimate .estimate-note{margin:4px 0 0;font-size:.75rem;font-weight:400;color:var(--muted);overflow-wrap:anywhere}
+.wait-estimate.next-in-queue .estimate-value,.wait-estimate.unknown-history .estimate-value{color:var(--ink)}
