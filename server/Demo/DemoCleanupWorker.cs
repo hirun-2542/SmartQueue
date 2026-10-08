@@ -14,7 +14,8 @@ public sealed class DemoCleanupWorker(IServiceScopeFactory scopes, IOptions<Demo
             var settings = options.Value;
             await SweepAsync(stoppingToken);
             var interval = settings.CleanupInterval > TimeSpan.Zero ? settings.CleanupInterval : TimeSpan.FromMinutes(10);
-            using var timer = new PeriodicTimer(interval);
+            // The timer follows the injected TimeProvider so controllable server time drives cleanup too.
+            using var timer = new PeriodicTimer(interval, time);
             while (await timer.WaitForNextTickAsync(stoppingToken)) await SweepAsync(stoppingToken);
         }
         catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) { }

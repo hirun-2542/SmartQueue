@@ -7,16 +7,19 @@ namespace SmartQueue.Api.Demo;
 
 public static class DemoClaims
 {
-    /// <summary>Cookie claim that marks a Try demo session and carries its expiry as Unix seconds.</summary>
+    /// <summary>Cookie claim that marks a Try demo session and carries its expiry as Unix milliseconds.</summary>
     public const string ExpiresAt = "smartqueue:demo-expires";
 
     /// <summary>Request item set when an expired demo session was revoked while handling the request.</summary>
     public const string ExpiredItem = "smartqueue:demo-expired";
 
-    public static Claim Create(DateTimeOffset expiresAt) =>
-        new(ExpiresAt, expiresAt.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture));
+    private static readonly long MinUnixMilliseconds = DateTimeOffset.MinValue.ToUnixTimeMilliseconds();
+    private static readonly long MaxUnixMilliseconds = DateTimeOffset.MaxValue.ToUnixTimeMilliseconds();
 
-    /// <summary>Reads the demo marker. A demo cookie with an unreadable marker is treated as expired rather than trusted.</summary>
+    public static Claim Create(DateTimeOffset expiresAt) =>
+        new(ExpiresAt, expiresAt.ToUnixTimeMilliseconds().ToString(CultureInfo.InvariantCulture));
+
+    /// <summary>Reads the demo marker. A demo cookie with an unreadable or out-of-range marker is treated as expired rather than trusted.</summary>
     public static bool TryReadExpiry(ClaimsPrincipal principal, out DateTimeOffset expiresAt)
     {
         var value = principal.FindFirst(ExpiresAt)?.Value;
@@ -25,10 +28,10 @@ public static class DemoClaims
             expiresAt = default;
             return false;
         }
-        if (long.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var seconds)
-            && seconds is >= -62135596800 and <= 253402300799)
+        if (long.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var milliseconds)
+            && milliseconds >= MinUnixMilliseconds && milliseconds <= MaxUnixMilliseconds)
         {
-            expiresAt = DateTimeOffset.FromUnixTimeSeconds(seconds);
+            expiresAt = DateTimeOffset.FromUnixTimeMilliseconds(milliseconds);
             return true;
         }
         expiresAt = DateTimeOffset.MinValue;

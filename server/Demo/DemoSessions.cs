@@ -13,9 +13,13 @@ public sealed class DemoSessions(AppDbContext db, UserManager<OwnerAccount> user
 {
     private static readonly TimeSpan Lifetime = TimeSpan.FromHours(24);
 
+    /// <summary>Truncate to milliseconds so the stored expiry, the response and the cookie claim agree exactly.</summary>
+    private static DateTimeOffset ToMilliseconds(DateTimeOffset value) =>
+        new(value.Ticks - value.Ticks % TimeSpan.TicksPerMillisecond, value.Offset);
+
     public async Task<DemoSessionDto> StartAsync(DateTimeOffset now, CancellationToken cancellationToken = default)
     {
-        var expiresAt = now.Add(Lifetime);
+        var expiresAt = ToMilliseconds(now.Add(Lifetime));
         var address = $"demo-{Guid.NewGuid():N}@demo.smartqueue.test";
         var owner = new OwnerAccount { UserName = address, Email = address, EmailConfirmed = true, DemoExpiresAt = expiresAt };
 
