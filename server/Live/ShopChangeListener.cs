@@ -1,3 +1,4 @@
+using System.Data;
 using System.Threading.Channels;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -91,6 +92,7 @@ public sealed class ShopChangeListener(
     {
         using var scope = scopes.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await using var readSnapshot=await db.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead,token);
         var shop = await db.Set<Shop>().AsNoTracking().Where(x => x.Id == shopId).Select(x => new { x.Id, x.PublicId, x.Version }).SingleOrDefaultAsync(token);
         if (shop is null) return;
         var now = time.GetUtcNow();

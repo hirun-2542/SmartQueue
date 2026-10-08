@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
 import { ApiFailure,post } from './api';
 import type { ConsoleQueue } from './consoleTypes';
 import { useLanguage,useErrorText } from './language';
@@ -16,6 +16,7 @@ export function QueueCloseControls({queue,shopVersion,onChanged,disabled=false}:
   const {t}=useLanguage();const errorText=useErrorText();
   const [confirming,setConfirming]=useState(false);const [pending,setPending]=useState<'stop'|'drop'|null>(null);
   const [error,setError]=useState('');const [notice,setNotice]=useState('');
+  useEffect(()=>{setNotice('');},[queue?.id,queue?.status]);
   if(!queue)return null;
   const queueId=queue.id;const waiting=queue.waitingCount;const accepting=queue.status==='Open';
   const alreadyClosing=t('คิวนี้กำลังปิดอยู่แล้ว เรียกคิวที่ค้างให้จบก่อน','This Queue is already closing. Finish the Tickets still held first.');
@@ -30,7 +31,7 @@ export function QueueCloseControls({queue,shopVersion,onChanged,disabled=false}:
       setNotice(kind==='drop'
         ?state.status==='Closed'
           ?t(`ปิดคิวทันทีแล้ว · ${state.droppedCount} คิวเป็น Dropped และจบรอบนี้`,`Closed now · ${state.droppedCount} Tickets Dropped and this Business day ended`)
-          :t(`ปิดคิวทันทีแล้ว · ${state.droppedCount} คิวเป็น Dropped คิวที่กำลังทำต่อจนจบ`,`Closed now · ${state.droppedCount} Tickets Dropped; the Ticket in progress continues`)
+          :t(`หยุดรับและ Drop ${state.droppedCount} คิวแล้ว · คิวที่กำลังทำต่อจนจบ`,`Stopped accepting · ${state.droppedCount} Tickets Dropped; the Ticket in progress continues`)
         :state.status==='Closed'
           ?t('ไม่มีคิวค้าง ปิดรับและจบรอบนี้ในครั้งเดียว','No Tickets were held; stopped accepting and ended this Business day in one step')
           :t('ปิดรับคิวแล้ว เรียกคิวที่เหลือต่อจนหมด','Stopped accepting. Keep calling the remaining Tickets.'));

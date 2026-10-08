@@ -1,0 +1,28 @@
+.statistics-page{display:grid;gap:0}
+.statistics-page h1{margin:0 0 16px}
+.stats-range{display:flex;gap:24px;overflow-x:auto;border-bottom:1px solid var(--line);margin:0 -24px 16px;padding:0 24px;scrollbar-width:thin}
+.stats-range button{position:relative;display:flex;align-items:center;min-height:48px;padding:0;background:transparent;color:var(--muted);font-size:16px;font-weight:500;white-space:nowrap}
+.stats-range button.active{color:var(--ink);font-weight:600}
+.stats-range button.active::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:1.5px;background:var(--terra)}
+.stats-service{margin:0 0 12px}
+.stats-service label{display:grid;gap:4px}
+.stats-service span{font-size:13px;color:var(--muted)}
+.stats-service select{width:100%;min-height:48px;padding:0 12px;border:1px solid var(--line);border-radius:14px;background:var(--paper);color:var(--ink);font-weight:500}
+.stats-status{margin:0 0 8px;font-size:14px;color:var(--muted)}
+.stats-error{display:grid;gap:8px;justify-items:start;margin:0 0 12px}
+.stats-retry{min-height:48px;padding:0 18px;border:1.5px solid var(--terra);border-radius:14px;background:var(--paper);color:var(--terra);font-weight:600}
+.stats-hero{display:grid;gap:2px;padding:20px 0 16px}
+.stats-hero-number{font-size:84px;line-height:1;letter-spacing:-2px;color:var(--ink)}
+.stats-hero-scope{margin:0;font-size:15px;color:var(--muted);overflow-wrap:anywhere}
+.stats-empty{margin:0;padding:20px 0;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+.stats-rows{margin:0;padding:0;border-top:1px solid var(--line)}
+.stats-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.stats-row dt{display:grid;gap:2px;font-size:16px;font-weight:500;color:var(--ink);min-width:0}
+.stats-row dt small{font-size:12px;font-weight:400;color:var(--muted);overflow-wrap:anywhere}
+.stats-row dd{margin:0;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;justify-content:flex-end;text-align:right}
+.stats-value{font-size:24px;color:var(--ink)}
+.stats-unit{font-size:15px;font-weight:500;color:var(--muted)}
+.stats-missing{font-size:15px;color:var(--muted)}
+.stats-samples{flex-basis:100%;font-size:12px;color:var(--muted)}
+.stats-note{margin:16px 0 0;font-size:13px;color:var(--muted)}
+.stats-refresh{margin:20px 0 0;min-height:48px;border:1.5px solid var(--line);border-radius:14px;background:var(--paper);color:var(--ink);font-weight:600}

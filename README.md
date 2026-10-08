@@ -91,3 +91,5 @@ Close now requires confirmation and drops only Waiting Tickets. Called or InServ
 
 The Shop page exports a scannable PNG QR and copies its public join URL. The anonymous `/board/{publicId}` page displays the Shop-wide Called Ticket, recent Calls and per-Service Waiting FIFO without notes or bearer links. Owner Shop state, Customer status and the board resync through committed live updates.
 
+Multi-query Owner, Customer and board snapshots use PostgreSQL repeatable-read views; live fan-out reads the Shop version and its payload from the same committed snapshot. A concurrent Start cannot display one Ticket as both Called and InService in the same board response.
+

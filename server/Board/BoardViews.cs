@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using SmartQueue.Api.Data;
 using SmartQueue.Api.Domain;
@@ -17,6 +18,7 @@ public static class BoardViews
 
     public static async Task<BoardSnapshotDto> SnapshotAsync(AppDbContext db, string publicId, TimeProvider time)
     {
+        await using var snapshot=db.Database.CurrentTransaction is null?await db.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead):null;
         var shop = await db.Set<Shop>().AsNoTracking().SingleOrDefaultAsync(x => x.PublicId == publicId)
             ?? throw new ApiException("not_found", 404);
         return await SnapshotAsync(db, shop, time);

@@ -1,3 +1,4 @@
+using System.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,7 @@ public sealed class LiveHub(AppDbContext db, TimeProvider time, LiveSubscription
     public async Task SubscribeTicket(string secret)
     {
         if(Context.User is { } principal)DemoSessionGuard.ThrowIfExpired(principal,time.GetUtcNow());
+        await using var snapshot=await db.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead);
         var ticket = await FindTicketAsync(secret);
         var shopVersion = await db.Set<Shop>().AsNoTracking().Where(x => x.Id == ticket.ShopId).Select(x => x.Version).SingleAsync();
         subscriptions.AddTicket(Context.ConnectionId, ticket.ShopId, ticket.Id);
