@@ -5,7 +5,8 @@
 **/obj/
 **/node_modules/
 **/dist/
-**/wwwroot/assets/
+**/wwwroot/
+**/*.tsbuildinfo
 var/
 .env
 .env.*

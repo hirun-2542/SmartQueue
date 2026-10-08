@@ -16,3 +16,10 @@
 - [ ] Session cookie เป็น Secure/HttpOnly เมื่อใช้ HTTPS, mutations ที่อาศัย cookie มี CSRF protection และ sign out ยกเลิกการใช้งาน session ตาม contract
 - [ ] Mobile UI ใช้ Warm Minimal, Thai/English, visible field labels, pending/inline errors, password manager/paste และ deep-link verification/recovery ที่ refresh ได้; ยังไม่ใส่ปุ่ม demo ที่กดแล้วไม่มีผล
 - [ ] รัน public-boundary tests กับ DB จริงสำหรับ verification/access/recovery และ browser smoke สมัคร → verify → login → logout → recovery; ไม่มี standalone scaffold-only delivery
+
+## Comments
+
+- Implementation verified: `npm test` — 1 passed, 0 failed against real PostgreSQL and Mailpit; .NET build and Vite production build passed.
+- Red-before-green observed: session request returned 404 before account endpoints existed.
+- Browser smoke at 390×844: register → delivered verification email → verify → sign in → sign out → delivered recovery email → reset; no browser errors.
+- Final resolution follows whole-integration-branch review; triage label remains unchanged until that gate.
