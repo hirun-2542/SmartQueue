@@ -87,7 +87,7 @@ test('the real worker never auto-Skips a Ticket whose service already started', 
   assert.equal(start.body.status, 'InService');
 
   // Watch past the Call deadline plus more than one worker interval: InService work is never ended automatically.
-  const observeUntil = Math.max(Date.now(), new Date(call.body.deadline).getTime()) + 6000;
+  const observeUntil = Math.max(Date.now(), new Date(call.body.deadline).getTime()) + 8000;
   while (Date.now() < observeUntil) {
     const ticket = (await guest.request(`/api${link}`)).body;
     assert.equal(ticket.status, 'InService', 'the auto-Skip worker must never touch a Ticket whose service started');
