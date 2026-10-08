@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 using Xunit;
 
@@ -14,12 +15,16 @@ namespace SmartQueue.IntegrationTests;
 public sealed class SmartQueueCluster : IAsyncLifetime
 {
     private readonly List<SmartQueueFactory> hosts = [];
+    private readonly Action<IServiceCollection>? configureServices;
+    private readonly IReadOnlyDictionary<string, string?>? settings;
     private string connectionString = "";
 
-    public SmartQueueCluster(TimeSpan? pollInterval = null, DateTimeOffset? now = null)
+    public SmartQueueCluster(TimeSpan? pollInterval = null, DateTimeOffset? now = null, Action<IServiceCollection>? configureServices = null, IReadOnlyDictionary<string, string?>? settings = null)
     {
         PollInterval = pollInterval ?? TimeSpan.FromSeconds(1);
         Clock = new FakeTimeProvider(now ?? DateTimeOffset.UtcNow);
+        this.configureServices = configureServices;
+        this.settings = settings;
     }
 
     /// <summary>Worker interval used by this cluster; one <see cref="TickAsync"/> step advances exactly this much.</summary>
@@ -39,7 +44,7 @@ public sealed class SmartQueueCluster : IAsyncLifetime
     /// <summary>Starts another API instance over the same database and clock, as another process would be.</summary>
     public async Task<SmartQueueFactory> AddHostAsync()
     {
-        var host = new SmartQueueFactory(connectionString, Clock, PollInterval);
+        var host = new SmartQueueFactory(connectionString, Clock, PollInterval, configureServices, settings);
         hosts.Add(host);
         return await host.StartAsync();
     }
