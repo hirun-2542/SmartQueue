@@ -2,7 +2,6 @@ using System.Globalization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using SmartQueue.Api.Data;
 
 namespace SmartQueue.Api.Demo;
 
@@ -51,20 +50,16 @@ public static class DemoClaims
     }
 }
 
-/// <summary>Revokes an expired Try demo session before it can reach private resources or live hubs, and removes that session's fixture. Real Owner sessions are untouched.</summary>
+/// <summary>Revokes an expired Try demo session before it can reach private resources or live hubs. Real Owner sessions are untouched.</summary>
 public sealed class DemoSessionMiddleware(RequestDelegate next)
 {
-    public async Task InvokeAsync(HttpContext context, TimeProvider time, IServiceScopeFactory scopes, ILogger<DemoSessionMiddleware> logger)
+    public async Task InvokeAsync(HttpContext context, TimeProvider time)
     {
         if (context.User.Identity?.IsAuthenticated == true && DemoSessionGuard.IsExpired(context.User, time.GetUtcNow()))
         {
-            var now = time.GetUtcNow();
-            var ownerId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
             context.Items[DemoClaims.ExpiredItem] = true;
             await context.SignOutAsync(IdentityConstants.ApplicationScheme);
             context.User = new ClaimsPrincipal(new ClaimsIdentity());
-            // Observing the expiry also resets the fixture, so automatic cleanup does not depend on sweep scheduling.
-            await SweepAsync(scopes, now, ownerId, logger);
             if (DemoClaims.IsProtectedRequest(context.Request))
             {
                 context.Response.StatusCode = 401;
@@ -73,19 +68,5 @@ public sealed class DemoSessionMiddleware(RequestDelegate next)
             }
         }
         await next(context);
-    }
-
-    private static async Task SweepAsync(IServiceScopeFactory scopes, DateTimeOffset now, string? ownerId, ILogger logger)
-    {
-        try
-        {
-            await using var scope = scopes.CreateAsyncScope();
-            var removed = await DemoCleanup.SweepAsync(scope.ServiceProvider.GetRequiredService<AppDbContext>(), now, ownerId);
-            if (removed > 0) logger.LogInformation("Removed an expired demo fixture");
-        }
-        catch (Exception error)
-        {
-            logger.LogError(error, "Demo fixture cleanup for an expired session failed");
-        }
     }
 }
