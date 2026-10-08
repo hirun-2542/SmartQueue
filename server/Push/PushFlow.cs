@@ -7,8 +7,8 @@ namespace SmartQueue.Api.Push;
 /// <summary>One association inside the Shop at capture time: enough to build a delivery without reading the database again after commit.</summary>
 public sealed record PushSubscriber(Guid SubscriptionId, Guid TicketId, Guid QueueId, Guid ServiceId, PushTarget Target, string Language);
 
-/// <summary>The public, pre-transaction state of a subscribed Ticket: its status, its public number and how many Waiting Tickets were ahead of it.</summary>
-public sealed record PushTicketState(Guid Id, Guid QueueId, Guid ServiceId, string Number, TicketStatus Status, int Ahead, int Threshold);
+/// <summary>The public, pre-transaction state of a subscribed Ticket: its status, its public number, how many Waiting Tickets were ahead of it, and whether its one near-turn notification was already produced.</summary>
+public sealed record PushTicketState(Guid Id, Guid QueueId, Guid ServiceId, string Number, TicketStatus Status, int Ahead, int Threshold, DateTimeOffset? NearTurnNotifiedAt);
 
 /// <summary>
 /// What a Shop transaction captured before it wrote anything. Empty for the common case of a Shop with no
@@ -39,7 +39,10 @@ public sealed class PushCapture
 /// its Waiting position crosses from more than the Service threshold to no more than it. Reading the position
 /// before and after rather than comparing each change means a leap of several positions still fires once, a
 /// Ticket that joined already inside the threshold fires nothing extra, and a Ticket that is already inside
-/// the threshold cannot fire again. Called and Dropped are separate events evaluated from the same two states.
+/// the threshold cannot fire again. The "once" is durable: the Ticket records the moment its near-turn
+/// notification was produced inside the same transaction, so an Owner changing the Service threshold later,
+/// a Customer unsubscribing and opting in again, a restart or a second instance can never produce a second
+/// one for the same Ticket. Called and Dropped are separate events evaluated from the same two states.
 /// </summary>
 public static class PushFlow
 {
@@ -82,6 +85,7 @@ public static class PushFlow
 
         var envelopes = new List<PushEnvelope>();
         var terminal = new HashSet<Guid>();
+        var notified = new HashSet<Guid>();
         foreach (var subscriber in capture.Subscribers)
         {
             if (!capture.Before.TryGetValue(subscriber.TicketId, out var before)) continue;
@@ -89,12 +93,24 @@ public static class PushFlow
             {
                 var @event = EventFor(before, current);
                 if (@event is not null) envelopes.Add(PushMessages.Create(subscriber.Target, subscriber.TicketId, current.Number, @event, subscriber.Language));
+                if (@event == PushEvents.NearTurn) notified.Add(subscriber.TicketId);
                 if (IsTerminal(current.Status)) terminal.Add(subscriber.TicketId);
             }
             else
             {
                 terminal.Add(subscriber.TicketId);
             }
+        }
+
+        // The guard is written in this transaction, before it commits: every endpoint associated with the
+        // crossing Ticket got the event above, and no later transaction can produce a second one for it.
+        if (notified.Count > 0)
+        {
+            var crossing = notified.ToArray();
+            var now = db.Clock.GetUtcNow();
+            foreach (var ticket in await db.Set<Ticket>().Where(x => crossing.Contains(x.Id)).ToListAsync(cancellationToken))
+                ticket.NearTurnNotifiedAt ??= now;
+            await db.SaveChangesAsync(cancellationToken);
         }
 
         if (terminal.Count > 0)
@@ -123,7 +139,9 @@ public static class PushFlow
     {
         if (after.Status == TicketStatus.Called && before.Status != TicketStatus.Called) return PushEvents.Called;
         if (after.Status == TicketStatus.Dropped && before.Status != TicketStatus.Dropped) return PushEvents.Dropped;
-        if (before.Status == TicketStatus.Waiting && after.Status == TicketStatus.Waiting && before.Ahead > after.Threshold && after.Ahead <= after.Threshold) return PushEvents.NearTurn;
+        if (before.Status == TicketStatus.Waiting && after.Status == TicketStatus.Waiting
+            && before.NearTurnNotifiedAt is null
+            && before.Ahead > after.Threshold && after.Ahead <= after.Threshold) return PushEvents.NearTurn;
         return null;
     }
 
@@ -138,7 +156,7 @@ public static class PushFlow
             .ToDictionaryAsync(x => x.Id, cancellationToken);
         var tickets = await db.Set<Ticket>().AsNoTracking()
             .Where(x => ticketIds.Contains(x.Id))
-            .Select(x => new { x.Id, x.QueueId, x.Status, x.Number })
+            .Select(x => new { x.Id, x.QueueId, x.Status, x.Number, x.NearTurnNotifiedAt })
             .ToListAsync(cancellationToken);
         var waiting = await db.Set<Ticket>().AsNoTracking()
             .Where(x => queueIds.Contains(x.QueueId) && x.Status == TicketStatus.Waiting)
@@ -159,7 +177,7 @@ public static class PushFlow
         foreach (var ticket in tickets)
         {
             queues.TryGetValue(ticket.QueueId, out var queue);
-            states[ticket.Id] = new PushTicketState(ticket.Id, ticket.QueueId, queue?.ServiceId ?? Guid.Empty, ticket.Number, ticket.Status, ahead.GetValueOrDefault(ticket.Id), queue?.NearTurnThreshold ?? 0);
+            states[ticket.Id] = new PushTicketState(ticket.Id, ticket.QueueId, queue?.ServiceId ?? Guid.Empty, ticket.Number, ticket.Status, ahead.GetValueOrDefault(ticket.Id), queue?.NearTurnThreshold ?? 0, ticket.NearTurnNotifiedAt);
         }
         return states;
     }

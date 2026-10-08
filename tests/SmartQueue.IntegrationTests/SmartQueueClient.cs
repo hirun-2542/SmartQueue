@@ -26,9 +26,15 @@ public sealed class SmartQueueClient(HttpClient http)
         return await ReadAsync(response, path);
     }
 
-    public async Task<(HttpStatusCode Status, JsonElement Body)> PostAsync(string path, object? body = null)
+    public Task<(HttpStatusCode Status, JsonElement Body)> PostAsync(string path, object? body = null) =>
+        SendAsync(HttpMethod.Post, path, body);
+
+    public Task<(HttpStatusCode Status, JsonElement Body)> PutAsync(string path, object? body = null) =>
+        SendAsync(HttpMethod.Put, path, body);
+
+    private async Task<(HttpStatusCode Status, JsonElement Body)> SendAsync(HttpMethod method, string path, object? body)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Post, path)
+        using var request = new HttpRequestMessage(method, path)
         {
             Content = body is null ? new StringContent("", Encoding.UTF8, "application/json") : JsonContent.Create(body),
         };

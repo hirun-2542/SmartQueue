@@ -263,6 +263,51 @@ public sealed class WebPushTests : IAsyncLifetime
             Assert.Equal("en", payload.RootElement.GetProperty("language").GetString());
     }
 
+    [Fact]
+    public async Task A_near_turn_is_sent_once_per_ticket_even_after_the_service_threshold_changes_or_the_customer_reopts_in()
+    {
+        var (owner, shopId, queueId) = await OpenShopAsync("Threshold edit shop");
+        var first = await JoinAndSubscribeAsync(queueId);
+        var second = await JoinAndSubscribeAsync(queueId);
+        var third = await JoinAndSubscribeAsync(queueId);
+        var fourth = await JoinAndSubscribeAsync(queueId);
+        var fifth = await JoinAndSubscribeAsync(queueId);
+
+        // Calling the head crosses the threshold for the fourth Ticket; that is its one near-turn.
+        Assert.Equal(first.TicketId, await CallAsync(owner, shopId, queueId));
+        var opening = await sink.WaitAsync(2);
+        Assert.Equal(2, opening.Length);
+        Assert.Contains(opening, x => x.TicketId == fourth.TicketId && x.Event == PushEvents.NearTurn);
+        Assert.DoesNotContain(opening, x => x.Event == PushEvents.NearTurn && x.TicketId != fourth.TicketId);
+
+        // The Customer turns notifications off and on again, so the association is replaced before the position moves.
+        Assert.Equal(HttpStatusCode.OK, (await fourth.Client.PostAsync($"/api{fourth.Link}/push/remove", new { endpoint = fourth.Endpoint })).Status);
+        var rekeys = TestPushClient.Keys();
+        Assert.Equal(HttpStatusCode.OK, (await fourth.Client.PostAsync($"/api{fourth.Link}/push", new { endpoint = fourth.Endpoint, p256dh = rekeys.P256dh, auth = rekeys.Auth, language = "th" })).Status);
+
+        // The Owner lowers the Service threshold through the ordinary edit endpoint.
+        var shopView = await owner.Api.GetAsync($"/api/shops/{shopId}");
+        var serviceId = shopView.GetProperty("services")[0].GetProperty("id").GetGuid();
+        var edited = await owner.Api.PutAsync($"/api/services/{serviceId}", new { name = "Cut", prefix = "A", callTimeoutMinutes = 600, nearTurnThreshold = 0 });
+        Assert.Equal(HttpStatusCode.OK, edited.Status);
+        Assert.Equal(0, edited.Body.GetProperty("nearTurnThreshold").GetInt32());
+
+        // Ordinary Call/Start/Complete walks the Queue forward. The fourth Ticket crosses the new threshold
+        // once more and must stay silent, while the fifth Ticket's first crossing still fires.
+        await CompleteAsync(owner, first);
+        Assert.Equal(second.TicketId, await CallAsync(owner, shopId, queueId));
+        await CompleteAsync(owner, second);
+        Assert.Equal(third.TicketId, await CallAsync(owner, shopId, queueId));
+        await CompleteAsync(owner, third);
+        Assert.Equal(fourth.TicketId, await CallAsync(owner, shopId, queueId));
+
+        var delivered = await sink.SettleAsync();
+        Assert.Equal(6, delivered.Length);
+        Assert.Equal(4, delivered.Count(x => x.Event == PushEvents.Called));
+        Assert.Single(delivered, x => x.TicketId == fourth.TicketId && x.Event == PushEvents.NearTurn);
+        Assert.Single(delivered, x => x.TicketId == fifth.TicketId && x.Event == PushEvents.NearTurn);
+    }
+
     private async Task<(OwnerSession Owner, Guid ShopId, Guid QueueId)> OpenShopAsync(string name)
     {
         var owner = await SmartQueueScenario.VerifiedOwnerAsync(cluster.Host);
