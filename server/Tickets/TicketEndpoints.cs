@@ -49,7 +49,14 @@ public static class TicketEndpoints
             var counts=await db.Set<Ticket>().Where(x=>x.ShopId==shop.Id&&x.Status==TicketStatus.Waiting).GroupBy(x=>x.QueueId).Select(g=>new{Id=g.Key,Count=g.Count()}).ToDictionaryAsync(x=>x.Id,x=>x.Count);
             var device=DeviceIdentity.Get(context);
             var deviceCounts=await db.Set<Ticket>().Where(x=>x.ShopId==shop.Id&&x.DeviceId==device&&(x.Status==TicketStatus.Waiting||x.Status==TicketStatus.Called||x.Status==TicketStatus.InService)).GroupBy(x=>x.QueueId).Select(g=>new{Id=g.Key,Count=g.Count()}).ToDictionaryAsync(x=>x.Id,x=>x.Count);
-            return Results.Ok(new{shop.Name,shop.PublicId,shop.Version,serverTime=time.GetUtcNow(),services=shop.Services.Where(x=>!x.Archived).OrderBy(x=>x.Name).Select(x=>new{x.Id,x.Name,x.Prefix,queue=new{x.Queue.Id,x.Queue.Status,waitingCount=counts.GetValueOrDefault(x.Queue.Id),deviceActiveCount=deviceCounts.GetValueOrDefault(x.Queue.Id)}})});
+            var services=new List<object>();
+            foreach(var service in shop.Services.Where(x=>!x.Archived).OrderBy(x=>x.Name))
+            {
+                var waitingCount=counts.GetValueOrDefault(service.Queue.Id);
+                var estimate=await WaitEstimates.ServiceAsync(db,service.Id,waitingCount);
+                services.Add(new{service.Id,service.Name,service.Prefix,queue=new{service.Queue.Id,service.Queue.Status,waitingCount,deviceActiveCount=deviceCounts.GetValueOrDefault(service.Queue.Id),estimateSampleCount=estimate.SampleCount,estimatedWaitSeconds=estimate.EstimatedWaitSeconds}});
+            }
+            return Results.Ok(new{shop.Name,shop.PublicId,shop.Version,serverTime=time.GetUtcNow(),services});
         });
     }
     public static async Task<Guid> ShopIdAsync(AppDbContext db,Guid queueId)=>await db.Set<Domain.Queue>().Where(x=>x.Id==queueId).Select(x=>(Guid?)x.Service.ShopId).SingleOrDefaultAsync()??throw new ApiException("not_found",404);

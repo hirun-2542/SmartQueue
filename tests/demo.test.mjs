@@ -11,6 +11,7 @@ async function startDemo() {
   const result = await api.post('/api/demo/session', {});
   assert.equal(result.status, 201, 'Try demo must open a session without registration');
   assert.equal(result.body.demo, true, 'the created session must be marked as a demo');
+  await api.session();
   return { api, demo: result.body };
 }
 

@@ -2,4 +2,7 @@
   <Folder Name="/server/">
     <Project Path="server/SmartQueue.Api.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SmartQueue.IntegrationTests/SmartQueue.IntegrationTests.csproj" />
+  </Folder>
 </Solution>

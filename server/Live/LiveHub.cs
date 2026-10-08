@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SmartQueue.Api.Data;
 using SmartQueue.Api.Domain;
 using SmartQueue.Api.Tickets;
+using SmartQueue.Api.Demo;
 
 namespace SmartQueue.Api.Live;
 
@@ -18,8 +19,19 @@ public sealed class LiveHub(AppDbContext db, TimeProvider time, LiveSubscription
     public const string SnapshotMethod = "snapshot";
     public const string UpdateMethod = "update";
 
+    public override Task OnConnectedAsync()
+    {
+        if(Context.User is { } principal && DemoSessionGuard.IsExpired(principal,time.GetUtcNow()))
+        {
+            Context.Abort();
+            return Task.CompletedTask;
+        }
+        return base.OnConnectedAsync();
+    }
+
     public async Task SubscribeShop(Guid shopId, Guid? queueId = null)
     {
+        if(Context.User is { } principal && DemoSessionGuard.IsExpired(principal,time.GetUtcNow())){Context.Abort();throw new HubException("demo_expired");}
         var ownerId = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new HubException("unauthenticated");
         var shop = await db.Set<Shop>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == shopId && x.OwnerId == ownerId)
             ?? throw new HubException("not_found");
@@ -31,6 +43,7 @@ public sealed class LiveHub(AppDbContext db, TimeProvider time, LiveSubscription
 
     public async Task SubscribePublic(string publicId)
     {
+        if(Context.User is { } principal)DemoSessionGuard.ThrowIfExpired(principal,time.GetUtcNow());
         var shop = await db.Set<Shop>().AsNoTracking().SingleOrDefaultAsync(x => x.PublicId == publicId)
             ?? throw new HubException("not_found");
         var previous = subscriptions.SetPublic(Context.ConnectionId, shop.Id, shop.PublicId);
@@ -41,6 +54,7 @@ public sealed class LiveHub(AppDbContext db, TimeProvider time, LiveSubscription
 
     public async Task SubscribeTicket(string secret)
     {
+        if(Context.User is { } principal)DemoSessionGuard.ThrowIfExpired(principal,time.GetUtcNow());
         var ticket = await FindTicketAsync(secret);
         var shopVersion = await db.Set<Shop>().AsNoTracking().Where(x => x.Id == ticket.ShopId).Select(x => x.Version).SingleAsync();
         subscriptions.AddTicket(Context.ConnectionId, ticket.ShopId, ticket.Id);

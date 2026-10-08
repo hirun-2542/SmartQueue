@@ -7,6 +7,8 @@ using SmartQueue.Api.Data;
 using SmartQueue.Api.Identity;
 using SmartQueue.Api.Shops;
 using SmartQueue.Api.Tickets;
+using SmartQueue.Api.Live;
+using SmartQueue.Api.Demo;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Database") ?? throw new InvalidOperationException("Configure ConnectionStrings:Database");
@@ -31,6 +33,10 @@ builder.Services.AddAuthorization();
 builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
 builder.Services.AddScoped<SmtpEmail>();
 builder.Services.AddSingleton<TicketLinks>();
+builder.Services.AddSmartQueueLive();
+builder.Services.AddDemo(builder.Configuration);
+builder.Services.Configure<AutoSkipOptions>(builder.Configuration.GetSection(AutoSkipOptions.SectionName));
+builder.Services.AddHostedService<AutoSkipWorker>();
 var keysPath = builder.Configuration["DataProtection:KeyPath"] ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "smartqueue", "keys");
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(keysPath)).SetApplicationName("SmartQueue");
 
@@ -43,6 +49,7 @@ app.Use(async (context, next) =>
     catch (AntiforgeryValidationException) { context.Response.StatusCode = 400; await context.Response.WriteAsJsonAsync(new { code = "invalid_csrf" }); }
 });
 app.UseAuthentication();
+app.UseDemoSessions();
 app.UseAuthorization();
 app.Use(async (context, next) =>
 {
@@ -54,6 +61,10 @@ app.MapAccounts();
 app.MapShops();
 app.MapTickets();
 app.MapServing();
+app.MapCancel();
+app.MapWalkin();
+app.MapSmartQueueLive();
+app.MapDemo();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ready" }));
 app.MapFallback("/api/{**path}", async context =>
 {

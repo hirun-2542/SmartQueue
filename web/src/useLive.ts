@@ -123,8 +123,8 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
         await subscribe();
         if (disposed) return;
         setError(null);
-        setStatus('live');
         await resyncHandler.current?.({ reason, serverTime: serverTimeRef.current });
+        if (!disposed) setStatus('live');
       } catch (failure) {
         if (disposed) return;
         setError(failure instanceof Error ? failure.message : 'subscribe_failed');
@@ -138,9 +138,10 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
         return;
       }
       try {
+        setStatus('connecting');
         await subscribe();
-        if (!disposed) setStatus('live');
         await resyncHandler.current?.({ reason: 'visible', serverTime: serverTimeRef.current });
+        if (!disposed) setStatus('live');
       } catch (failure) {
         if (disposed) return;
         setError(failure instanceof Error ? failure.message : 'subscribe_failed');
@@ -158,8 +159,8 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
         await subscribe();
         if (disposed) return;
         setError(null);
-        setStatus('live');
         await resyncHandler.current?.({ reason: 'reconnected', serverTime: serverTimeRef.current });
+        if (!disposed) setStatus('live');
       } catch (failure) {
         if (disposed) return;
         setError(failure instanceof Error ? failure.message : 'subscribe_failed');

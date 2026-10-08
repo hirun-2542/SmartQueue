@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Check, Mail } from 'lucide-react';
 import { post } from './api';
 import { LanguageSwitch, useErrorText, useLanguage } from './language';
+import { TryDemo } from './TryDemo';
 
 export function AccountPage({mode,onSignedIn}:{mode:'login'|'register'|'forgot'|'reset'|'verify';onSignedIn:()=>Promise<void>}) {
   const {language,t}=useLanguage();const errorText=useErrorText();const navigate=useNavigate();const [params]=useSearchParams();
@@ -28,5 +29,6 @@ export function AccountPage({mode,onSignedIn}:{mode:'login'|'register'|'forgot'|
       <button className="primary" type="submit" disabled={pending}>{pending?t('กำลังดำเนินการ…','Working…'):buttons[mode]}</button>
       {mode==='login'?<Link className="text-action centered" to="/account/register">{t('ยังไม่มีบัญชี? สมัครเจ้าของร้าน','New here? Create your Owner account')}</Link>:<Link className="text-action centered" to="/">{t('กลับไปเข้าสู่ระบบ','Back to sign in')}</Link>}
     </form>}
+    {mode==='login'&&<TryDemo onSignedIn={onSignedIn}/>}
   </main>;
 }

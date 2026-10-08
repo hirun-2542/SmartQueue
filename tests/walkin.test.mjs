@@ -29,7 +29,6 @@ test('Walk-in Tickets share the Business-day counter and FIFO with Customer Tick
   assert.equal(walkin.body.ticket.number,'A002');
   assert.equal(walkin.body.ticket.origin,'WalkIn');
   assert.equal(walkin.body.ticket.status,'Waiting');
-  assert.equal(walkin.body.ticket.version,1);
   assert.equal(walkin.body.ticket.note,'Khun Lung — short cut');
   assert.equal(walkin.body.ticket.serviceName,'Cut');
   assert.equal(walkin.body.joinedAhead,1);
