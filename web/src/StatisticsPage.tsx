@@ -56,7 +56,7 @@ export function StatisticsPage(){
   return <section className="statistics-page" aria-busy={loading}>
     <h1>{t('สถิติ','Statistics')}</h1>
     <div className="stats-range" role="tablist" aria-label={t('ช่วงรอบเปิดคิว','Business day range')}>
-      {ranges.map(value=><button key={value} type="button" role="tab" aria-selected={range===value} className={range===value?'active':''} onClick={()=>setRange(value)}>{value==='current'?t('รอบล่าสุด','Latest round'):value==='latest7'?t('7 วันทำงาน','7 business days'):t('30 วันทำงาน','30 business days')}</button>)}
+      {ranges.map(value=><button key={value} type="button" role="tab" aria-selected={range===value} className={range===value?'active':''} onClick={()=>setRange(value)}>{value==='current'?t('รอบล่าสุด','Latest round'):value==='latest7'?t('7 รอบล่าสุด','7 rounds'):t('30 รอบล่าสุด','30 rounds')}</button>)}
     </div>
     <div className="stats-service">
       <label><span>{t('บริการ','Service')}</span>

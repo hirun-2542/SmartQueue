@@ -1,7 +1,7 @@
 .statistics-page{display:grid;gap:0}
 .statistics-page h1{margin:0 0 16px}
-.stats-range{display:flex;gap:24px;overflow-x:auto;border-bottom:1px solid var(--line);margin:0 -24px 16px;padding:0 24px;scrollbar-width:thin}
-.stats-range button{position:relative;display:flex;align-items:center;min-height:48px;padding:0;background:transparent;color:var(--muted);font-size:16px;font-weight:500;white-space:nowrap}
+.stats-range{display:flex;gap:8px;border-bottom:1px solid var(--line);margin:0 0 16px}
+.stats-range button{position:relative;display:flex;align-items:center;justify-content:center;flex:1;min-width:48px;min-height:48px;padding:6px 2px;background:transparent;color:var(--muted);font-size:16px;font-weight:500;white-space:normal;text-align:center}
 .stats-range button.active{color:var(--ink);font-weight:600}
 .stats-range button.active::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:3px;border-radius:1.5px;background:var(--terra)}
 .stats-service{margin:0 0 12px}

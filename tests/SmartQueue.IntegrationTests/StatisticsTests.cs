@@ -117,7 +117,6 @@ public sealed class StatisticsTests : IAsyncLifetime
         var called = await CallAsync(owner.Api, shopId, cut.QueueId);
         cluster.Jump(TimeSpan.FromMinutes(3));
         var started = await StartAsync(owner.Api, called);
-        cluster.Jump(TimeSpan.FromMinutes(1));
         await JoinAsync(owner.Api, cut.QueueId);
 
         // One Ticket in service and one still Waiting: no outcome exists yet, so both rates have no denominator,

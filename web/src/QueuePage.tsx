@@ -1,7 +1,7 @@
 import { useEffect,useRef,useState } from 'react';
 import { Link } from 'react-router-dom';
 import { RefreshCw } from 'lucide-react';
-import { api,post } from './api';
+import { ApiFailure,api,post } from './api';
 import { useOwner } from './OwnerState';
 import { useLanguage,useErrorText } from './language';
 import type { ConsoleSnapshot } from './consoleTypes';
@@ -21,7 +21,18 @@ export function QueuePage(){
     if(!requestedQueue.current&&value.selectedQueueId){requestedQueue.current=value.selectedQueueId;setSelected(value.selectedQueueId);}
     setView(previous=>previous?.shopId===value.shopId&&previous.version>value.version?previous:value);
   }
-  async function load(){if(shop){const queueId=requestedQueue.current;applySnapshot(await api<ConsoleSnapshot>(`/api/shops/${shop.id}/console${queueId?'?queueId='+queueId:''}`));}}
+  async function load(){
+    if(!shop)return;const queueId=requestedQueue.current;
+    try{applySnapshot(await api<ConsoleSnapshot>(`/api/shops/${shop.id}/console${queueId?'?queueId='+queueId:''}`));}
+    catch(failure){
+      if(!(failure instanceof ApiFailure)||failure.code!=='not_found'||!queueId)throw failure;
+      if(activeShop.current!==shop.id||requestedQueue.current!==queueId)return;
+      const fresh=await api<ConsoleSnapshot>(`/api/shops/${shop.id}/console`);
+      if(fresh.queues.some(q=>q.id===queueId))throw failure;
+      if(activeShop.current!==shop.id||requestedQueue.current!==queueId)return;
+      requestedQueue.current=fresh.selectedQueueId;setSelected(fresh.selectedQueueId);applySnapshot(fresh);
+    }
+  }
   const liveQueue=selected&&shop?.services.some(s=>s.queue.id===selected)?selected:view?.shopId===shop?.id?view?.selectedQueueId:null;
   const live=useLive({scope:shop?{kind:'shop',shopId:shop.id,queueId:liveQueue}:null,onMessage:message=>{if(message.console)applySnapshot(message.console);},resync:()=>load()});
   useEffect(()=>{let active=true;setView(null);if(shop)api<ConsoleSnapshot>(`/api/shops/${shop.id}/console${selected?'?queueId='+selected:''}`).then(v=>{if(active){applySnapshot(v);setError('');}}).catch(f=>{if(active)setError(errorText(f))});return()=>{active=false};},[shop?.id,selected]);
