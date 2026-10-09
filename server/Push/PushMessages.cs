@@ -21,12 +21,12 @@ public sealed record PushTarget(string Endpoint, string P256dh, string Auth);
 public sealed record PushPayload(Guid TicketId, string Event, string Number, string Language);
 
 /// <summary>One delivery ready to be handed to the dispatcher after the transaction that produced it committed.</summary>
-public sealed record PushEnvelope(PushTarget Target, Guid TicketId, string Event, string Language, string Payload);
+public sealed record PushEnvelope(PushTarget Target, Guid TicketId, string Payload);
 
 public static class PushMessages
 {
     private static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web);
 
     public static PushEnvelope Create(PushTarget target, Guid ticketId, string number, string @event, string language) =>
-        new(target, ticketId, @event, language, JsonSerializer.Serialize(new PushPayload(ticketId, @event, number, language), Json));
+        new(target,ticketId,JsonSerializer.Serialize(new PushPayload(ticketId,@event,number,language),Json));
 }

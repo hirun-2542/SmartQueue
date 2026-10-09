@@ -167,8 +167,8 @@ test('the board current Call moves Call → Start → Complete without a second 
   const first = await takeTicket(guest, services[0].queue.id, 'Board lifecycle note');
   const second = await takeTicket(guest, services[0].queue.id);
 
-  const view = await consoleOf(owner, shop.id, services[0].queue.id);
-  const call = await owner.post(`/api/queues/${services[0].queue.id}/call`, { version: view.version });
+  
+  const call = await owner.post(`/api/queues/${services[0].queue.id}/call`, {});
   assert.equal(call.status, 200);
 
   const called = await boardOf(shop.publicId);
@@ -191,8 +191,8 @@ test('the board current Call moves Call → Start → Complete without a second 
   assert.equal(completed.body.recent[0].number, first.ticket.number);
   assert.equal(completed.body.recent[0].status, 'Completed');
 
-  const nextView = await consoleOf(owner, shop.id, services[0].queue.id);
-  const nextCall = await owner.post(`/api/queues/${services[0].queue.id}/call`, { version: nextView.version });
+  
+  const nextCall = await owner.post(`/api/queues/${services[0].queue.id}/call`, {});
   assert.equal(nextCall.status, 200);
   const after = await boardOf(shop.publicId);
   assert.equal(after.body.currentCalled.number, second.ticket.number, 'exactly the newly Called Ticket is current');

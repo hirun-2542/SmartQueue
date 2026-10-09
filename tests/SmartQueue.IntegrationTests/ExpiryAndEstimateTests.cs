@@ -70,8 +70,7 @@ public sealed class ExpiryAndEstimateTests : IAsyncLifetime
     private async Task Serve(SmartQueueClient owner,SmartQueueClient guest,QueueFixture queue,TimeSpan duration)
     {
         var joined=await guest.PostAsync($"/api/queues/{queue.QueueId}/tickets",new{requestId=Guid.NewGuid(),confirmExtra=true});Assert.Equal(HttpStatusCode.Created,joined.Status);
-        var console=await owner.GetAsync($"/api/shops/{queue.ShopId}/console?queueId={queue.QueueId}");
-        var call=await owner.PostAsync($"/api/queues/{queue.QueueId}/call",new{version=console.GetProperty("version").GetInt64()});Assert.Equal(HttpStatusCode.OK,call.Status);
+        var call=await owner.PostAsync($"/api/queues/{queue.QueueId}/call",new{});Assert.Equal(HttpStatusCode.OK,call.Status);
         var id=call.Body.GetProperty("id").GetGuid();var start=await owner.PostAsync($"/api/tickets/{id}/start",new{version=call.Body.GetProperty("version").GetInt64()});Assert.Equal(HttpStatusCode.OK,start.Status);
         cluster.Jump(duration);
         Assert.Equal(HttpStatusCode.OK,(await owner.PostAsync($"/api/tickets/{id}/complete",new{version=start.Body.GetProperty("version").GetInt64()})).Status);

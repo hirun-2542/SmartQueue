@@ -45,10 +45,7 @@ function join(guest, queue, extra = false) {
   return guest.post(`/api/queues/${queue}/tickets`, { requestId: randomUUID(), confirmExtra: extra });
 }
 
-async function callNext(owner, shop, queue) {
-  const view = await consoleSnapshot(owner, shop, queue);
-  return owner.post(`/api/queues/${queue}/call`, { version: view.version });
-}
+async function callNext(owner, shop, queue){return owner.post(`/api/queues/${queue}/call`, {});}
 
 async function start(owner, ticket) { return owner.post(`/api/tickets/${ticket.id}/start`, { version: ticket.version }); }
 async function complete(owner, ticket) { return owner.post(`/api/tickets/${ticket.id}/complete`, { version: ticket.version }); }

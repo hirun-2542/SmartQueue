@@ -37,13 +37,13 @@ test('Walk-in Tickets share the Business-day counter and FIFO with Customer Tick
   assert.deepEqual(view.waiting.map(x=>x.number),['A001','A002','A003']);
   assert.equal(view.waiting[1].origin,'WalkIn');
   assert.equal(view.waiting[1].note,'Khun Lung — short cut');
-  const first=await owner.post(`/api/queues/${queue}/call`,{version:view.version});
+  const first=await owner.post(`/api/queues/${queue}/call`, {});
   assert.equal(first.body.number,'A001');
   const started=await owner.post(`/api/tickets/${first.body.id}/start`,{version:first.body.version});
   assert.equal(started.body.status,'InService');
   assert.equal((await owner.post(`/api/tickets/${first.body.id}/complete`,{version:started.body.version})).body.status,'Completed');
   view=await consoleView(owner,shop,queue);
-  const walkinCall=await owner.post(`/api/queues/${queue}/call`,{version:view.version});
+  const walkinCall=await owner.post(`/api/queues/${queue}/call`, {});
   assert.equal(walkinCall.body.number,'A002');
   assert.equal(walkinCall.body.origin,'WalkIn');
   const walkinStart=await owner.post(`/api/tickets/${walkinCall.body.id}/start`,{version:walkinCall.body.version});
@@ -52,7 +52,7 @@ test('Walk-in Tickets share the Business-day counter and FIFO with Customer Tick
   assert.equal(walkinComplete.body.status,'Completed');
   assert.equal(walkinComplete.body.endReason,'completed');
   view=await consoleView(owner,shop,queue);
-  assert.equal((await owner.post(`/api/queues/${queue}/call`,{version:view.version})).body.number,'A003');
+  assert.equal((await owner.post(`/api/queues/${queue}/call`, {})).body.number,'A003');
 });
 
 test('Walk-in Tickets carry no Ticket link or device quota and stay private to the Owner',async()=>{
@@ -104,7 +104,7 @@ test('Simultaneous Walk-ins allocate unique numbers and enter the same Call FIFO
   assert.equal((await guest.post(`/api/queues/${queue}/tickets`,{requestId:randomUUID()})).body.ticket.number,'A007');
   const view=await consoleView(owner,shop,queue);
   assert.equal(view.waiting.length,7);
-  const call=await owner.post(`/api/queues/${queue}/call`,{version:view.version});
+  const call=await owner.post(`/api/queues/${queue}/call`, {});
   assert.equal(call.body.number,'A001','Oldest Walk-in must be Called before later Tickets');
   assert.equal(call.body.origin,'WalkIn');
   assert.equal(new Date(call.body.deadline).getTime()-new Date(call.body.calledAt).getTime(),600000,'Walk-ins stay under the Service Call timeout');
@@ -114,6 +114,6 @@ test('Simultaneous Walk-ins allocate unique numbers and enter the same Call FIFO
   const skip=await owner.post(`/api/tickets/${call.body.id}/skip`,{version:call.body.version});
   assert.equal(skip.body.status,'Skipped');
   assert.equal(skip.body.endReason,'manual_skip');
-  const after=await consoleView(owner,shop,queue);
-  assert.equal((await owner.post(`/api/queues/${queue}/call`,{version:after.version})).body.number,'A002');
+  
+  assert.equal((await owner.post(`/api/queues/${queue}/call`, {})).body.number,'A002');
 });

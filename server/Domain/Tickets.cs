@@ -13,10 +13,14 @@ public sealed class BusinessDay
     public DateTimeOffset OpenedAt { get; set; }
     public DateTimeOffset? ClosedAt { get; set; }
     public int Counter { get; set; }
+    public string IssueNumber(string prefix)=>prefix+(++Counter).ToString("D3",System.Globalization.CultureInfo.InvariantCulture);
 }
 
 public sealed partial class Ticket
 {
+    public static readonly TicketStatus[] ActiveStatuses=[TicketStatus.Waiting,TicketStatus.Called,TicketStatus.InService];
+    public bool IsActive()=>ActiveStatuses.Contains(Status);
+    public bool IsLinkExpired(DateTimeOffset now)=>EndedAt is { } ended&&now>=ended.AddHours(24);
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid ShopId { get; set; }
     public Guid QueueId { get; set; }

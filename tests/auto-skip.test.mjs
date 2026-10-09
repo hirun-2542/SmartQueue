@@ -43,8 +43,8 @@ test('the real worker auto-Skips a Called Ticket past its deadline without any l
   assert.equal(joined.status, 201);
   const link = joined.body.link;
 
-  const before = await consoleSnapshot(owner, shop, queue);
-  const call = await owner.post(`/api/queues/${queue}/call`, { version: before.version });
+  
+  const call = await owner.post(`/api/queues/${queue}/call`, {});
   assert.equal(call.status, 200);
   assert.equal(call.body.status, 'Called');
   assert.ok(call.body.deadline, 'a Called Ticket publishes its server deadline for the countdown');
@@ -68,8 +68,8 @@ test('the real worker auto-Skips a Called Ticket past its deadline without any l
   const taken = await join(guest, queue);
   assert.equal(taken.status, 201, 'a Skipped Customer can take a new Ticket because terminal Tickets leave no quota');
 
-  const ready = await consoleSnapshot(owner, shop, queue);
-  const next = await owner.post(`/api/queues/${queue}/call`, { version: ready.version });
+  
+  const next = await owner.post(`/api/queues/${queue}/call`, {});
   assert.equal(next.status, 200, 'the Owner can Call again once the timeout released the Shop');
   assert.equal(next.body.status, 'Called');
 });
@@ -79,8 +79,8 @@ test('the real worker never auto-Skips a Ticket whose service already started', 
   const joined = await join(guest, queue);
   const link = joined.body.link;
 
-  const before = await consoleSnapshot(owner, shop, queue);
-  const call = await owner.post(`/api/queues/${queue}/call`, { version: before.version });
+  
+  const call = await owner.post(`/api/queues/${queue}/call`, {});
   assert.equal(call.status, 200);
   const start = await owner.post(`/api/tickets/${call.body.id}/start`, { version: call.body.version });
   assert.equal(start.status, 200);

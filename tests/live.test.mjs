@@ -267,8 +267,8 @@ test('private Ticket subscriptions follow committed transitions and refuse unkno
   assert.equal(initial.ticket.note ?? null, null, 'a Customer snapshot must not expose the private note');
   assert.equal(JSON.stringify(initial).includes('Hidden note'), false);
 
-  const view = (await consoleOf(owner, base, shop.id, service.queue.id)).body;
-  const call = await owner.post(`/api/queues/${service.queue.id}/call`, { version: view.version });
+  
+  const call = await owner.post(`/api/queues/${service.queue.id}/call`, {});
   assert.equal(call.status, 200);
   const called = await ticket.update();
   assert.equal(called.ticket.status, 'Called');
@@ -308,8 +308,8 @@ test('a Waiting Ticket receives position updates driven by other Tickets while i
   assert.equal(initial.ticket.ticketsAhead, 1, 'the second Ticket starts one place behind');
   const ownVersion = initial.ticket.version;
 
-  const view = (await consoleOf(owner, base, shop.id, service.queue.id)).body;
-  const call = await owner.post(`/api/queues/${service.queue.id}/call`, { version: view.version });
+  
+  const call = await owner.post(`/api/queues/${service.queue.id}/call`, {});
   assert.equal(call.status, 200);
   const moved = await tail.update();
   assert.equal(moved.ticket.ticketsAhead, 0, 'calling the older Ticket must move this Waiting Ticket forward');
@@ -347,8 +347,8 @@ test('changes committed on another API instance reach subscribers through Postgr
   const boardOnRemote = await remoteBoard.update();
   assert.equal(boardOnRemote.kind, 'public');
 
-  const localView = (await consoleOf(owner, base, shop.id, service.queue.id)).body;
-  const call = await owner.post(`/api/queues/${service.queue.id}/call`, { version: localView.version });
+  
+  const call = await owner.post(`/api/queues/${service.queue.id}/call`, {});
   assert.equal(call.status, 200);
   const remoteUpdate = await remoteBoard.update();
   assert.equal(remoteUpdate.kind, 'public');
@@ -381,8 +381,8 @@ test('a reconnecting subscriber resyncs the latest state and server clock', asyn
   assert.equal(before.ticket.status, 'Waiting');
   backgrounded.close();
 
-  const view = (await consoleOf(owner, base, shop.id, service.queue.id)).body;
-  const call = await owner.post(`/api/queues/${service.queue.id}/call`, { version: view.version });
+  
+  const call = await owner.post(`/api/queues/${service.queue.id}/call`, {});
   assert.equal(call.status, 200);
 
   const returned = await LiveClient.open(base, null);

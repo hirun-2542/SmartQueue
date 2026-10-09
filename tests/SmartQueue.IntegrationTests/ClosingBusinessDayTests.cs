@@ -101,8 +101,7 @@ public sealed class ClosingBusinessDayTests : IAsyncLifetime
 
     private static async Task CompleteNextAsync(SmartQueueClient owner, Guid shopId, Guid queueId)
     {
-        var console = await owner.GetAsync($"/api/shops/{shopId}/console?queueId={queueId}");
-        var call = await owner.PostAsync($"/api/queues/{queueId}/call", new { version = console.GetProperty("version").GetInt64() });
+        var call = await owner.PostAsync($"/api/queues/{queueId}/call",new{});
         Assert.Equal(HttpStatusCode.OK, call.Status);
         var ticketId = call.Body.GetProperty("id").GetGuid();
         var start = await owner.PostAsync($"/api/tickets/{ticketId}/start", new { version = call.Body.GetProperty("version").GetInt64() });

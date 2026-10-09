@@ -65,7 +65,7 @@ Unknown API resources return a JSON 404 rather than the SPA page. Private Ticket
 
 ## Serving Tickets
 
-The mobile Queue console calls the oldest Waiting Ticket in the selected Queue. Each Shop holds at most one Called or InService Ticket. Call checks the observed Shop version; Start, Complete and Skip check the Ticket version. Stale actions return a conflict and fresh state, not an automatic retry against another Ticket.
+The mobile Queue console calls the oldest Waiting Ticket in the selected Queue under the Shop row lock. Each Shop holds at most one Called or InService Ticket. Call next does not require a global Shop-version token: unrelated receiving or notification changes must not invalidate it. Start, Complete and Skip check the Ticket version; conflicts return fresh state and are never automatically retried.
 
 Call deadlines and elapsed service time are anchored to server timestamps. The Customer view distinguishes Waiting, Called, InService and terminal outcomes; notes remain Owner-only.
 
@@ -101,6 +101,8 @@ Private statistics select the current/latest or latest 7/30 Business days of eac
 
 Historical selection is bounded in PostgreSQL per Queue; the app does not load every old Business day to display seven rounds. Archived Services remain selectable for history.
 
+Statistics also expose issued counts for each individual Business day, shown as ruled rows with Bangkok opening times. The board clock advances from a server-time anchor and always displays Asia/Bangkok, irrespective of the display device's timezone.
+
 ## Demand and optional notifications
 
 Hourly demand and weekday patterns reuse the statistics selection and count the original receive timestamps in Asia/Bangkok. Call or completion time never moves a received Ticket into another demand bucket. The mobile heatmap splits the day into two labelled halves and prints counts as well as intensity.
@@ -119,5 +121,5 @@ Enter demo mode, then choose **Try three views**. The simulator issues ordinary 
 
 Open the Owner, Customer and Display board links in separate tabs. The guide includes a two-Owner Call race and concurrent receiving. Its optional 10-second timeout changes the selected demo Service through the normal edit API; existing Called deadlines remain unchanged and the real five-second worker determines when to Skip.
 
-The installed app starts at `/resume`, offering the last validated Ticket link saved on that device and the Owner entry. The public manifest never contains a bearer secret. A resumed link is checked by the normal API, including expiry; browser storage is convenience, not an alternative Customer identity.
+The installed app starts at `/resume`, offering the last validated Ticket link, a same-site link paste form and the Owner entry. Copy the Ticket link before adding the app to the Home Screen: installed iOS storage may be isolated from Safari. The public manifest never contains a bearer secret. Every resumed or pasted link is checked by the normal API, including expiry; browser storage is convenience, not an alternative Customer identity.
 

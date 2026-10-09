@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.WebUtilities;
 using SmartQueue.Api.Push;
+using System.Text.Json;
 
 namespace SmartQueue.IntegrationTests;
 
@@ -12,23 +13,25 @@ namespace SmartQueue.IntegrationTests;
 /// about Ticket or Queue state is simulated here: the operations under test are real HTTP requests against a
 /// real PostgreSQL database. A captured envelope is evidence of the policy, never of device delivery.
 /// </summary>
+internal sealed record CapturedPush(PushTarget Target,Guid TicketId,string Event,string Language,string Payload);
 internal sealed class TestPushSink : IPushDelivery
 {
-    private readonly ConcurrentQueue<PushEnvelope> captured = new();
+    private readonly ConcurrentQueue<CapturedPush> captured = new();
 
     /// <summary>When true every delivery throws, standing in for a push service that rejects the request.</summary>
     public bool Fail { get; set; }
 
     public Task DeliverAsync(PushEnvelope envelope, CancellationToken cancellationToken)
     {
-        captured.Enqueue(envelope);
+        using var payload=JsonDocument.Parse(envelope.Payload);var root=payload.RootElement;
+        captured.Enqueue(new CapturedPush(envelope.Target,root.GetProperty("ticketId").GetGuid(),root.GetProperty("event").GetString()!,root.GetProperty("language").GetString()!,envelope.Payload));
         if (Fail) throw new InvalidOperationException("push service rejected the delivery");
         return Task.CompletedTask;
     }
 
-    public PushEnvelope[] Captured => captured.ToArray();
+    public CapturedPush[] Captured => captured.ToArray();
 
-    public async Task<PushEnvelope[]> WaitAsync(int count, int timeoutSeconds = 10)
+    public async Task<CapturedPush[]> WaitAsync(int count, int timeoutSeconds = 10)
     {
         var deadline = DateTime.UtcNow.AddSeconds(timeoutSeconds);
         while (true)
@@ -42,7 +45,7 @@ internal sealed class TestPushSink : IPushDelivery
     }
 
     /// <summary>Waits a bounded window and reports how much arrived, which is how a rolled-back change is shown to deliver nothing.</summary>
-    public async Task<PushEnvelope[]> SettleAsync(int milliseconds = 1000)
+    public async Task<CapturedPush[]> SettleAsync(int milliseconds = 1000)
     {
         await Task.Delay(milliseconds);
         return Captured;

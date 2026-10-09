@@ -38,7 +38,7 @@ export function QueuePage(){
   useEffect(()=>{let active=true;setView(null);if(shop)api<ConsoleSnapshot>(`/api/shops/${shop.id}/console${selected?'?queueId='+selected:''}`).then(v=>{if(active){applySnapshot(v);setError('');}}).catch(f=>{if(active)setError(errorText(f))});return()=>{active=false};},[shop?.id,selected]);
   async function action(kind:'call'|'start'|'complete'|'skip'){
     if(!view||requestedQueue.current!==view.selectedQueueId)return;setPending(true);setError('');
-    try{if(kind==='call')await post(`/api/queues/${view.selectedQueueId}/call`,{version:view.version});else if(view.held)await post(`/api/tickets/${view.held.id}/${kind}`,{version:view.held.version});await load();}
+    try{if(kind==='call')await post(`/api/queues/${view.selectedQueueId}/call`, {});else if(view.held)await post(`/api/tickets/${view.held.id}/${kind}`,{version:view.held.version});await load();}
     catch(f){setError(errorText(f));try{await load();}catch(refreshError){setError(errorText(refreshError));}}finally{setPending(false);}
   }
   const changing=selected!==null&&view?.selectedQueueId!==selected;

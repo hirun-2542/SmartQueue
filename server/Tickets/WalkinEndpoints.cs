@@ -16,11 +16,11 @@ public static class WalkinEndpoints
             await using var unit=await ShopTransaction.OpenAsync(db,shopId,context.OwnerId());
             var queue=await db.Set<Domain.Queue>().Include(x=>x.Service).SingleAsync(x=>x.Id==id);
             if(queue.Service.Archived)throw new ApiException("service_archived");
-            if(queue.Status!="Open"||queue.BusinessDayId is null)throw new ApiException("queue_closed");
+            if(queue.Status != QueueStatus.Open||queue.BusinessDayId is null)throw new ApiException("queue_closed");
             var day=await db.Set<BusinessDay>().SingleAsync(x=>x.Id==queue.BusinessDayId);
-            day.Counter++;
+            var number=day.IssueNumber(queue.Service.Prefix);
             var ahead=await db.Set<Ticket>().CountAsync(x=>x.QueueId==id&&x.Status==TicketStatus.Waiting);
-            var ticket=new Ticket{ShopId=shopId,QueueId=id,BusinessDayId=day.Id,Prefix=queue.Service.Prefix,Number=queue.Service.Prefix+day.Counter.ToString("D3"),Origin="WalkIn",Note=string.IsNullOrWhiteSpace(request.Note)?null:request.Note.Trim(),ReceivedAt=time.GetUtcNow(),JoinedAhead=ahead};
+            var ticket=new Ticket{ShopId=shopId,QueueId=id,BusinessDayId=day.Id,Prefix=queue.Service.Prefix,Number=number,Origin="WalkIn",Note=string.IsNullOrWhiteSpace(request.Note)?null:request.Note.Trim(),ReceivedAt=time.GetUtcNow(),JoinedAhead=ahead};
             db.Add(ticket);await unit.CommitAsync();
             return Results.Json(new{ticket=await OwnerViews.TicketAsync(db,ticket,time),joinedAhead=ticket.JoinedAhead},statusCode:201);
         }).RequireAuthorization();

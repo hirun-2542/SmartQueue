@@ -58,7 +58,7 @@ public static class BoardViews
             shop.Version,
             current is null ? null : new BoardTicketDto(current.Number, byQueue.TryGetValue(current.QueueId, out var currentQueue) ? currentQueue.Service.Name : "", TicketStatus.Called.ToString()),
             recent.Select(x => new BoardTicketDto(x.Number, byQueue.TryGetValue(x.QueueId, out var recentQueue) ? recentQueue.Service.Name : "", x.Status.ToString())).ToArray(),
-            queues.Where(x => !x.Service.Archived || x.Status!="Closed").OrderBy(x => x.Service.Name)
+            queues.Where(x => !x.Service.Archived || x.Status != QueueStatus.Closed).OrderBy(x => x.Service.Name)
                 .Select(x => new BoardServiceDto(x.Service.Id, x.Service.Name, x.Service.Prefix, x.Status,
                     waitingByQueue.TryGetValue(x.Id, out var numbers) ? numbers : Array.Empty<string>()))
                 .ToArray(),

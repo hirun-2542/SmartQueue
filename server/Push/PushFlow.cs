@@ -5,10 +5,10 @@ using SmartQueue.Api.Domain;
 namespace SmartQueue.Api.Push;
 
 /// <summary>One association inside the Shop at capture time: enough to build a delivery without reading the database again after commit.</summary>
-public sealed record PushSubscriber(Guid SubscriptionId, Guid TicketId, Guid QueueId, Guid ServiceId, PushTarget Target, string Language);
+public sealed record PushSubscriber(Guid TicketId, PushTarget Target, string Language);
 
 /// <summary>The public, pre-transaction state of a subscribed Ticket: its status, its public number, how many Waiting Tickets were ahead of it, and whether its one near-turn notification was already produced.</summary>
-public sealed record PushTicketState(Guid Id, Guid QueueId, Guid ServiceId, string Number, TicketStatus Status, int Ahead, int Threshold, DateTimeOffset? NearTurnNotifiedAt);
+public sealed record PushTicketState(Guid Id, Guid QueueId, string Number, TicketStatus Status, int Ahead, int Threshold, DateTimeOffset? NearTurnNotifiedAt);
 
 /// <summary>
 /// What a Shop transaction captured before it wrote anything. Empty for the common case of a Shop with no
@@ -51,7 +51,7 @@ public static class PushFlow
     {
         var associations = await db.Set<PushSubscription>().AsNoTracking()
             .Where(x => x.ShopId == shopId)
-            .Select(x => new { x.Id, x.TicketId, x.QueueId, x.Endpoint, x.P256dh, x.Auth, x.Language })
+            .Select(x => new { x.TicketId, x.QueueId, x.Endpoint, x.P256dh, x.Auth, x.Language })
             .ToListAsync(cancellationToken);
         if (associations.Count == 0) return PushCapture.Empty;
 
@@ -62,8 +62,7 @@ public static class PushFlow
         var subscribers = new List<PushSubscriber>(associations.Count);
         foreach (var association in associations)
         {
-            var service = before.TryGetValue(association.TicketId, out var state) ? state.ServiceId : Guid.Empty;
-            subscribers.Add(new PushSubscriber(association.Id, association.TicketId, association.QueueId, service, new PushTarget(association.Endpoint, association.P256dh, association.Auth), association.Language));
+            subscribers.Add(new PushSubscriber(association.TicketId,new PushTarget(association.Endpoint,association.P256dh,association.Auth),association.Language));
         }
         return new(subscribers, before);
     }
@@ -132,7 +131,7 @@ public static class PushFlow
     public static void Enqueue(AppDbContext db, IReadOnlyList<PushEnvelope> envelopes)
     {
         if (envelopes.Count == 0) return;
-        db.Push?.Enqueue(envelopes);
+        db.Push.Enqueue(envelopes);
     }
 
     private static string? EventFor(PushTicketState before, PushTicketState after)
@@ -152,7 +151,7 @@ public static class PushFlow
     {
         var queues = await db.Set<Domain.Queue>().AsNoTracking()
             .Where(x => queueIds.Contains(x.Id))
-            .Select(x => new { x.Id, x.ServiceId, x.Service.NearTurnThreshold })
+            .Select(x => new { x.Id, x.Service.NearTurnThreshold })
             .ToDictionaryAsync(x => x.Id, cancellationToken);
         var tickets = await db.Set<Ticket>().AsNoTracking()
             .Where(x => ticketIds.Contains(x.Id))
@@ -176,8 +175,8 @@ public static class PushFlow
         var states = new Dictionary<Guid, PushTicketState>(tickets.Count);
         foreach (var ticket in tickets)
         {
-            queues.TryGetValue(ticket.QueueId, out var queue);
-            states[ticket.Id] = new PushTicketState(ticket.Id, ticket.QueueId, queue?.ServiceId ?? Guid.Empty, ticket.Number, ticket.Status, ahead.GetValueOrDefault(ticket.Id), queue?.NearTurnThreshold ?? 0, ticket.NearTurnNotifiedAt);
+            var queue=queues[ticket.QueueId];
+            states[ticket.Id] = new PushTicketState(ticket.Id,ticket.QueueId,ticket.Number,ticket.Status,ahead.GetValueOrDefault(ticket.Id),queue.NearTurnThreshold,ticket.NearTurnNotifiedAt);
         }
         return states;
     }

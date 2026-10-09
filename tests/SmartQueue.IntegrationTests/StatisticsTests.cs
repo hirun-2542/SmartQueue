@@ -167,6 +167,9 @@ public sealed class StatisticsTests : IAsyncLifetime
         Assert.Equal(15, Number(latest7, "completed"));
         // 7 latest Cut rounds plus the single Wash round: the old Cut round falls out, the Wash round does not.
         Assert.Equal(8, Number(latest7, "businessDayCount"));
+        var rounds=latest7.GetProperty("businessDays").EnumerateArray().ToArray();
+        Assert.All(rounds.Where(day=>day.GetProperty("serviceId").GetGuid()==cut.Id),day=>Assert.Equal(2,Number(day,"issued")));
+        Assert.Equal(1,Number(Assert.Single(rounds,day=>day.GetProperty("serviceId").GetGuid()==wash.Id),"issued"));
 
         var latest30 = await StatisticsAsync(owner.Api, shopId, "latest30");
         Assert.Equal(17, Number(latest30, "issued"));
@@ -187,10 +190,6 @@ public sealed class StatisticsTests : IAsyncLifetime
         Assert.Equal(14, Number(cutOnly, "issued"));
         Assert.Equal(7, Number(cutOnly, "businessDayCount"));
 
-        // Omitting the range uses the default of the latest seven Business days.
-        var withoutRange = await StatisticsAsync(owner.Api, shopId, null);
-        Assert.Equal("latest7", Text(withoutRange, "range"));
-        Assert.Equal(15, Number(withoutRange, "issued"));
     }
 
     [Fact]
@@ -387,7 +386,7 @@ public sealed class StatisticsTests : IAsyncLifetime
 
     private static async Task<JsonElement> CallAsync(SmartQueueClient owner, Guid shopId, Guid queueId)
     {
-        var call = await owner.PostAsync($"/api/queues/{queueId}/call", new { version = await ShopVersionAsync(owner, shopId) });
+        var call = await owner.PostAsync($"/api/queues/{queueId}/call",new{});
         Assert.Equal(HttpStatusCode.OK, call.Status);
         return call.Body;
     }

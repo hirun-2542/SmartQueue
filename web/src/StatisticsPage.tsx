@@ -8,7 +8,7 @@ import { DemandCharts } from './DemandCharts';
 
 type StatsRange='current'|'latest7'|'latest30';
 interface StatsService { id:string;name:string;prefix:string;archived:boolean }
-interface StatsBusinessDay { id:string;queueId:string;serviceId:string;serviceName:string;openedAt:string;closedAt:string|null }
+interface StatsBusinessDay { id:string;queueId:string;serviceId:string;serviceName:string;openedAt:string;closedAt:string|null;issued:number }
 interface Statistics {
   shopId:string;range:StatsRange;serviceId:string|null;serviceName:string|null;
   issued:number;completed:number;skipped:number;cancelled:number;dropped:number;pending:number;terminal:number;
@@ -104,6 +104,7 @@ export function StatisticsPage(){
             </div>
           </dl>}
       {!empty&&<p className="stats-note">{stats.pending>0?t(`${number(stats.pending)} คิวยังไม่จบ ไม่อยู่ในตัวหารของอัตรา`,`${number(stats.pending)} Tickets are still open and stay out of the rate denominator`):t('ทุกคิวในรอบนี้จบแล้ว','Every Ticket in this range has finished')}{t(` · อัตราคิดจาก ${number(stats.terminal)} คิวที่จบแล้ว`,` · rates use the ${number(stats.terminal)} finished Tickets`)}</p>}
+      <details className="demand-values"><summary>{t('จำนวนคิวแยกตามรอบเปิดคิว','Ticket counts by Business day')}</summary><dl className="stats-rows">{stats.businessDays.map(day=><div className="stats-row" key={day.id}><dt>{day.serviceName}<small>{new Intl.DateTimeFormat(language==='th'?'th-TH':'en-GB',{dateStyle:'short',timeStyle:'short',timeZone:'Asia/Bangkok'}).format(new Date(day.openedAt))} · {day.closedAt?t('ปิดแล้ว','Closed'):t('ยังเปิดอยู่','Open')}</small></dt><dd><span className="number stats-value">{number(day.issued)}</span><span className="stats-unit">{t('คิว','Tickets')}</span></dd></div>)}</dl></details>
       <DemandCharts shopId={shop.id} range={range} serviceId={serviceId} revision={revision}/>
       <button type="button" className="stats-refresh" onClick={()=>setRevision(value=>value+1)} disabled={loading}>{loading?t('กำลังอัปเดต…','Updating…'):t('อัปเดตสถิติ','Refresh statistics')}</button>
     </>}

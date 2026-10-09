@@ -29,9 +29,11 @@ public static class StatisticsViews
         int issued = tickets.Length, completed = 0, skipped = 0, cancelled = 0, dropped = 0, pending = 0;
         int waitSamples = 0, serviceSamples = 0;
         double waitSeconds = 0, serviceSeconds = 0;
+        var issuedByDay=new Dictionary<Guid,int>(selection.BusinessDays.Length);
 
         foreach (var ticket in tickets)
         {
+            issuedByDay[ticket.BusinessDayId]=issuedByDay.GetValueOrDefault(ticket.BusinessDayId)+1;
             switch (ticket.Status)
             {
                 case TicketStatus.Completed: completed++; break;
@@ -69,7 +71,7 @@ public static class StatisticsViews
             terminal == 0 ? (double?)null : (double)skipped / terminal,
             terminal == 0 ? (double?)null : (double)cancelled / terminal,
             selection.BusinessDays.Length,
-            selection.BusinessDays.Select(day => new StatisticsBusinessDayDto(day.Id, day.QueueId, day.ServiceId, day.ServiceName, day.OpenedAt, day.ClosedAt)).ToArray(),
+            selection.BusinessDays.Select(day => new StatisticsBusinessDayDto(day.Id, day.QueueId, day.ServiceId, day.ServiceName, day.OpenedAt, day.ClosedAt,issuedByDay.GetValueOrDefault(day.Id))).ToArray(),
             selection.Services.Select(service => new StatisticsServiceDto(service.Id, service.Name, service.Prefix, service.Archived)).ToArray(),
             serverTime);
     }
@@ -104,7 +106,7 @@ public sealed record StatisticsDto(
     DateTimeOffset ServerTime);
 
 /// <summary>One Business day round that was counted; <c>ClosedAt</c> is null while the round is still running.</summary>
-public sealed record StatisticsBusinessDayDto(Guid Id, Guid QueueId, Guid ServiceId, string ServiceName, DateTimeOffset OpenedAt, DateTimeOffset? ClosedAt);
+public sealed record StatisticsBusinessDayDto(Guid Id, Guid QueueId, Guid ServiceId, string ServiceName, DateTimeOffset OpenedAt, DateTimeOffset? ClosedAt,int Issued);
 
 /// <summary>One Service of the Shop; an archived Service keeps its history in the aggregates.</summary>
 public sealed record StatisticsServiceDto(Guid Id, string Name, string Prefix, bool Archived);

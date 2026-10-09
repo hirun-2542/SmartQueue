@@ -43,7 +43,7 @@ async function walkin(owner, queue, note = 'Walk-in Customer') {
 }
 
 async function callNext(owner, shop, queue) {
-  const called = await owner.post(`/api/queues/${queue}/call`, { version: await shopVersion(owner, shop) });
+  const called = await owner.post(`/api/queues/${queue}/call`, {});
   assert.equal(called.status, 200);
   return called.body;
 }

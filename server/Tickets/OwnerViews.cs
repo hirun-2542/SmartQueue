@@ -12,9 +12,9 @@ public static class OwnerViews
         await using var snapshot=db.Database.CurrentTransaction is null?await db.Database.BeginTransactionAsync(IsolationLevel.RepeatableRead):null;
         var now=time.GetUtcNow();
         var shop=await db.Set<Shop>().AsNoTracking().SingleOrDefaultAsync(x=>x.Id==shopId&&x.OwnerId==ownerId&&db.Users.Any(u=>u.Id==ownerId&&(u.DemoExpiresAt==null||u.DemoExpiresAt>now)))??throw new ApiException("not_found",404);
-        var queues=await db.Set<Domain.Queue>().AsNoTracking().Include(x=>x.Service).Where(x=>x.Service.ShopId==shopId&&(!x.Service.Archived||x.Status!="Closed")).OrderBy(x=>x.Service.Name).ToArrayAsync();
+        var queues=await db.Set<Domain.Queue>().AsNoTracking().Include(x=>x.Service).Where(x=>x.Service.ShopId==shopId&&(!x.Service.Archived||x.Status != QueueStatus.Closed)).OrderBy(x=>x.Service.Name).ToArrayAsync();
         if(selected.HasValue&&!queues.Any(x=>x.Id==selected))throw new ApiException("not_found",404);
-        var selectedId=selected??queues.FirstOrDefault(x=>x.Status=="Open")?.Id??queues.FirstOrDefault()?.Id;
+        var selectedId=selected??queues.FirstOrDefault(x=>x.Status == QueueStatus.Open)?.Id??queues.FirstOrDefault()?.Id;
         var counts=await db.Set<Ticket>().Where(x=>x.ShopId==shopId&&x.Status==TicketStatus.Waiting).GroupBy(x=>x.QueueId).Select(g=>new{Id=g.Key,Count=g.Count()}).ToDictionaryAsync(x=>x.Id,x=>x.Count);
         var held=await db.Set<Ticket>().AsNoTracking().SingleOrDefaultAsync(x=>x.ShopId==shopId&&(x.Status==TicketStatus.Called||x.Status==TicketStatus.InService));
         var waiting=selectedId is null?[]:await db.Set<Ticket>().AsNoTracking().Where(x=>x.QueueId==selectedId&&x.Status==TicketStatus.Waiting).OrderBy(x=>x.ReceiveOrder).ToArrayAsync();

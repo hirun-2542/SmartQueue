@@ -62,8 +62,7 @@ public sealed class AutoSkipWorkerTests : IAsyncLifetime
         var rejoined = await owner.Api.PostAsync($"/api/queues/{main.QueueId}/tickets", new { requestId = Guid.NewGuid() });
         Assert.Equal(HttpStatusCode.Created, rejoined.Status);
 
-        var ready = await ConsoleAsync(owner.Api, main);
-        var next = await owner.Api.PostAsync($"/api/queues/{main.QueueId}/call", new { version = ready.GetProperty("version").GetInt64() });
+        var next = await owner.Api.PostAsync($"/api/queues/{main.QueueId}/call",new{});
         Assert.Equal(HttpStatusCode.OK, next.Status);
         Assert.Equal("Called", Text(next.Body, "status"));
     }
@@ -216,8 +215,7 @@ public sealed class AutoSkipWorkerTests : IAsyncLifetime
         Assert.Equal(HttpStatusCode.Created, joined.Status);
         var link = joined.Body.GetProperty("link").GetString()!;
 
-        var console = await owner.GetAsync($"/api/shops/{shopId}/console?queueId={queueId}");
-        var call = await owner.PostAsync($"/api/queues/{queueId}/call", new { version = console.GetProperty("version").GetInt64() });
+        var call = await owner.PostAsync($"/api/queues/{queueId}/call",new{});
         Assert.Equal(HttpStatusCode.OK, call.Status);
         Assert.Equal("Called", Text(call.Body, "status"));
         Assert.NotEqual(JsonValueKind.Null, call.Body.GetProperty("deadline").ValueKind);

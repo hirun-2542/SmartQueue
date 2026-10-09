@@ -84,9 +84,10 @@ export function PushToggle({ secret }: { secret: string }) {
     {capability === 'install' ? <>
       <p className="push-note"><Share size={20} aria-hidden="true"/>{t('บน iPhone และ iPad การแจ้งเตือนใช้ได้เฉพาะแอปที่ติดตั้งบนหน้าจอโฮม', 'On iPhone and iPad, notifications only work from the app installed on your Home Screen.')}</p>
       <ol className="push-steps">
+        <li>{t('คัดลอกลิงก์คิวของฉันจากหน้านี้ก่อน', 'Copy your Ticket link from this page first')}</li>
         <li>{t('แตะปุ่มแชร์ใน Safari', 'Tap the Share button in Safari')}</li>
         <li>{t('เลือก “เพิ่มไปยังหน้าจอโฮม”', 'Choose “Add to Home Screen”')}</li>
-        <li>{t('เปิด SmartQueue จากไอคอน แล้วเปิดการแจ้งเตือน', 'Open SmartQueue from the icon, then turn on notifications')}</li>
+        <li>{t('เปิด SmartQueue จากไอคอน วางลิงก์ในหน้า “กลับมาดูคิว” แล้วเปิดการแจ้งเตือน', 'Open SmartQueue from the icon, paste the link on “Return to your Ticket”, then turn on notifications')}</li>
       </ol>
     </> : capability === 'unsupported' ? <p className="push-note"><TriangleAlert size={20} aria-hidden="true"/>{t('เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน คิวของคุณยังใช้งานได้ตามปกติ', 'This browser does not support notifications. Your Ticket still works normally.')}</p>
       : capability === 'checking' ? <p role="status" className="push-note">{t('กำลังตรวจสอบการแจ้งเตือน…', 'Checking notification support…')}</p>

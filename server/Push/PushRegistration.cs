@@ -28,9 +28,4 @@ public static class PushRegistration
         return services;
     }
 
-    public static TBuilder MapSmartQueuePush<TBuilder>(this TBuilder endpoints) where TBuilder : IEndpointRouteBuilder
-    {
-        PushApi.MapPush(endpoints);
-        return endpoints;
-    }
 }

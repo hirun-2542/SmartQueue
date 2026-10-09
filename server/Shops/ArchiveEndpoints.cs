@@ -32,7 +32,7 @@ public static class ArchiveEndpoints
             service.Archived = true;
             // Stop accepting new work the same way "Stop accepting" does; a Queue that still holds a Waiting,
             // Called or InService Ticket drains as Closing and the shared invariant closes it when that work ends.
-            if (service.Queue.Status == QueueClosing.OpenStatus) service.Queue.Status = QueueClosing.ClosingStatus;
+            if (service.Queue.Status == QueueStatus.Open) service.Queue.Status = QueueStatus.Closing;
             await unit.CommitAsync();
             return Results.Ok(ShopEndpoints.ServiceSnapshot(service));
         }).RequireAuthorization();

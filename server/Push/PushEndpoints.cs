@@ -1,98 +1,76 @@
-using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using SmartQueue.Api.Data;
+using SmartQueue.Api.Domain;
+using SmartQueue.Api.Tickets;
 
 namespace SmartQueue.Api.Push;
 
 /// <summary>
-/// Validation for everything a browser hands the API at opt-in. A push endpoint is an outbound destination
-/// the server will POST to, so it is treated as untrusted input: only HTTPS on the default port, no
-/// userinfo, no IP literal and only the four public push providers a real browser can return are accepted,
-/// which is what keeps the delivery path from becoming an anonymous SSRF primitive. Client keys are checked
-/// to be the shapes the Web Push encryption expects, so a malformed subscription is refused at opt-in rather
-/// than failing later inside the delivery worker.
+/// The Customer-facing opt-in contract. It is reached with the same bearer Ticket link as the rest of the
+/// Customer view, so no notification state can be created for a Ticket the caller cannot already read. The
+/// status endpoint answers what the browser should show, the subscribe endpoint turns a real browser
+/// subscription into an association, and the remove endpoint drops one association without touching the
+/// Ticket. All three go through the Shop transaction, so a subscribe cannot interleave with the transaction
+/// that ends the Ticket and leave an association behind a Ticket that is already terminal.
 /// </summary>
 public static class PushEndpoints
 {
-    public const int MaxEndpointLength = 1024;
-
-    private static readonly string[] TrustedPushHosts =
-    [
-        "fcm.googleapis.com",
-        "push.services.mozilla.com",
-        "push.apple.com",
-        "notify.windows.com",
-    ];
-
-    public static string RequireEndpoint(string? endpoint)
+    public static void MapSmartQueuePush(this WebApplication routes)
     {
-        var value = endpoint?.Trim();
-        if (string.IsNullOrEmpty(value) || value.Length > MaxEndpointLength) throw Invalid("push_endpoint_invalid");
-        if (!Uri.TryCreate(value, UriKind.Absolute, out var uri)) throw Invalid("push_endpoint_invalid");
-        if (uri.Scheme != Uri.UriSchemeHttps) throw Invalid("push_endpoint_invalid");
-        if (uri.Port != 443) throw Invalid("push_endpoint_invalid");
-        if (!string.IsNullOrEmpty(uri.UserInfo)) throw Invalid("push_endpoint_invalid");
-        if (uri.HostNameType != UriHostNameType.Dns) throw Invalid("push_endpoint_invalid");
-        if (!IsTrustedHost(uri.Host)) throw Invalid("push_endpoint_invalid");
-        return value;
+        routes.MapGet("/api/t/{secret}/push", async (string secret, AppDbContext db, TimeProvider time, VapidKeys keys) =>
+        {
+            var ticket = await TicketViews.FindAsync(db, secret, time);
+            var enabled = keys.Configured && await db.Set<PushSubscription>().AsNoTracking().AnyAsync(x => x.TicketId == ticket.Id);
+            return Results.Ok(new PushStateDto(enabled, keys.PublicKey, ticket.Id));
+        });
+
+        routes.MapPost("/api/t/{secret}/push", async (string secret, PushSubscribeRequest request, AppDbContext db, TimeProvider time, VapidKeys keys) =>
+        {
+            if (!keys.Configured) throw new ApiException("push_unavailable", 503);
+            var endpoint = PushSubscriptionValidation.RequireEndpoint(request.Endpoint);
+            var (p256dh, auth) = PushSubscriptionValidation.RequireKeys(request.P256dh, request.Auth);
+            var language = PushSubscriptionValidation.RequireLanguage(request.Language);
+            var bearer = await TicketViews.FindAsync(db, secret, time);
+
+            await using var unit = await ShopTransaction.OpenAsync(db, bearer.ShopId, null);
+            var ticket = await db.Set<Ticket>().SingleAsync(x => x.LinkHash == bearer.LinkHash);
+            if (!ticket.IsActive())
+                throw new ApiException("ticket_ended", 409);
+
+            var association = await db.Set<PushSubscription>().SingleOrDefaultAsync(x => x.TicketId == ticket.Id && x.Endpoint == endpoint);
+            if (association is null)
+                db.Add(new PushSubscription { ShopId = ticket.ShopId, TicketId = ticket.Id, QueueId = ticket.QueueId, Endpoint = endpoint, P256dh = p256dh, Auth = auth, Language = language, CreatedAt = time.GetUtcNow() });
+            else
+            {
+                association.P256dh = p256dh; association.Auth = auth; association.Language = language;
+            }
+            await db.SaveChangesAsync();
+            await unit.Transaction.CommitAsync();
+            return Results.Ok(new PushStateDto(true, keys.PublicKey, ticket.Id));
+        });
+
+        routes.MapPost("/api/t/{secret}/push/remove", async (string secret, PushUnsubscribeRequest request, AppDbContext db, TimeProvider time, VapidKeys keys) =>
+        {
+            var endpoint = PushSubscriptionValidation.RequireEndpoint(request.Endpoint);
+            var bearer = await TicketViews.FindAsync(db, secret, time);
+
+            await using var unit = await ShopTransaction.OpenAsync(db, bearer.ShopId, null);
+            var association = await db.Set<PushSubscription>().SingleOrDefaultAsync(x => x.TicketId == bearer.Id && x.Endpoint == endpoint);
+            if (association is not null)
+            {
+                db.Remove(association);
+                await db.SaveChangesAsync();
+                await unit.Transaction.CommitAsync();
+            }
+            return Results.Ok(new PushStateDto(false, keys.PublicKey, bearer.Id));
+        });
     }
 
-    public static (string P256dh, string Auth) RequireKeys(string? p256dh, string? auth)
-    {
-        var key = p256dh?.Trim();
-        var secret = auth?.Trim();
-        if (!PushKeys.TryDecodePublicKey(key, out _)) throw Invalid("push_keys_invalid");
-        if (!PushKeys.TryDecodeAuth(secret, out _)) throw Invalid("push_keys_invalid");
-        return (key!, secret!);
-    }
+    /// <summary>What the Customer view needs: whether this Ticket has an association, the application server key to subscribe with, and the opaque Ticket id the worker stores the link against.</summary>
+    public sealed record PushStateDto(bool Enabled, string? PublicKey, Guid TicketId);
 
-    public static string RequireLanguage(string? language) => language == "en" ? "en" : "th";
+    /// <summary>A browser subscription flattened for binding. <c>keys</c> is passed as the two named fields the encryption needs.</summary>
+    public sealed record PushSubscribeRequest(string? Endpoint, string? P256dh, string? Auth, string? Language);
 
-    /// <summary>True when <paramref name="host"/> is one of the public push providers a supported browser uses.</summary>
-    public static bool IsTrustedHost(string host) =>
-        TrustedPushHosts.Any(trusted => host.Equals(trusted, StringComparison.OrdinalIgnoreCase) || host.EndsWith("." + trusted, StringComparison.OrdinalIgnoreCase));
-
-    private static ApiException Invalid(string code) => new(code, 400);
-}
-
-/// <summary>Decoding helpers shared by opt-in validation and the VAPID identity check.</summary>
-public static class PushKeys
-{
-    /// <summary>The uncompressed P-256 public point a browser sends as <c>p256dh</c>: 65 bytes beginning with 0x04.</summary>
-    public static bool TryDecodePublicKey(string? value, out byte[] point)
-    {
-        point = [];
-        if (!TryDecode(value, 65, out var bytes)) return false;
-        if (bytes[0] != 0x04) return false;
-        point = bytes;
-        return true;
-    }
-
-    /// <summary>The 32 byte P-256 scalar used as the VAPID private key.</summary>
-    public static bool TryDecodePrivateKey(string? value, out byte[] scalar) =>
-        TryDecode(value, 32, out scalar);
-
-    /// <summary>The 16 byte authentication secret a browser sends as <c>auth</c>.</summary>
-    public static bool TryDecodeAuth(string? value, out byte[] secret) =>
-        TryDecode(value, 16, out secret);
-
-    private static bool TryDecode(string? value, int length, out byte[] bytes)
-    {
-        bytes = [];
-        if (string.IsNullOrWhiteSpace(value)) return false;
-        var decoded = TryBase64Url(value) ?? TryBase64(value);
-        if (decoded is null || decoded.Length != length) return false;
-        bytes = decoded;
-        return true;
-    }
-
-    private static byte[]? TryBase64Url(string value)
-    {
-        try { return WebEncoders.Base64UrlDecode(value); }
-        catch (Exception error) when (error is FormatException or ArgumentException) { return null; }
-    }
-
-    private static byte[]? TryBase64(string value)
-    {
-        try { return Convert.FromBase64String(value); }
-        catch (Exception error) when (error is FormatException or ArgumentException) { return null; }
-    }
+    public sealed record PushUnsubscribeRequest(string? Endpoint);
 }

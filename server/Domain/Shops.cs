@@ -30,7 +30,7 @@ public sealed class Queue
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid ServiceId { get; set; }
     public Service Service { get; set; } = null!;
-    public string Status { get; set; } = "Closed";
+    public string Status { get; set; } = QueueStatus.Closed;
     public Guid? BusinessDayId { get; set; }
 }
 public sealed class ShopMapping : IEntityTypeConfiguration<Shop>

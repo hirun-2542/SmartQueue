@@ -10,7 +10,7 @@ public static partial class TicketViews
     {
         var hash=TicketLinks.Hash(secret);
         var ticket=await db.Set<Ticket>().AsNoTracking().SingleOrDefaultAsync(x=>x.LinkHash==hash)??throw new ApiException("not_found",404);
-        if(ticket.EndedAt is { } ended && time.GetUtcNow()>=ended.AddHours(24))throw new ApiException("ticket_expired",410);
+        if(ticket.IsLinkExpired(time.GetUtcNow()))throw new ApiException("ticket_expired",410);
         return ticket;
     }
     public static async Task<CustomerTicketDto> CustomerAsync(AppDbContext db,Ticket ticket,TimeProvider time)

@@ -28,9 +28,9 @@ public static class CloseEndpoints
             if (request.Version != unit.Shop.Version)
                 throw new ApiException("state_changed", 409, await OwnerViews.ConsoleAsync(db, shopId, context.OwnerId(), id, time));
             var queue = await db.Set<Domain.Queue>().Include(x => x.Service).SingleAsync(x => x.Id == id);
-            if (queue.Status == QueueClosing.ClosedStatus) throw new ApiException("queue_closed");
-            if (queue.Status == QueueClosing.ClosingStatus) throw new ApiException("queue_closing");
-            queue.Status = QueueClosing.ClosingStatus;
+            if (queue.Status == QueueStatus.Closed) throw new ApiException("queue_closed");
+            if (queue.Status == QueueStatus.Closing) throw new ApiException("queue_closing");
+            queue.Status = QueueStatus.Closing;
             await unit.CommitAsync();
             return Results.Ok(await StateAsync(db, queue, [], time));
         });
@@ -43,10 +43,10 @@ public static class CloseEndpoints
             if (request.Version != unit.Shop.Version)
                 throw new ApiException("state_changed", 409, await OwnerViews.ConsoleAsync(db, shopId, context.OwnerId(), id, time));
             var queue = await db.Set<Domain.Queue>().Include(x => x.Service).SingleAsync(x => x.Id == id);
-            if (queue.Status == QueueClosing.ClosedStatus) throw new ApiException("queue_closed");
+            if (queue.Status == QueueStatus.Closed) throw new ApiException("queue_closed");
             var dropped = await QueueClosing.DropWaitingAsync(db, id, time.GetUtcNow());
             // Called and InService Tickets are untouched, so the Queue is Closing whenever work is still held.
-            queue.Status = QueueClosing.ClosingStatus;
+            queue.Status = QueueStatus.Closing;
             await unit.CommitAsync();
             return Results.Ok(await StateAsync(db, queue, dropped.Select(x => x.Id).ToArray(), time));
         });

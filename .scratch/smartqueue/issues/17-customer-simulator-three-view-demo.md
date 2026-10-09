@@ -5,15 +5,23 @@
 **Blocked by:** 06 — auto-Skip และ countdown จากเวลาของ server; 11 — QR ของ Shop และ Display board แบบ real-time; 12 — Estimated wait จากงาน Completed จริง; 14 — จำนวนคิวรายชั่วโมงและ peak-hours view; 15 — Web Push เมื่อใกล้ถึงคิว ถูกเรียก หรือร้าน Drop; 16 — Try demo ที่แยก session และ reset อัตโนมัติ
 
 **Status:** ready-for-agent
+**State:** closed
 
 **Source:** SmartQueue spec — User Stories 67, 68, 69, 70; Acceptance scenarios A03, A06, A09, A14, A16, A17, A19, A20. IDs ที่ใช้ร่วมกับใบอื่นหมายถึงร่วมกันส่งมอบ scenario ทั้งหมด ไม่อ้างว่าใบนี้ครอบคลุมส่วนที่ยังต้องรอ feature อื่นเพียงใบเดียว.
 
 **Completion contract:** ทำ vertical slice นี้ให้ใช้ได้ผ่าน UI/API/PostgreSQL จริง ตาม SmartQueue spec และ ADR-0001/0002/0003; ไม่มี Staff หรือ scope เพิ่มนอก spec. ทุกหน้าที่ใบนี้เพิ่มต้องเป็น Warm Minimal, Thai/English, touch targets อย่างน้อย 48×48, pending/error/empty states และ accessible focus/status; ทดสอบ consumer-visible behavior ที่ public boundary ด้วย PostgreSQL จริงและทำ browser/runtime smoke ของ flow ที่เพิ่ม. ห้ามทดสอบ source text, copied defaults หรือ mock forwarding แทนพฤติกรรมจริง. หลัง smoke ปรับเอกสารพฤติกรรมที่เปลี่ยนและลบ scaffolds/throwaway scripts.
 
-- [ ] ปุ่มจำลองCustomerใช้Receive Ticket operationจริงในdemo Queue พร้อมการควบคุมintent/devicequotaตามcontract ไม่แก้ตัวเลขหน้าจอหรือinsertrowsข้ามdomaincommands
-- [ ] แสดงTicket linkของsimulatedCustomerและlinksเปิด Owner/Board ในseparatecontextsได้โดยไม่เผยprivatepermissionsหรือnotesในboard
-- [ ] Demonstrate Call → Start → Complete, no-show auto-Skip และ notificationsที่opt inแล้วในสามviewsพร้อมค่าestimated wait/statsจากhistoryจริง
-- [ ] ให้instructionทดลองพร้อมกันจากสองOwnertabs/Customerrequests แล้วเห็นrealconflicts/no-duplicatenumbers/no-double-heldโดยไม่สร้างfake success/failureevents
-- [ ] Simulation/action controls session-scoped; demo sessionอื่นและrealdataไม่ถูกเปลี่ยน;หมดอายุแล้วแสดงชัด ไม่คง fake-live data
-- [ ] Browser smoke mobile375/390px, landscape, Thai/English, zoom/keyboard/safearea/reduced-motionและactualsupportedpushในdemoflow;บันทึกเฉพาะแพลตฟอร์ม/verificationที่รันจริง
-- [ ] DeliveryรวมUI,API,DBและpublic-boundary isolation/simulator tests;fulldemoใช้live modulesจริงและไม่มี scaffolds,TODOหรือ dead links
+- [x] ปุ่มจำลองCustomerใช้Receive Ticket operationจริงในdemo Queue พร้อมการควบคุมintent/devicequotaตามcontract ไม่แก้ตัวเลขหน้าจอหรือinsertrowsข้ามdomaincommands
+- [x] แสดงTicket linkของsimulatedCustomerและlinksเปิด Owner/Board ในseparatecontextsได้โดยไม่เผยprivatepermissionsหรือnotesในboard
+- [x] Demonstrate Call → Start → Complete, no-show auto-Skip และ notificationsที่opt inแล้วในสามviewsพร้อมค่าestimated wait/statsจากhistoryจริง
+- [x] ให้instructionทดลองพร้อมกันจากสองOwnertabs/Customerrequests แล้วเห็นrealconflicts/no-duplicatenumbers/no-double-heldโดยไม่สร้างfake success/failureevents
+- [x] Simulation/action controls session-scoped; demo sessionอื่นและrealdataไม่ถูกเปลี่ยน;หมดอายุแล้วแสดงชัด ไม่คง fake-live data
+- [x] Browser smoke mobile375/390px, landscape, Thai/English, zoom/keyboard/safearea/reduced-motionและactualsupportedpushในdemoflow;บันทึกเฉพาะแพลตฟอร์ม/verificationที่รันจริง
+- [x] DeliveryรวมUI,API,DBและpublic-boundary isolation/simulator tests;fulldemoใช้live modulesจริงและไม่มี scaffolds,TODOหรือ dead links
+
+## Comments
+
+- Resolved on `integration/smartqueue`. Simulator isolation/receipt tests failed404 before, passed after. Fresh 375/390px demo issued A003/A004 through the normal receipt operation; Owner/Customer/landscape Board agreed through Call/Start/Complete. Real opt-in delivered A004 near-turn/Called; normal 10-second Service configuration let the worker Skip no-shows. Competing Owner tabs returned200/409 with one held Ticket.
+- Review corrected walkthrough to build Waiting>N with normal Walk-in before simulating Customer, rather than assuming seed counts. Compiled UI verified Thai/English,844×390 landscape,200% text, keyboard focus return, reduced motion, no overflow and48px controls. Physical iPhone is unverified; actual Push platform was managed Chromium150.
+- Final real-runtime HTTP/SignalR57/57, PostgreSQL integration30/30, TypeScript/Vite production build passed; all11 Standards/Spec findings fixed. No parent-spec closure or remote PR; local integration delivery only.
+

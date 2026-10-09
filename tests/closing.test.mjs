@@ -38,10 +38,7 @@ async function dropQueue(owner, shop, queue, confirm = true) {
   return owner.post(`/api/queues/${queue}/drop`, { version: view.version, confirm });
 }
 
-async function callNext(owner, shop, queue) {
-  const view = await consoleSnapshot(owner, shop, queue);
-  return owner.post(`/api/queues/${queue}/call`, { version: view.version });
-}
+async function callNext(owner, shop, queue){return owner.post(`/api/queues/${queue}/call`, {});}
 
 async function queueBusinessDay(owner, shop) {
   const result = await owner.request(`/api/shops/${shop.id}`);

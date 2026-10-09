@@ -20,7 +20,7 @@ public sealed class DemandTests : IAsyncLifetime
         await Join(guest,cut.Queue);
         cluster.Jump(TimeSpan.FromMinutes(1));await Join(guest,cut.Queue);
         cluster.Jump(TimeSpan.FromHours(1));Assert.Equal(HttpStatusCode.Created,(await owner.Api.PostAsync($"/api/queues/{cut.Queue}/walkin",new{note="private demand"})).Status);await Join(guest,wash.Queue);
-        cluster.Jump(TimeSpan.FromHours(2));var console=await owner.Api.GetAsync($"/api/shops/{id}/console?queueId={cut.Queue}");var called=await owner.Api.PostAsync($"/api/queues/{cut.Queue}/call",new{version=console.GetProperty("version").GetInt64()});Assert.Equal(HttpStatusCode.OK,called.Status);
+        cluster.Jump(TimeSpan.FromHours(2));var called=await owner.Api.PostAsync($"/api/queues/{cut.Queue}/call",new{});Assert.Equal(HttpStatusCode.OK,called.Status);
         var started=await owner.Api.PostAsync($"/api/tickets/{called.Body.GetProperty("id").GetGuid()}/start",new{version=called.Body.GetProperty("version").GetInt64()});Assert.Equal(HttpStatusCode.OK,started.Status);
         Assert.Equal(HttpStatusCode.OK,(await owner.Api.PostAsync($"/api/tickets/{called.Body.GetProperty("id").GetGuid()}/complete",new{version=started.Body.GetProperty("version").GetInt64()})).Status);
         using var ownHttp=cluster.Host.CreateClient();var own=await SmartQueueScenario.SignInAsync(new SmartQueueClient(ownHttp),owner.Email);

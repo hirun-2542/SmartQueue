@@ -179,15 +179,13 @@ public sealed class WebPushTests : IAsyncLifetime
         var (owner, shopId, queueId) = await OpenShopAsync("Rollback shop");
         var ticket = await JoinAndSubscribeAsync(queueId);
 
-        // A stale Shop version is refused, so the transition never committed and nothing may be notified.
-        var version = await ConsoleVersionAsync(owner, shopId, queueId);
-        var stale = await owner.Api.PostAsync($"/api/queues/{queueId}/call", new { version = version - 1 });
-        Assert.Equal(HttpStatusCode.Conflict, stale.Status);
-        Assert.Equal("state_changed", stale.Body.GetProperty("code").GetString());
+        var waiting=await ticket.Client.GetAsync($"/api{ticket.Link}");
+        var refused=await owner.Api.PostAsync($"/api/tickets/{ticket.TicketId}/start",new{version=waiting.GetProperty("version").GetInt64()});
+        Assert.Equal(HttpStatusCode.Conflict,refused.Status);
         Assert.Empty(await sink.SettleAsync());
         Assert.Equal("Waiting", (await SmartQueueScenario.TicketViewAsync(cluster.Host.CreateClient(), ticket.Link)).GetProperty("status").GetString());
 
-        var committed = await owner.Api.PostAsync($"/api/queues/{queueId}/call", new { version });
+        var committed = await owner.Api.PostAsync($"/api/queues/{queueId}/call",new{});
         Assert.Equal(HttpStatusCode.OK, committed.Status);
         var delivered = await sink.WaitAsync(1);
         Assert.Single(delivered);
@@ -351,8 +349,7 @@ public sealed class WebPushTests : IAsyncLifetime
 
     private static async Task<Guid> CallAsync(OwnerSession owner, Guid shopId, Guid queueId)
     {
-        var console = await owner.Api.GetAsync($"/api/shops/{shopId}/console?queueId={queueId}");
-        var called = await owner.Api.PostAsync($"/api/queues/{queueId}/call", new { version = console.GetProperty("version").GetInt64() });
+        var called = await owner.Api.PostAsync($"/api/queues/{queueId}/call",new{});
         Assert.Equal(HttpStatusCode.OK, called.Status);
         return called.Body.GetProperty("id").GetGuid();
     }

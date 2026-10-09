@@ -51,7 +51,7 @@ test('Try demo opens a real seeded Shop where every normal command works', async
   const oldest = view.waiting[0];
   assert.deepEqual(view.waiting.slice(0, 2).map(ticket => ticket.number), ['A001', 'A002'], 'seed numbering must follow FIFO receive order');
 
-  const call = await api.post(`/api/queues/${haircut.queue.id}/call`, { version: view.version });
+  const call = await api.post(`/api/queues/${haircut.queue.id}/call`, {});
   assert.equal(call.status, 200);
   assert.equal(call.body.id, oldest.id, 'Call must serve the oldest seeded Waiting Ticket');
   const start = await api.post(`/api/tickets/${call.body.id}/start`, { version: call.body.version });
@@ -60,8 +60,8 @@ test('Try demo opens a real seeded Shop where every normal command works', async
   assert.equal(complete.status, 200);
   assert.equal(complete.body.status, 'Completed');
 
-  const afterComplete = await consoleOf(api, shop.id, haircut.queue.id);
-  const next = await api.post(`/api/queues/${haircut.queue.id}/call`, { version: afterComplete.version });
+  
+  const next = await api.post(`/api/queues/${haircut.queue.id}/call`, {});
   assert.equal(next.status, 200);
   const skipped = await api.post(`/api/tickets/${next.body.id}/skip`, { version: next.body.version });
   assert.equal(skipped.status, 200);
@@ -103,10 +103,10 @@ test('two demo sessions and a real Owner stay isolated and never reset each othe
   const firstShop = (await first.api.request('/api/shops')).body[0];
   const firstQueue = firstShop.services.find(service => service.prefix === 'A').queue.id;
   const firstView = await consoleOf(first.api, firstShop.id, firstQueue);
-  assert.equal((await real.api.post(`/api/queues/${firstQueue}/call`, { version: firstView.version })).status, 404, 'a demo Queue is not a public unrestricted Owner token');
+  assert.equal((await real.api.post(`/api/queues/${firstQueue}/call`, {})).status, 404, 'a demo Queue is not a public unrestricted Owner token');
   assert.equal((await first.api.request(`/api/shops/${realShop.id}/console`)).status, 404, 'a demo Owner must not reach a real Shop');
 
-  const served = await first.api.post(`/api/queues/${firstQueue}/call`, { version: firstView.version });
+  const served = await first.api.post(`/api/queues/${firstQueue}/call`, {});
   assert.equal(served.status, 200);
   const started = await first.api.post(`/api/tickets/${served.body.id}/start`, { version: served.body.version });
   assert.equal(started.status, 200);

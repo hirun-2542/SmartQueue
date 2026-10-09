@@ -11,15 +11,15 @@ public static class ServingEndpoints
     {
         var routes=app.MapGroup("/api").RequireAuthorization();
         routes.MapGet("/shops/{id:guid}/console",async(Guid id,Guid? queueId,HttpContext context,AppDbContext db,TimeProvider time)=>Results.Ok(await OwnerViews.ConsoleAsync(db,id,context.OwnerId(),queueId,time)));
-        routes.MapPost("/queues/{id:guid}/call",async(Guid id,VersionRequest request,HttpContext context,AppDbContext db,TimeProvider time)=>
+        routes.MapPost("/queues/{id:guid}/call",async(Guid id,HttpContext context,AppDbContext db,TimeProvider time)=>
         {
             var shopId=await TicketEndpoints.ShopIdAsync(db,id);
             await using var unit=await ShopTransaction.OpenAsync(db,shopId,context.OwnerId());
-            if(request.Version!=unit.Shop.Version)throw new ApiException("state_changed",409,await OwnerViews.ConsoleAsync(db,shopId,context.OwnerId(),id,time));
             if(await db.Set<Ticket>().AnyAsync(x=>x.ShopId==shopId&&(x.Status==TicketStatus.Called||x.Status==TicketStatus.InService)))throw new ApiException("shop_busy",409,await OwnerViews.ConsoleAsync(db,shopId,context.OwnerId(),id,time));
             var queue=await db.Set<Domain.Queue>().Include(x=>x.Service).SingleAsync(x=>x.Id==id);
-            if(queue.Status=="Closed")throw new ApiException("queue_closed");
-            var ticket=await db.Set<Ticket>().Where(x=>x.QueueId==id&&x.Status==TicketStatus.Waiting).OrderBy(x=>x.ReceiveOrder).FirstOrDefaultAsync()??throw new ApiException("queue_empty");
+            if(queue.Status==QueueStatus.Closed)throw new ApiException("queue_closed",409,await OwnerViews.ConsoleAsync(db,shopId,context.OwnerId(),id,time));
+            var ticket=await db.Set<Ticket>().Where(x=>x.QueueId==id&&x.Status==TicketStatus.Waiting).OrderBy(x=>x.ReceiveOrder).FirstOrDefaultAsync();
+            if(ticket is null)throw new ApiException("queue_empty",409,await OwnerViews.ConsoleAsync(db,shopId,context.OwnerId(),id,time));
             var now=time.GetUtcNow();
             DateTimeOffset deadline;
             try{deadline=now.AddMinutes(queue.Service.CallTimeoutMinutes);}catch(ArgumentOutOfRangeException){throw new ApiException("invalid_service",400);}

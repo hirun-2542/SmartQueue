@@ -43,9 +43,9 @@ public static class DemoSeed
         // ordered phases inside the caller's transaction instead of relying on cycle breaking during one save.
         await db.SaveChangesAsync(cancellationToken);
 
-        haircut.Queue.Status = "Open";
+        haircut.Queue.Status = QueueStatus.Open;
         haircut.Queue.BusinessDayId = today.Id;
-        wash.Queue.Status = "Open";
+        wash.Queue.Status = QueueStatus.Open;
         wash.Queue.BusinessDayId = todayWash.Id;
         await db.SaveChangesAsync(cancellationToken);
 
@@ -125,14 +125,14 @@ public static class DemoSeed
 
     private static Ticket NewTicket(Service service, BusinessDay day, DateTimeOffset receivedAt)
     {
-        day.Counter++;
+        var number=day.IssueNumber(service.Prefix);
         return new Ticket
         {
             ShopId = service.ShopId,
             QueueId = service.Queue.Id,
             BusinessDayId = day.Id,
             Prefix = service.Prefix,
-            Number = service.Prefix + day.Counter.ToString("D3"),
+            Number = number,
             Status = TicketStatus.Waiting,
             Origin = "WalkIn",
             ReceivedAt = receivedAt

@@ -114,7 +114,7 @@ public sealed class ShopChangeListener(
         foreach (var target in subscriptions.TicketSubscriptions(shopId))
         {
             var ticket = await db.Set<Ticket>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == target.TicketId, token);
-            if (ticket is null || (ticket.EndedAt is { } ended && now >= ended.AddHours(24)))
+            if (ticket is null || ticket.IsLinkExpired(now))
             {
                 if (ticket is not null)
                     await hub.Clients.Clients(target.ConnectionIds).SendAsync(LiveHub.UpdateMethod, LiveMessages.TicketExpired(shopId, shop.Version, ticket.Id, now), cancellationToken: token);

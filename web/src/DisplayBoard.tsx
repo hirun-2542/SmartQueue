@@ -5,6 +5,7 @@ import { useErrorText, useLanguage } from './language';
 import { useLive } from './useLive';
 import { ConnectionStatus } from './ConnectionStatus';
 import { ShopQr } from './ShopQr';
+import { ShopTime } from './ShopTime';
 import './board.css';
 
 export interface BoardTicket { number: string; serviceName: string; status: string }
@@ -36,7 +37,7 @@ const statusLabels: Record<string, [string, string]> = {
  */
 export function DisplayBoard() {
   const { publicId } = useParams();
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const errorText = useErrorText();
   const [board, setBoard] = useState<BoardSnapshot | null>(null);
   const [missing, setMissing] = useState(false);
@@ -83,7 +84,6 @@ export function DisplayBoard() {
     {error && <p className="board-error" role="alert">{error}</p>}
   </main>;
 
-  const clock = new Intl.DateTimeFormat(language === 'th' ? 'th-TH' : 'en-GB', { hour: '2-digit', minute: '2-digit' }).format(new Date(board.serverTime));
   const waitingServices = board.services.filter(service => service.waiting.length > 0);
 
   return <main className="display-board">
@@ -91,7 +91,7 @@ export function DisplayBoard() {
       <span className="board-mark" aria-hidden="true" />
       <h1 className="board-shop">{board.shopName}</h1>
       <ConnectionStatus status={live.status} onRetry={live.retry} className="board-live" />
-      <span className="board-clock number" aria-label={t('เวลาของร้าน', 'Shop time')}>{clock}</span>
+      <ShopTime serverTime={live.serverTime??board.serverTime}/>
     </header>
     {error && <p className="board-error" role="alert">{error}</p>}
     <div className="board-grid">

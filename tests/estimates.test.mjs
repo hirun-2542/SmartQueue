@@ -30,14 +30,10 @@ async function join(queueId, note = null) {
 
 const view = joined => joined.client.request('/api' + joined.link);
 
-async function consoleVersion(owner, shop, queue) {
-  const result = await owner.request(`/api/shops/${shop.id}/console?queueId=${queue}`);
-  assert.equal(result.status, 200, 'Owner console must expose the live Queue state');
-  return result.body.version;
-}
+
 
 async function callNext(owner, shop, queue) {
-  const call = await owner.post(`/api/queues/${queue}/call`, { version: await consoleVersion(owner, shop, queue) });
+  const call = await owner.post(`/api/queues/${queue}/call`, {});
   assert.equal(call.status, 200, 'Owner must be able to Call the oldest Waiting Ticket');
   return call.body;
 }

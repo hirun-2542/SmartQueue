@@ -6,9 +6,9 @@ namespace SmartQueue.Api.Tickets;
 
 /// <summary>
 /// The single place where a Queue stops accepting Tickets and where its Business day ends.
-/// A Queue drains as <see cref="ClosingStatus"/> for as long as it still holds an active Ticket; the moment
-/// its active count reaches zero the Queue becomes <see cref="ClosedStatus"/> and its current Business day
-/// records a UTC end time. Nothing here is scheduled, timed or retried in the background: a drain close only
+/// A Queue drains as <see cref="QueueStatus.Closing"/> while active Tickets remain; when its active count
+/// reaches zero it becomes <see cref="QueueStatus.Closed"/> and its Business day records a UTC end time.
+/// Nothing here is scheduled, timed or retried in the background: a drain close only
 /// happens inside the transaction that ended the last active Ticket, so an Open Queue that still has work is
 /// never closed by a clock, and an empty Queue is closed in the same operation that stopped accepting.
 /// <see cref="SettleAsync"/> is invoked by <c>ShopTransaction.CommitAsync</c> after the pending changes are
@@ -17,15 +17,6 @@ namespace SmartQueue.Api.Tickets;
 /// </summary>
 public static class QueueClosing
 {
-    /// <summary>Queue status that accepts new Tickets.</summary>
-    public const string OpenStatus = "Open";
-
-    /// <summary>Queue status that accepts no new Ticket while the Owner keeps calling the Tickets still held.</summary>
-    public const string ClosingStatus = "Closing";
-
-    /// <summary>Queue status with no current Business day and no active Ticket.</summary>
-    public const string ClosedStatus = "Closed";
-
     /// <summary>End reason recorded on a Waiting Ticket the Owner ended by Dropping the Queue.</summary>
     public const string DroppedReason = "dropped";
 
@@ -39,14 +30,14 @@ public static class QueueClosing
     public static async Task<int> SettleAsync(AppDbContext db, Shop shop, DateTimeOffset now, CancellationToken cancellationToken = default)
     {
         var closing = await db.Set<Domain.Queue>()
-            .Where(x => x.Service.ShopId == shop.Id && x.Status == ClosingStatus)
+            .Where(x => x.Service.ShopId == shop.Id && x.Status == QueueStatus.Closing)
             .ToListAsync(cancellationToken);
         if (closing.Count == 0) return 0;
 
         var ids = closing.Select(x => x.Id).ToArray();
         var stillActive = await db.Set<Ticket>()
             .Where(x => ids.Contains(x.QueueId))
-            .Where(x => x.Status == TicketStatus.Waiting || x.Status == TicketStatus.Called || x.Status == TicketStatus.InService)
+            .Where(x => Ticket.ActiveStatuses.Contains(x.Status))
             .Select(x => x.QueueId)
             .Distinct()
             .ToListAsync(cancellationToken);
@@ -56,7 +47,7 @@ public static class QueueClosing
         foreach (var queue in closing)
         {
             if (active.Contains(queue.Id)) continue;
-            queue.Status = ClosedStatus;
+            queue.Status = QueueStatus.Closed;
             ended++;
             if (queue.BusinessDayId is not { } dayId) continue;
             var day = await db.Set<BusinessDay>().SingleOrDefaultAsync(x => x.Id == dayId, cancellationToken);
