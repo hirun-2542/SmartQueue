@@ -113,3 +113,11 @@ Development creates a persistent owner-only VAPID key file. Production must prov
 
 Payloads carry only Ticket ID, event, number and language. Private links stay in the opted-in browser's IndexedDB; the service worker resolves the notification deep link locally. Supported provider endpoints are HTTPS-only and delivery does not follow redirects.
 
+## Guided demo
+
+Enter demo mode, then choose **Try three views**. The simulator issues ordinary Customer Tickets through the same receipt command as the public join page, preserving intent replay, extra-Ticket confirmation and the device quota. Its authenticated API refuses other demo sessions and real Shops.
+
+Open the Owner, Customer and Display board links in separate tabs. The guide includes a two-Owner Call race and concurrent receiving. Its optional 10-second timeout changes the selected demo Service through the normal edit API; existing Called deadlines remain unchanged and the real five-second worker determines when to Skip.
+
+The installed app starts at `/resume`, offering the last validated Ticket link saved on that device and the Owner entry. The public manifest never contains a bearer secret. A resumed link is checked by the normal API, including expiry; browser storage is convenience, not an alternative Customer identity.
+

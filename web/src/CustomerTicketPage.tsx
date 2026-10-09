@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react';
+import { useEffect,useRef,useState } from 'react';
 import { Link,useParams } from 'react-router-dom';
 import { Copy,RefreshCw,Check,Clock3 } from 'lucide-react';
 import { api } from './api';
@@ -14,9 +14,10 @@ import type { CustomerTicket,TicketStatus } from './ticketTypes';
 const statusWords:Record<TicketStatus,[string,string]>={Waiting:['รอเรียก','Waiting'],Called:['กำลังเรียก','Called'],InService:['กำลังให้บริการ','In service'],Completed:['เสร็จสิ้น','Completed'],Skipped:['ถูกข้ามแล้ว','Skipped'],Cancelled:['ยกเลิกแล้ว','Cancelled'],Dropped:['ร้านปิดคิว','Shop closed this Queue']};
 export function CustomerTicketPage(){
   const {secret}=useParams();const {t}=useLanguage();const errorText=useErrorText();const [ticket,setTicket]=useState<CustomerTicket|null>(null);const [error,setError]=useState('');const [copied,setCopied]=useState(false);
-  async function reload(){const value=await api<CustomerTicket>('/api/t/'+secret);setTicket(previous=>previous?.id===value.id&&previous.version>value.version?previous:value);setError('');}
+  const activeSecret=useRef(secret);activeSecret.current=secret;
+  async function reload(){const requested=secret;const value=await api<CustomerTicket>('/api/t/'+requested);if(activeSecret.current!==requested)return;localStorage.setItem('smartqueue-last-ticket','/t/'+requested);setTicket(previous=>previous?.id===value.id&&previous.version>value.version?previous:value);setError('');}
   const live=useLive({scope:secret?{kind:'ticket',secret}:null,onMessage:message=>{if(message.ticket)setTicket(previous=>previous?.id===message.ticket!.id&&previous.version>message.ticket!.version?previous:message.ticket!);else if(message.kind==='expired')void reload().catch(f=>setError(errorText(f)));},resync:()=>reload()});
-  useEffect(()=>{let active=true;api<CustomerTicket>('/api/t/'+secret).then(v=>{if(active)setTicket(previous=>previous?.id===v.id&&previous.version>v.version?previous:v)}).catch(f=>{if(active)setError(errorText(f))});return()=>{active=false};},[secret]);
+  useEffect(()=>{let active=true;setTicket(null);setError('');api<CustomerTicket>('/api/t/'+secret).then(v=>{if(active){localStorage.setItem('smartqueue-last-ticket','/t/'+secret);setTicket(previous=>previous?.id===v.id&&previous.version>v.version?previous:v);}}).catch(f=>{if(active)setError(errorText(f))});return()=>{active=false};},[secret]);
   async function copy(){try{await navigator.clipboard.writeText(location.href);setCopied(true);}catch{setError(t('คัดลอกไม่ได้ กรุณาคัดลอกลิงก์จากแถบที่อยู่','Copy is unavailable. Copy the address from your browser'));}}
   const terminal=ticket&&['Completed','Skipped','Cancelled','Dropped'].includes(ticket.status);const called=ticket?.status==='Called';
   return <main className={'phone ticket-page '+(called?'your-turn':'')}><><header className="brand-row"><span className="brand-stub" aria-hidden="true"/><span className="shop-title">{ticket?.shopName??'SmartQueue'}</span><LanguageSwitch/></header><ConnectionStatus status={live.status} onRetry={live.retry}/></>{error?<section><h1>{t('ไม่สามารถเปิดคิวนี้','Cannot open this Ticket')}</h1><p role="alert" className="error">{error}</p><p className="muted">{t('สแกน QR ของร้านอีกครั้งเพื่อรับคิวใหม่','Scan the Shop QR again to take a new Ticket')}</p></section>:!ticket?<p role="status">{t('กำลังโหลดคิว…','Loading Ticket…')}</p>:<>

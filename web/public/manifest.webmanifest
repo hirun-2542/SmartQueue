@@ -2,7 +2,7 @@
   "name": "SmartQueue",
   "short_name": "SmartQueue",
   "description": "Take a Queue Ticket and get notified when your turn nears",
-  "start_url": "/",
+  "start_url": "/resume",
   "scope": "/",
   "display": "standalone",
   "background_color": "#FAF5EC",
