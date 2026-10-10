@@ -5,6 +5,13 @@
     "test": "node --test --test-concurrency=1 tests/*.test.mjs",
     "dev": "npm --prefix web run dev",
     "build": "npm --prefix web run build && dotnet build server/SmartQueue.Api.csproj",
-    "api": "dotnet run --project server/SmartQueue.Api.csproj --no-launch-profile"
+    "api": "dotnet run --project server/SmartQueue.Api.csproj --no-launch-profile",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "jsqr": "1.4.0"
   }
 }

@@ -4,3 +4,105 @@
 .owner-header{display:flex;align-items:center;gap:4px;margin:0 -8px 24px;min-height:48px}.shop-select{position:relative;flex:1;min-width:0}.shop-select select{appearance:none;border:0;background:transparent;width:100%;padding:12px 26px 12px 8px;min-height:48px;text-overflow:ellipsis;font-weight:600}.shop-select svg{position:absolute;right:2px;top:14px;pointer-events:none}.icon-button{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:48px;min-height:48px;background:transparent;color:var(--ink);border-radius:12px}.account-button{background:#F6E3D6;color:var(--terra)}.page-heading,.section-heading,.shop-summary{display:flex;align-items:center;justify-content:space-between;gap:16px}.page-heading h1{margin:0}.section-heading{margin-top:24px}.section-heading h2{font-size:18px}.section-heading button{color:var(--terra);background:transparent}.shop-summary{padding:20px 0;margin:24px 0}.small{font-size:13px}.shop-summary p{margin:6px 0 0}.empty{display:grid;gap:24px;padding:32px 0}.empty .brand-stub{width:44px;height:56px}.empty p{color:var(--muted)}.service-row{display:flex;align-items:center;gap:16px;width:100%;text-align:left;background:transparent;padding:16px 0;border-top:1px solid var(--line);min-height:88px}.service-row:last-child{border-bottom:1px solid var(--line)}.service-row>span:nth-child(2){flex:1;min-width:0}.service-row strong{display:block;overflow-wrap:anywhere}.service-row small{display:block;color:var(--muted);font-size:12px;line-height:1.5;margin-top:4px}.prefix-stub{display:grid;place-items:center;flex:none;min-width:44px;min-height:52px;padding:0 8px;border:1px solid var(--control);border-radius:10px;background:var(--paper);color:var(--terra);font-size:21px}.sheet{position:fixed;inset:auto 0 0;margin:0 auto;width:min(100%,440px);max-height:calc(100dvh - 24px);border:0;border-radius:28px 28px 0 0;background:var(--paper);color:var(--ink);padding:12px 24px calc(28px + env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain}.sheet::backdrop{background:rgb(42 33 24 / .55)}.sheet-handle{width:56px;height:5px;background:var(--control);border-radius:3px;margin:0 auto 16px}.sheet-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.sheet-heading h2{margin:0}.owner-phone .language-switch{gap:0;margin-left:0}.owner-phone .language-switch button{min-width:48px}
 .shop-title{font-weight:600;flex:1;min-width:0;overflow-wrap:anywhere}.customer-phone .brand-row,.ticket-page .brand-row{gap:8px;margin-bottom:40px}.customer-phone .language-switch,.ticket-page .language-switch{margin-left:0;flex:none}.public-service{display:flex;align-items:center;gap:12px;padding:18px 0;border-top:1px solid var(--line)}.public-service:last-child{border-bottom:1px solid var(--line)}.service-copy{flex:1;min-width:0}.service-copy strong{display:block;font-size:18px;overflow-wrap:anywhere}.service-copy small{display:block;color:var(--muted);font-size:13px}.small-primary{width:auto;min-width:88px;min-height:48px;flex:none;padding:8px 12px;border-radius:14px;font-size:15px}.queue-status{color:var(--muted);font-size:14px}.queue-status.open{color:var(--sage)}.queue-control{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:0 0 16px;border-bottom:1px solid var(--line)}.queue-control button{background:transparent;color:var(--terra);padding:0 12px}.queue-control .error{width:100%}.service-item .service-row{border-bottom:0}.refresh-action{width:100%;background:transparent;color:var(--muted);margin-top:24px}.quiet-footer{text-align:center;margin-top:48px;font-size:12px;color:var(--muted)}.stack-form .check-row{display:flex;align-items:flex-start;gap:16px;line-height:1.6}.stack-form .check-row input{width:24px;height:24px;min-height:24px;margin:10px 0;flex:none;accent-color:var(--terra)}.check-row span{padding:10px 0}.waiting-hero{text-align:center;margin:32px 0;color:var(--muted)}.ahead-number{display:block;font-size:8rem;line-height:1.1;color:var(--ink);overflow-wrap:anywhere}.waiting-hero h1{font-size:24px;margin:12px 0;color:var(--ink)}.waiting-hero p{font-size:13px}.current-called{display:flex;justify-content:space-between;padding:16px 0;margin-bottom:24px}.ticket-stub{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;border:1px solid var(--control);border-radius:18px;background:var(--paper);padding:20px;margin:24px 0}.ticket-stub::before,.ticket-stub::after{content:'';position:absolute;top:calc(50% - 9px);width:18px;height:18px;border:1px solid var(--control);border-radius:50%;background:var(--bg)}.ticket-stub::before{left:-10px;border-left-color:transparent}.ticket-stub::after{right:-10px;border-right-color:transparent}.ticket-stub small{display:block;font-size:12px;color:var(--muted)}.ticket-number{display:block;line-height:1.2;color:var(--terra);overflow-wrap:anywhere}.ticket-service{border-left:1px dashed var(--control);padding-left:16px;max-width:112px;display:grid;gap:8px;font-size:14px}.ticket-service strong{overflow-wrap:anywhere}.link-row{gap:12px;background:transparent;color:var(--ink);padding:16px 0;min-width:48px;width:100%;text-align:left;border-bottom:1px solid var(--line)}.link-row svg{color:var(--terra);flex:none}
 .owner-phone{padding-bottom:calc(168px + env(safe-area-inset-bottom))}.owner-nav{position:fixed;z-index:4;left:50%;transform:translateX(-50%);bottom:0;width:min(100%,440px);display:flex;justify-content:space-around;min-height:72px;padding:8px 16px calc(8px + env(safe-area-inset-bottom));background:var(--paper);border-top:1px solid var(--line)}.owner-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:72px;min-height:48px;color:var(--muted);font-size:12px;text-decoration:none}.owner-nav a.active{color:var(--terra);font-weight:600}.queue-tabs{display:flex;gap:20px;overflow-x:auto;border-bottom:1px solid var(--line);margin:0 -24px 20px;padding:0 24px;scrollbar-width:thin}.queue-tabs button{display:flex;gap:12px;align-items:center;flex:none;background:transparent;color:var(--muted);padding:8px 0;border-bottom:3px solid transparent}.queue-tabs button[aria-selected=true]{color:var(--ink);font-weight:600;border-bottom-color:var(--terra)}.queue-tabs .number{font-size:14px;color:var(--terra)}.now-panel{border-radius:24px;padding:20px;margin:16px -8px 24px}.now-panel.called{background:#FCEFD0}.now-panel.inservice{background:#E6EEDD}.now-panel header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;font-size:14px}.now-panel header span{color:var(--muted);text-align:right;max-width:50%}.held-number{display:block;line-height:1.1;text-align:center;margin:24px 0;overflow-wrap:anywhere}.private-note{font-size:15px;overflow-wrap:anywhere}.time-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px}.time-row>span:first-child{font-size:12px;color:var(--muted)}.clock{font-size:22px;flex:none}.next-panel{padding:16px 0 24px}.next-number{display:block;color:var(--terra);font-size:4rem;line-height:1.3;overflow-wrap:anywhere}.next-panel p{color:var(--muted)}.waiting-row{display:flex;align-items:center;gap:16px;padding:16px 0;border-top:1px solid var(--line)}.waiting-row>strong{font-size:24px;flex:none}.waiting-row>div{flex:1;min-width:0;overflow-wrap:anywhere}.waiting-row small{display:block;font-size:12px;color:var(--muted)}.owner-actionbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(72px + env(safe-area-inset-bottom));width:min(100%,440px);z-index:3;display:flex;gap:10px;padding:16px;background:var(--paper);border-top:1px solid var(--line)}.owner-actionbar .skip-button{width:108px;flex:none;color:var(--ink);border-color:var(--ink)}.owner-actionbar .primary{flex:1}.complete-button{background:var(--sage)}.console-error{margin:16px 0}.your-turn{--bg:#F2B33D;background:var(--bg)}.your-turn .brand-stub{background:var(--ink)}.called-heading{text-align:center;margin:48px 0 32px}.called-heading h1{font-size:36px}.called-heading p{font-size:16px}.called-stub{grid-template-columns:1fr;text-align:center;padding:28px 20px}.called-stub .ticket-number{color:var(--ink)}.called-stub .ticket-service{border:0;max-width:none;padding:0}.called-stub .ticket-service small{display:none}.called-stub .status-word{justify-content:center;color:var(--ink)}.customer-deadline{display:grid;gap:12px;justify-items:center;text-align:center;margin:32px 0}.customer-deadline .clock{font-size:3.5rem}.customer-deadline p{font-size:14px}.ticket-outcome{text-align:center;margin:40px 0}.ticket-outcome svg{color:var(--sage)}.ticket-outcome p{font-size:15px}
+/* Adapt the working area, not the reading measure of authentication and Ticket pages. */
+:root{--owner-width:440px}
+html{scroll-padding-block:24px 180px}
+.phone{width:100%;min-width:0}
+/* Keep viewport-fixed Owner controls outside query containers on older Safari engines. */
+.ticket-page,.customer-phone,.now-panel{container-type:inline-size}
+.owner-phone{max-width:var(--owner-width)}
+.owner-nav,.owner-actionbar{width:min(100%,var(--owner-width))}
+.stack-form,.sheet-heading h2,.shop-summary>div{min-width:0}
+.sheet-heading h2,.shop-summary strong,.time-row{overflow-wrap:anywhere}
+.stack-form input,.stack-form textarea,.stack-form select{min-width:0;max-width:100%}
+.phone button,.phone .button,.sheet button{overflow-wrap:anywhere}
+.ticket-service{min-width:0}
+.owner-layout,.owner-content,.queue-operation,.queue-backlog,.shop-access,.shop-services,.statistics-summary,.statistics-demand,.simulator-task,.simulator-reference{min-width:0}
+.queue-workspace,.shop-workspace,.statistics-workspace,.simulator-workspace{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+.simulator-workspace{gap:16px}
+.statistics-demand .stats-refresh{width:100%}
+.statistics-filters{display:grid;gap:12px}
+.simulator-task,.simulator-reference{display:grid;gap:16px;align-content:start}
+
+/* A number, Service and two gutters need about 20rem before the stub can stay horizontal. */
+@container (max-width:20rem){
+  .ticket-stub:not(.called-stub){grid-template-columns:minmax(0,1fr)}
+  .ticket-stub:not(.called-stub) .ticket-service{max-width:none;border-left:0;border-top:1px dashed var(--control);padding:12px 0 0}
+  .time-row{flex-wrap:wrap}
+  .customer-deadline .clock{font-size:min(3.5rem,18cqi)}
+}
+
+@media (max-width:360px){
+  .phone{padding-inline:16px}
+  .queue-tabs{margin-inline:-16px;padding-inline:16px}
+  .sheet{padding-inline:16px}
+  .owner-header{margin-inline:0}
+}
+
+@media (min-width:48rem){
+  :root{--owner-width:720px}
+  .owner-phone{width:calc(100% - 48px);padding-inline:32px}
+  .owner-nav,.owner-actionbar{width:min(calc(100% - 48px),var(--owner-width))}
+  .customer-phone{max-width:640px}
+  .ticket-page{max-width:560px}
+  .auth-page{max-width:520px}
+  .sheet{inset:0;width:min(calc(100% - 48px),560px);height:fit-content;max-height:calc(100dvh - 48px);margin:auto;border-radius:24px;padding-bottom:28px}
+  .sheet-handle{display:none}
+  .owner-phone .queue-tabs{margin-inline:-32px;padding-inline:32px}
+  .owner-phone .stats-hero-scope,.owner-phone .intro{max-width:65ch}
+}
+
+/* 176px navigation + 32px gap + 664px work + 128px gutters leave 24px for a classic scrollbar at 1024px. */
+@media (min-width:64rem){
+  :root{--owner-width:1320px}
+  .owner-phone{width:calc(100% - 64px);margin-block:32px;padding:0 32px 48px;border:0;border-radius:0;min-height:calc(100dvh - 64px)}
+  .owner-header{margin:0 0 32px;padding-bottom:24px;border-bottom:1px solid var(--line);gap:12px}
+  .owner-header .shop-select{max-width:520px;margin-right:auto}
+  .owner-layout{display:grid;grid-template-columns:176px minmax(0,1fr);gap:32px;align-items:start}
+  .owner-nav{position:sticky;top:24px;left:auto;bottom:auto;transform:none;width:auto;min-height:0;display:grid;gap:8px;padding:0 20px 0 0;border-top:0;border-right:1px solid var(--line);background:transparent;align-self:start}
+  .owner-nav a{flex-direction:row;justify-content:flex-start;gap:12px;min-width:0;min-height:52px;padding:12px;font-size:16px;border-radius:12px}
+  .owner-nav a.active{background:var(--paper)}
+  .owner-content{container:owner-work / inline-size}
+  .owner-content .queue-tabs{margin-inline:0;padding-inline:0}
+  .owner-content .owner-actionbar{position:static;transform:none;width:100%;padding:0;border-top:0;background:transparent;margin:24px 0}
+  .owner-content .owner-actionbar .primary{min-width:0}
+  .owner-content .demo-banner{margin-bottom:28px}
+  .owner-content .demo-open{width:auto;min-height:48px;padding:8px 16px;flex:0 0 auto}
+  .owner-content .stats-hero-scope,.owner-content .simulator-page>p{max-width:65ch}
+  .owner-content .shop-summary{margin-top:16px}
+  .owner-content .shop-services .section-heading{margin-top:0}
+  .owner-phone input,.owner-phone textarea{caret-color:var(--terra)}
+  .owner-phone ::selection{background:var(--terra);color:var(--paper)}
+}
+
+@media (min-width:64rem) and (hover:hover){
+  .owner-nav a:hover{background:var(--paper);color:var(--ink)}
+  .owner-nav a.active:hover{color:var(--terra)}
+}
+
+/* Parallel work requires 344px operation + 288px backlog + 32px separation. */
+@container owner-work (min-width:41.5rem){
+  .queue-workspace{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:32px;align-items:start}
+  .statistics-workspace,.simulator-workspace{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:start}
+  .shop-workspace{grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:32px;align-items:start}
+  .queue-backlog{padding-left:24px;border-left:1px solid var(--line)}
+  .queue-backlog .section-heading{margin-top:0}
+  .queue-operation .now-panel{margin:0;padding:24px}
+  .queue-operation .next-panel{padding-top:0}
+  .queue-operation .close-controls{margin-top:28px}
+  .statistics-filters{grid-template-columns:minmax(0,1fr) minmax(224px,.7fr);gap:24px;align-items:end}
+  .statistics-filters .stats-range,.statistics-filters .stats-service{margin:0 0 12px}
+  .statistics-demand .demand-section{margin-top:0}
+  .simulator-links{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .simulator-reference{padding-top:20px;border-top:1px solid var(--line)}
+}
+
+/* Short landscape windows still reserve a 48px target for every navigation item. */
+@media (orientation:landscape) and (max-height:32rem) and (max-width:63.999rem){
+  .phone{margin-block:16px;min-height:calc(100dvh - 32px);padding-top:16px}
+  .owner-nav{min-height:64px}
+  .owner-nav a{flex-direction:row;gap:8px;font-size:14px}
+  .owner-actionbar{bottom:calc(64px + env(safe-area-inset-bottom));padding-block:8px}
+  .owner-phone{padding-bottom:calc(156px + env(safe-area-inset-bottom))}
+  .sheet{max-height:calc(100dvh - 24px)}
+}

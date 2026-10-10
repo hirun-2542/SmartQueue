@@ -100,7 +100,7 @@ export function DisplayBoard() {
           <h2 className="board-label">{t('กำลังเรียก', 'Now calling')}</h2>
           {board.currentCalled
             ? <div className="board-current-card">
-                <strong className="number board-current-number">{board.currentCalled.number}</strong>
+                <strong className="number board-current-number" style={{fontSize:`min(168px, ${150/board.currentCalled.number.length}cqi)`}}>{board.currentCalled.number}</strong>
                 <span className="board-current-service">{board.currentCalled.serviceName}</span>
                 <span className="board-current-hint">{t('เชิญที่เคาน์เตอร์', 'Please come to the counter')}</span>
               </div>

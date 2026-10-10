@@ -1,11 +1,11 @@
 # SmartQueue UI — Warm Minimal
 
-Phone-first (390×844 reference). Only the Display board is landscape (TV). Frames are SVG in this folder; drag into Figma to edit.
+Phone-first (390×844 reference), with a computer workspace in the implemented web app. The Display board also supports a landscape screen. Existing SVG frames in this folder remain the phone/board references; drag into Figma to edit.
 
 ## Principles
 
 - **The number is the interface.** Queue state is read from one large Ticket number or one count ("อีก 4 คิว"), never from a grid of KPI cards.
-- **One primary action per screen**, bottom of the screen, 56–62 px. Its label changes with state (เรียกคิวถัดไป → เริ่มให้บริการ → เสร็จสิ้น).
+- **One primary action per screen**, 56–62 px. On phones it stays at the bottom; on computers it stays with the current Ticket. Its label changes with state (เรียกคิวถัดไป → เริ่มให้บริการ → เสร็จสิ้น).
 - **Paper, not panels.** Rules (hairlines) and whitespace separate content. Cards appear only for a Ticket stub, the Now panel and sheets.
 - **Status = dot + words**, never a coloured pill alone.
 
@@ -84,3 +84,15 @@ Static frames; for implementation:
 - Toggles and icon buttons need accessible names (`แจ้งเตือนเมื่อใกล้ถึงคิว`, `เพิ่มคิว Walk-in`, `เมนูคิว`).
 - Respect OS text size: rows grow, nothing is fixed-height except buttons.
 - Light theme only for phone screens. A dark phone theme is not designed.
+
+## Computer adaptation
+
+- Operate mode: the Owner sees current work and Waiting Tickets together; no marketing chrome or KPI-card grid.
+- From 1024px, the same three navigation destinations become a persistent left rail. The Shop selector, language and account controls remain in the top row.
+- The workspace is bounded at 1320px rather than stretched across large monitors. A 176px navigation rail, 32px separation, 64px outer gutters and 64px content insets leave room for a classic scrollbar at the 1024px boundary.
+- Parallel regions require 41.5rem (664px) of actual content width: approximately 344px current work + 288px backlog + 32px separation. The Queue gives current work slightly more room; if text or the window needs more, stack them.
+- Queue: current/next Ticket and commands left, ruled Waiting list right. Secondary Stop/Drop controls follow the primary command.
+- Shop: QR/access left, Services right. Statistics: sentence/ruled outcomes left, real demand right. Demo: receipt task left, walkthrough/no-show controls right.
+- Mobile keeps the existing single-column reading order, bottom navigation, fixed primary action and bottom sheets. Desktop uses centered sheets and normal-flow commands.
+- Query containment never wraps phone viewport-fixed controls. On desktop the content may be a query container because commands are static and navigation is outside it.
+

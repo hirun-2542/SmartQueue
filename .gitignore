@@ -15,3 +15,5 @@ artifacts/
 TestResults/
 *.user
 *.suo
+playwright-report/
+test-results/

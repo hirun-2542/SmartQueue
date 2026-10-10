@@ -40,8 +40,8 @@
 .board-label{font-size:clamp(15px,1.3vw,20px);font-weight:500;color:var(--board-muted)}
 
 .board-current{display:flex;flex-direction:column;gap:12px}
-.board-current-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;background:var(--board-saffron);color:#2A2118;border-radius:28px;padding:clamp(20px,2.4vw,44px);min-height:clamp(180px,26vh,300px)}
-.display-board .board-current-number{font-size:clamp(72px,10vw,168px);line-height:1;letter-spacing:-2px;color:#2A2118}
+.board-current-card{container-type:inline-size;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;background:var(--board-saffron);color:#2A2118;border-radius:28px;padding:clamp(20px,2.4vw,44px);min-height:clamp(180px,26vh,300px)}
+.display-board .board-current-number{line-height:1;letter-spacing:-2px;color:#2A2118}
 .board-current-service{font-size:clamp(16px,1.5vw,28px);font-weight:500}
 .board-current-hint{font-size:clamp(13px,1.1vw,18px);opacity:.8}
 .board-current-empty{background:var(--board-panel);color:var(--board-ink);border:1px dashed var(--board-line)}

@@ -68,6 +68,7 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
   const serverTimeRef = useRef<string | null>(null);
   const statusRef = useRef<LiveStatus>('off'); statusRef.current = status;
   const applied = useRef<number | null>(null);
+  const resyncAttempt = useRef(0);
   const key = scope ? scopeKey(scope) : '';
   const selectedQueue = scope?.kind === 'shop' ? scope.queueId ?? '' : '';
 
@@ -93,6 +94,7 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
 
   useEffect(() => {
     const active = enabled ? scope : null;
+    resyncAttempt.current++;
     applied.current = null;
     serverTimeRef.current = null;
     setVersion(null);
@@ -107,6 +109,7 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
     let disposed = false;
     const hub = new HubConnectionBuilder().withUrl('/live').withAutomaticReconnect(retryPolicy).configureLogging(LogLevel.Warning).build();
     connection.current = hub;
+    let starting: Promise<void> | null = null;
 
     const subscribe = async () => {
       const wanted = wantedScope.current;
@@ -117,33 +120,39 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
     };
     const connect = async (reason: LiveReason) => {
       if (disposed) return;
+      if (!navigator.onLine) { setStatus('stale'); return; }
+      const attempt = ++resyncAttempt.current;
       setStatus('connecting');
       try {
-        if (hub.state !== HubConnectionState.Connected) await hub.start();
+        if (hub.state !== HubConnectionState.Connected) await (starting ??= hub.start().finally(() => { starting = null; }));
+        if (disposed || attempt !== resyncAttempt.current) return;
         await subscribe();
-        if (disposed) return;
+        if (disposed || attempt !== resyncAttempt.current) return;
         setError(null);
         await resyncHandler.current?.({ reason, serverTime: serverTimeRef.current });
-        if (!disposed) setStatus('live');
+        if (!disposed && attempt === resyncAttempt.current) setStatus(navigator.onLine ? 'live' : 'stale');
       } catch (failure) {
-        if (disposed) return;
+        if (disposed || attempt !== resyncAttempt.current) return;
         setError(failure instanceof Error ? failure.message : 'subscribe_failed');
         setStatus('stale');
       }
     };
     resume.current = async () => {
       if (disposed) return;
+      if (!navigator.onLine) { setStatus('stale'); return; }
       if (hub.state !== HubConnectionState.Connected) {
         await connect('retry');
         return;
       }
+      const attempt = ++resyncAttempt.current;
       try {
         setStatus('connecting');
         await subscribe();
+        if (disposed || attempt !== resyncAttempt.current) return;
         await resyncHandler.current?.({ reason: 'visible', serverTime: serverTimeRef.current });
-        if (!disposed) setStatus('live');
+        if (!disposed && attempt === resyncAttempt.current) setStatus(navigator.onLine ? 'live' : 'stale');
       } catch (failure) {
-        if (disposed) return;
+        if (disposed || attempt !== resyncAttempt.current) return;
         setError(failure instanceof Error ? failure.message : 'subscribe_failed');
         setStatus('stale');
       }
@@ -151,27 +160,29 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
 
     hub.on('snapshot', (message: LiveMessage) => receive(message, 'snapshot', expected));
     hub.on('update', (message: LiveMessage) => receive(message, 'update', expected));
-    hub.onreconnecting(() => { if (!disposed) setStatus('reconnecting'); });
+    hub.onreconnecting(() => { if (!disposed) { resyncAttempt.current++; setStatus('reconnecting'); } });
     hub.onreconnected(async () => {
       if (disposed) return;
+      const attempt = ++resyncAttempt.current;
       setStatus('connecting');
       try {
         await subscribe();
-        if (disposed) return;
+        if (disposed || attempt !== resyncAttempt.current) return;
         setError(null);
         await resyncHandler.current?.({ reason: 'reconnected', serverTime: serverTimeRef.current });
-        if (!disposed) setStatus('live');
+        if (!disposed && attempt === resyncAttempt.current) setStatus(navigator.onLine ? 'live' : 'stale');
       } catch (failure) {
-        if (disposed) return;
+        if (disposed || attempt !== resyncAttempt.current) return;
         setError(failure instanceof Error ? failure.message : 'subscribe_failed');
         setStatus('stale');
       }
     });
-    hub.onclose(() => { if (!disposed) setStatus('stale'); });
+    hub.onclose(() => { if (!disposed) { resyncAttempt.current++; setStatus('stale'); } });
 
     void connect('connected');
     return () => {
       disposed = true;
+      resyncAttempt.current++;
       connection.current = null;
       void hub.stop();
     };
@@ -181,12 +192,15 @@ export function useLive({ scope, enabled = true, onMessage, resync }: LiveOption
     if (!enabled || !key) return;
     const foreground = () => { if (document.visibilityState === 'visible') void resume.current(); };
     const reconnectIfStale = () => { if (document.visibilityState === 'visible' && statusRef.current !== 'live') void resume.current(); };
+    const offline = () => { resyncAttempt.current++; statusRef.current = 'stale'; setStatus('stale'); };
     document.addEventListener('visibilitychange', foreground);
     window.addEventListener('online', reconnectIfStale);
+    window.addEventListener('offline', offline);
     window.addEventListener('focus', reconnectIfStale);
     return () => {
       document.removeEventListener('visibilitychange', foreground);
       window.removeEventListener('online', reconnectIfStale);
+      window.removeEventListener('offline', offline);
       window.removeEventListener('focus', reconnectIfStale);
     };
   }, [key, enabled]);

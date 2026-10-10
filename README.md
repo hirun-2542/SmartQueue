@@ -8,6 +8,7 @@ Requirements: .NET 10 SDK, Node 24, Docker Compose.
 
 ```sh
 docker compose up -d --wait
+npm ci
 npm --prefix web ci
 dotnet restore server/SmartQueue.Api.csproj --locked-mode
 dotnet tool restore
@@ -42,6 +43,50 @@ dotnet test tests/SmartQueue.IntegrationTests/SmartQueue.IntegrationTests.csproj
 ```
 
 The API tests use real HTTP sessions, PostgreSQL and delivered messages in the local capture mailbox, not an in-memory database or mocked verification link. Test users have unique addresses. Set `SMARTQUEUE_URL` and `MAILPIT_URL` to change the test endpoints.
+
+### Browser end-to-end tests (Playwright)
+
+Start PostgreSQL and Mailpit with `docker compose up -d --wait`, install both root and web dependencies as above, then:
+
+```sh
+npx playwright install chromium
+npm run test:e2e
+npm run test:e2e:report
+```
+
+The runner builds the production SPA/API and starts a real application on loopback port 5310. Each launch provisions its own PostgreSQL database through the existing integration-test host, uses the real server clock and SMTP mailbox, and removes that database on graceful shutdown. A startup guard checks the actual database name. Data Protection and VAPID keys use a separate run-local temporary directory, removed on exit; the developer's key ring and development database are not reset. The database account must have `CREATE DATABASE` permission; `SMARTQUEUE_TEST_CONNECTION` or the existing `SMARTQUEUE_TEST_DB_*` settings override the local administrative connection.
+
+Tests run on touch-enabled 375×812 Chromium and desktop 1280×900 Chromium, with independent Customer contexts and unique Owner accounts/Shops. Behaviors under test use the actual UI, HTTP, SignalR and worker; no API responses are mocked. Coverage includes:
+
+- Registration, delivered email verification, rejected unverified login, password recovery, Shop/Service editing and isolation.
+- Anonymous receipts, private notes, mixed Customer/Walk-in FIFO, extra-Ticket confirmation/quota, Call/Start/Complete/Cancel/Skip, Stop/drain/reopen, Drop and Archive.
+- Simultaneous Owner Calls, real no-show auto-Skip, three-view demo, independent demo sessions and offline/reconnect resynchronization. Genuine HTTP replies are paused through CDP to exercise slow negotiation and out-of-order resync completion, without fabricating responses.
+- Actual downloaded QR PNG pixels decoded with an independent reader, then followed through anonymous receipt and a live Call.
+- Statistics/outcomes/rates, separate Business-day rounds, Service filters and real received-hour demand.
+- Invalid/foreign links, fresh-context Ticket-link paste/recovery, unsupported notifications and Safari-tab installation guidance.
+- Responsive 320/375px, tablet/desktop breakpoint boundaries, 844×390 landscape, Board column boundaries, reduced motion, keyboard focus and 200% text; long queue identifiers remain on one line.
+
+Failures retain screenshots, videos and traces under `test-results/e2e/`; the HTML report is in `playwright-report/` and machine-readable results in `test-results/e2e-results.json`. These ignored artifacts can contain private Ticket links/session data: do not publish them publicly. Passing responsive/QR cases also save evidence images in their per-test output directory.
+
+```sh
+npm run test:e2e -- --project=mobile-chromium
+npm run test:e2e -- --grep "offline Owner"
+npm run test:e2e:ui
+npx playwright show-trace test-results/e2e/<failed-test>/trace.zip
+```
+
+Set `SMARTQUEUE_E2E_PORT` to choose another managed loopback port. An explicit `SMARTQUEUE_E2E_URL` uses an already-running target instead: no test server/database is provisioned or removed, and real fixture accounts/Shops are created there. Use only a disposable test/staging target, never a production Shop.
+
+Chromium mobile emulation is not a physical-phone test. The deterministic suite checks notification capability/installation UX, not delivery through external push providers or actual iPhone Home Screen installation. Durable notification policy and exact 24-hour expiry boundaries remain covered by the PostgreSQL integration suite. On supported Linux CI images, `npx playwright install --with-deps chromium` installs the browser's system dependencies.
+
+### Responsive working areas
+
+Phones retain bottom navigation and a viewport-pinned primary command. From 1024px, Owner pages use a persistent side navigation and a bounded computer workspace; the Queue command sits beside the current Ticket instead of occupying a stretched phone footer. Queue operation/backlog, Shop QR/Services, Statistics outcomes/demand and Demo receipt/reference regions appear in parallel when the content area can fit them. The shell is capped at 1320px, and the two-column work area requires 41.5rem of actual content width, so large text can fall back to one column.
+
+Sheets remain bottom-aligned on phones and centered on larger screens. Short phone-landscape windows reduce navigation height without shrinking touch targets. Ticket stubs reflow with available content width, while queue-number and countdown sizes are bounded by their containers rather than wrapping or overflowing when text is enlarged. The Owner shell is never a query container: older engines can otherwise contain its fixed bars (the layout-containment behavior changed in [Safari 18.4](https://webkit.org/blog/16574/webkit-features-in-safari-18-4/)). Desktop content becomes a query container only while its command bar is in normal flow and the navigation is outside that container.
+
+Browser `offline` immediately marks live data stale and disables unsafe Owner actions even if an existing WebSocket has not closed yet. Returning online re-subscribes and refreshes the authoritative snapshot before commands are enabled. Only the newest resync attempt may publish readiness, and concurrent foreground recovery shares a pending SignalR start.
+
 
 ## Accounts
 

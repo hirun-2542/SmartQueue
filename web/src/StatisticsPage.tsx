@@ -56,6 +56,7 @@ export function StatisticsPage(){
   const empty=stats!==null&&stats.issued===0;
   return <section className="statistics-page" aria-busy={loading}>
     <h1>{t('สถิติ','Statistics')}</h1>
+    <div className="statistics-filters">
     <div className="stats-range" role="tablist" aria-label={t('ช่วงรอบเปิดคิว','Business day range')}>
       {ranges.map(value=><button key={value} type="button" role="tab" aria-selected={range===value} className={range===value?'active':''} onClick={()=>setRange(value)}>{value==='current'?t('รอบล่าสุด','Latest round'):value==='latest7'?t('7 รอบล่าสุด','7 rounds'):t('30 รอบล่าสุด','30 rounds')}</button>)}
     </div>
@@ -67,10 +68,13 @@ export function StatisticsPage(){
         </select>
       </label>
     </div>
+    </div>
     {loading&&stats!==null&&<p className="stats-status" role="status">{t('กำลังอัปเดตสถิติ…','Updating statistics…')}</p>}
     {stats===null&&loading&&<p className="stats-status" role="status">{t('กำลังโหลดสถิติ…','Loading statistics…')}</p>}
     {error&&<div className="stats-error" role="alert"><p className="error">{error}</p><button type="button" className="stats-retry" onClick={()=>setRevision(value=>value+1)}>{t('ลองใหม่','Retry')}</button></div>}
     {stats&&<>
+      <div className="statistics-workspace">
+      <section className="statistics-summary">
       <div className="stats-hero">
         <strong className="number stats-hero-number">{number(stats.issued)}</strong>
         <p className="stats-hero-scope">{t('คิวที่รับเข้ามา','Tickets issued')} · {scope}</p>
@@ -105,8 +109,12 @@ export function StatisticsPage(){
           </dl>}
       {!empty&&<p className="stats-note">{stats.pending>0?t(`${number(stats.pending)} คิวยังไม่จบ ไม่อยู่ในตัวหารของอัตรา`,`${number(stats.pending)} Tickets are still open and stay out of the rate denominator`):t('ทุกคิวในรอบนี้จบแล้ว','Every Ticket in this range has finished')}{t(` · อัตราคิดจาก ${number(stats.terminal)} คิวที่จบแล้ว`,` · rates use the ${number(stats.terminal)} finished Tickets`)}</p>}
       <details className="demand-values"><summary>{t('จำนวนคิวแยกตามรอบเปิดคิว','Ticket counts by Business day')}</summary><dl className="stats-rows">{stats.businessDays.map(day=><div className="stats-row" key={day.id}><dt>{day.serviceName}<small>{new Intl.DateTimeFormat(language==='th'?'th-TH':'en-GB',{dateStyle:'short',timeStyle:'short',timeZone:'Asia/Bangkok'}).format(new Date(day.openedAt))} · {day.closedAt?t('ปิดแล้ว','Closed'):t('ยังเปิดอยู่','Open')}</small></dt><dd><span className="number stats-value">{number(day.issued)}</span><span className="stats-unit">{t('คิว','Tickets')}</span></dd></div>)}</dl></details>
+      </section>
+      <section className="statistics-demand">
       <DemandCharts shopId={shop.id} range={range} serviceId={serviceId} revision={revision}/>
       <button type="button" className="stats-refresh" onClick={()=>setRevision(value=>value+1)} disabled={loading}>{loading?t('กำลังอัปเดต…','Updating…'):t('อัปเดตสถิติ','Refresh statistics')}</button>
+      </section>
+      </div>
     </>}
   </section>;
 }
