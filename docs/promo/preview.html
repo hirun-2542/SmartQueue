@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SmartQueue — Promotional Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF5EC;--paper:#FFFDF9;--ink:#2A2118;--muted:#6B5B4B;--line:#E4D8C3;--terra:#B5451B}
+*{box-sizing:border-box}
+html,body{margin:0;width:1280px;height:640px;background:var(--bg);color:var(--ink);font-family:'Noto Sans Thai',sans-serif}
+.poster{position:relative;width:1280px;height:640px;overflow:hidden}
+.brand{position:absolute;left:64px;top:49px;display:flex;gap:13px;align-items:center;font-size:31px;font-weight:700;letter-spacing:-1px}
+.mark{width:28px;height:37px;background:var(--terra);border-radius:8px;position:relative;flex:none}
+.mark::before,.mark::after{content:'';position:absolute;width:8px;height:8px;top:15px;border-radius:50%;background:var(--bg)}
+.mark::before{left:-4px}.mark::after{right:-4px}
+h1{position:absolute;left:62px;top:154px;margin:0;font-size:68px;line-height:1.22;font-weight:700;letter-spacing:-2px}
+h1 span{display:block;color:var(--terra)}
+.description{position:absolute;left:65px;top:344px;margin:0;font-size:22px;line-height:1.65;font-weight:500}
+.benefit{position:absolute;left:65px;top:430px;font-size:17px;line-height:1.65;color:var(--muted);margin:0}
+.benefit strong{font-weight:600;color:var(--ink)}
+.cta{position:absolute;left:64px;top:517px;display:flex;align-items:center;justify-content:space-between;gap:22px;width:265px;height:54px;padding:0 20px;border-radius:15px;background:var(--terra);color:var(--paper);font-size:17px;font-weight:600}
+.cta svg{width:21px;height:21px;flex:none}
+.repo{position:absolute;left:65px;top:586px;font-size:13px;letter-spacing:.05px;color:var(--muted);text-decoration:none}
+.stack{position:absolute;left:455px;top:111px;margin:0;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.4px;color:var(--muted)}
+.desktop{position:absolute;left:451px;top:151px;width:687px;border-radius:16px;background:var(--paper);border:1px solid #CEBFA9;box-shadow:0 23px 48px rgb(64 42 26 / .13);overflow:hidden}
+.window-bar{height:33px;display:flex;align-items:center;gap:6px;padding:0 13px;border-bottom:1px solid var(--line);background:#F4EBDD}
+.window-bar i{width:6px;height:6px;border-radius:50%;background:#B7A58E}
+.window-bar span{margin-left:9px;font-size:10px;font-weight:500;color:var(--muted)}
+.desktop img{display:block;width:100%;height:auto}
+.phone{position:absolute;left:1034px;top:114px;width:190px;padding:6px;background:#30271F;border-radius:30px;box-shadow:0 17px 34px rgb(51 35 22 / .21)}
+.phone img{display:block;width:100%;height:auto;border-radius:24px}
+.phone::after{content:'';position:absolute;width:51px;height:4px;left:50%;bottom:13px;transform:translateX(-50%);border-radius:4px;background:#34271E;opacity:.5}
+</style>
+</head>
+<body>
+<main class="poster" aria-label="SmartQueue promotional image">
+  <div class="brand"><span class="mark" aria-hidden="true"></span>SmartQueue</div>
+  <h1>คิวชัด<span>ร้านคล่อง</span></h1>
+  <p class="description">ระบบคิว Real-time<br>สำหรับร้านที่เจ้าของดูแลเอง</p>
+  <p class="benefit"><strong>ลูกค้าสแกน QR รับคิว</strong><br>ไม่ต้องสมัครสมาชิก</p>
+  <div class="cta">ดูโปรเจกต์บน GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></div>
+  <a class="repo" href="https://github.com/hirun-2542/SmartQueue">github.com/hirun-2542/SmartQueue</a>
+  <p class="stack">.NET 10 &nbsp;/&nbsp; React &nbsp;/&nbsp; SignalR &nbsp;/&nbsp; PostgreSQL</p>
+  <div class="desktop"><div class="window-bar"><i></i><i></i><i></i><span>SmartQueue · Owner</span></div><img src="owner-screen.png" alt="หน้าจอจริงของเจ้าของร้าน แสดงคิวปัจจุบันและคิวรอพร้อมกัน"></div>
+  <div class="phone"><img src="customer-screen.png" alt="หน้าจอจริงของลูกค้า แสดงหมายเลขคิวที่กำลังถูกเรียก"></div>
+</main>
+</body>
+</html>
