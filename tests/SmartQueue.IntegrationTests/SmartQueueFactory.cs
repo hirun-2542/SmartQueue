@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +61,12 @@ public sealed class SmartQueueFactory(string connectionString, FakeTimeProvider 
             services.RemoveAll<TimeProvider>();
             services.AddSingleton<TimeProvider>(clock);
             services.AddSingleton(clock);
+
+            // The session cookie is a browser artefact, not application time: the HTTP client's cookie jar
+            // compares Expires against the real clock and drops the cookie as soon as a pinned server date
+            // sits in the past. Keep the cookie handler on system time so a pinned server clock still
+            // exercises deadlines while the transport keeps the session it was issued.
+            services.Configure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, options => options.TimeProvider = TimeProvider.System);
 
             // Point this instance at its own database, replacing the application's Npgsql options.
             services.RemoveAll<DbContextOptions<AppDbContext>>();
