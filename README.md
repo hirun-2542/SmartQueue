@@ -108,11 +108,11 @@ UI ภาษาไทย/อังกฤษ mobile-first สไตล์ Warm Mi
 
 ```mermaid
 flowchart TB
-  C[ลูกค้า · มือถือ]
-  O[เจ้าของร้าน · มือถือ/คอม]
+  C[ลูกค้า]
+  O[เจ้าของร้าน]
   B[จอหน้าร้าน]
-  Web["React SPA"]
-  Api["ASP.NET Core + SignalR"]
+  Web["React SPA<br/>มือถือ · คอมพิวเตอร์"]
+  Api["ASP.NET Core<br/>Minimal APIs · SignalR"]
   Db[("PostgreSQL")]
 
   C --> Web
