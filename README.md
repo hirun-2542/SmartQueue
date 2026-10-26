@@ -78,9 +78,13 @@ UI ภาษาไทย/อังกฤษ mobile-first สไตล์ Warm Mi
 
 ### ลูกค้า — สแกน QR แล้วรับคิวจากมือถือ
 
-| เลือก Service | รับคิว | รอเรียก | ถึงคิวคุณแล้ว |
-|---|---|---|---|
-| <img src="docs/screenshots/02-customer-shop.png" width="200" alt="หน้าร้านสำหรับลูกค้า"> | <img src="docs/screenshots/03-customer-join-sheet.png" width="200" alt="แผ่นรับคิว"> | <img src="docs/screenshots/05-customer-waiting.png" width="200" alt="สถานะรอเรียก"> | <img src="docs/screenshots/04-customer-called.png" width="200" alt="สถานะถึงคิว"> |
+| เลือก Service | รับคิว | รอเรียก |
+|---|---|---|
+| <img src="docs/screenshots/02-customer-shop.png" width="240" alt="หน้าร้านสำหรับลูกค้า"> | <img src="docs/screenshots/03-customer-join-sheet.png" width="240" alt="แผ่นรับคิว"> | <img src="docs/screenshots/05-customer-waiting.png" width="240" alt="สถานะรอเรียก ยังมีคิวก่อนหน้า 2 คิว"> |
+
+| ถึงคิวคุณแล้ว | เสร็จสิ้น |
+|---|---|
+| <img src="docs/screenshots/04-customer-called.png" width="390" alt="สถานะถึงคิว นับถอยหลัง 09:58"> | <img src="docs/screenshots/09-customer-complete.png" width="390" alt="คิวที่ให้บริการเสร็จแล้ว"> |
 
 ### เจ้าของร้าน — คิวปัจจุบันและคิวที่รอพร้อมกันบนคอมพิวเตอร์
 
@@ -88,19 +92,19 @@ UI ภาษาไทย/อังกฤษ mobile-first สไตล์ Warm Mi
 
 | ระหว่างให้บริการ | ร้านและ QR | สถิติและ demand |
 |---|---|---|
-| <img src="docs/screenshots/08-owner-inservice.png" width="420" alt="ระหว่างให้บริการ"> | <img src="docs/screenshots/10-owner-shop.png" width="420" alt="หน้าร้านและ QR"> | <img src="docs/screenshots/11-owner-statistics.png" width="420" alt="สถิติ"> |
+| <img src="docs/screenshots/08-owner-inservice.png" width="265" alt="ระหว่างให้บริการ"> | <img src="docs/screenshots/10-owner-shop.png" width="265" alt="หน้าร้านและ QR"> | <img src="docs/screenshots/11-owner-statistics.png" width="265" alt="สถิติ"> |
 
-### มือถือ และจอหน้าร้าน
+### คิวบนมือถือ และจอหน้าร้าน
 
-| เข้าสู่ระบบ | คิว (มือถือ) | จอหน้าร้าน |
-|---|---|---|
-| <img src="docs/screenshots/01-login.png" width="240" alt="หน้าเข้าสู่ระบบ"> | <img src="docs/screenshots/13-owner-phone-queue.png" width="240" alt="หน้าคิวบนมือถือ"> | <img src="docs/screenshots/07-board.png" width="420" alt="จอหน้าร้าน"> |
+| คิวบนมือถือ | จอหน้าร้าน |
+|---|---|
+| <img src="docs/screenshots/13-owner-phone-queue.png" width="240" alt="หน้าคิวของเจ้าของร้านบนมือถือ"> | <img src="docs/screenshots/07-board.png" width="560" alt="จอหน้าร้านแสดงคิวที่เรียกและคิวถัดไป"> |
 
 ### Demo Mode
 
-| จำลองลูกค้า | คิวสิ้นสุด |
+| เข้าสู่ระบบ (มีปุ่มเข้าโหมดสาธิต) | จำลองลูกค้า |
 |---|---|
-| <img src="docs/screenshots/12-demo.png" width="520" alt="หน้าจำลองลูกค้าในโหมดสาธิต"> | <img src="docs/screenshots/09-customer-complete.png" width="200" alt="คิวที่เสร็จสิ้นแล้ว"> |
+| <img src="docs/screenshots/01-login.png" width="240" alt="หน้าเข้าสู่ระบบพร้อมปุ่มเข้าโหมดสาธิต"> | <img src="docs/screenshots/12-demo.png" width="560" alt="หน้าจำลองลูกค้าในโหมดสาธิต"> |
 
 ---
 
@@ -195,9 +199,7 @@ Production SPA ถูก build ลง web root ของ API ด้วย `npm -
 
 ## โหมด Demo
 
-เข้าที่หน้าแรกแล้วกด **เข้าโหมดสาธิต** — ได้เป็นเจ้าของร้านตัวอย่างโดยไม่ต้องสมัคร ข้อมูลแยกจากบัญชีจริงและหมดอายุใน 24 ชั่วโมง
-
-<img src="docs/screenshots/01-login.png" width="320" alt="หน้าเข้าสู่ระบบพร้อมปุ่มเข้าโหมดสาธิต">
+เข้าที่หน้าแรกแล้วกด **เข้าโหมดสาธิต** — ได้เป็นเจ้าของร้านตัวอย่างโดยไม่ต้องสมัคร ข้อมูลแยกจากบัญชีจริงและหมดอายุใน 24 ชั่วโมง (ปุ่มนี้อยู่ใต้ฟอร์มเข้าสู่ระบบในภาพ[หน้าจอ](#หน้าจอ))
 
 Demo seed สร้างร้าน "SmartQueue Demo Studio" ที่มี 2 บริการ (Haircut `A`, Hair Wash `B`), ประวัติ 5 Business day ที่มี Completed จริง 8 ใบ + Skipped 1 ใบ เพื่อให้ estimated wait และสถิติทำงานได้ทันที และมี Waiting Ticket ค้างไว้ให้เรียก
 
